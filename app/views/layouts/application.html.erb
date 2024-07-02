@@ -12,5 +12,8 @@
 
   <body>
     <%= yield %>
+    <p class="notice"><%= notice %></p>
+    <p class="alert"><%= alert %></p>
+    <h2>Hi! <%= current_user.email %></h2>
   </body>
 </html>
