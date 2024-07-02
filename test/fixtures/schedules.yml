@@ -1,0 +1,11 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  output: one
+  publish_time: 2024-07-02 20:35:11
+  platform: MyString
+
+two:
+  output: two
+  publish_time: 2024-07-02 20:35:11
+  platform: MyString
