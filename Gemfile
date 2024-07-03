@@ -12,6 +12,7 @@ gem "simple_calendar"
 gem 'rest-client'
 gem "bootstrap", "~> 5.2"
 gem "sassc-rails"
+gem "autoprefixer-rails"
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
