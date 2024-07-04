@@ -2,15 +2,15 @@
 @import url('https://fonts.googleapis.com/css?family=Nunito:400,700|Work+Sans:400,700&display=swap');
 
 // Define fonts for body and headers
-$body-font: "Work Sans", "Helvetica", "sans-serif";
-$headers-font: "Nunito", "Helvetica", "sans-serif";
+$body-font: "GT Planar Trial Bl", "Helvetica", "sans-serif";
+$headers-font: "GT Planar Trial Bl", "Helvetica", "sans-serif";
 
-// To use a font file (.woff) uncomment following lines
-// @font-face {
-//   font-family: "Font Name";
-//   src: font-url('FontFile.eot');
-//   src: font-url('FontFile.eot?#iefix') format('embedded-opentype'),
-//        font-url('FontFile.woff') format('woff'),
-//        font-url('FontFile.ttf') format('truetype')
-// }
+@font-face {
+  font-family: 'GT Planar Trial Bl';
+  src: url('app/assets/fonts/GTPlanarTrial-Bl.woff2') format('woff2'),
+      url('app/assets/fonts/GTPlanarTrial-Bl.woff') format('woff');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
 // $my-font: "Font Name";
