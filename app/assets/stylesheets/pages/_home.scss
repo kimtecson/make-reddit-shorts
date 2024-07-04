@@ -3,7 +3,7 @@ body{
   color: #E3E3E3;
 }
 h1{
-  font-size: 7rem;
+  font-size: 5rem;
   font-weight: 900;
 }
 .custom-search {
@@ -36,7 +36,7 @@ h1{
   right: 16px;
   top: 3px;
   bottom: 3px;
-  background: #E3E3E3;
+  background: white;
   color: black;
   text-decoration: none;
   border: solid black 2px;
@@ -50,12 +50,80 @@ h1{
 }
 
 .feedback{
-  background-color: #424243;
+  background-color: #1b1b1d;
   width: 80%;
   border-radius: 15px;
-  display: flex;
-  flex: 1;
-  flex-direction: column;
   min-height: 250px;
   padding: 10px;
+  margin: auto;
+  box-shadow: 0 1px 8px hsla(0, 0%, 100%, .2);
+}
+
+.feedback-box{
+  flex: 1;
+}
+.feedback-input{
+  padding: 16px;
+  border: none;
+  outline: none;
+  border-radius: 4px;
+  min-width: 35px;
+  font-size: 16px;
+  width: 100%;
+  background-color: #18191a;
+}
+
+.fb-header{
+  font-size: 40px;
+  font-weight: 700;
+}
+
+input{
+  padding: 2px;
+  background: #e3e3e3;
+  display: block;
+  transition: background-color 0.2s ease 0s;
+  border-radius: 7px;
+  overflow: hidden;
+  width: 100%;
+}
+
+.feedback-btn{
+  padding: 16px 22px;
+  color: white;
+  cursor: pointer;
+  background-color: #424243;
+  --hover-color: #424243;
+  width: 100%;
+  opacity: 1;
+  align-items: center;
+  appearance: none;
+  border: solid #000;
+  border-radius: 8px;
+  border-width: 2px 2px 4px;
+  display: flex;
+  flex-direction: row;
+  font: inherit;
+  font-weight: 700;
+  justify-content: center;
+  transition: background-color .1s;
+}
+
+.fb-input-container{
+  padding: 2px;
+  background: #e3e3e3;
+  display: block;
+  transition: background-color 0.2s ease 0s;
+  border-radius: 7px;
+  overflow: hidden;
+  width: 100%;
+  :focus{
+    border-color: #0B84F3;
+  }
+}
+
+.pricing-header{
+  font-size: 2.5em;
+  font-weight: 700;
+  line-height: 1.1;
 }

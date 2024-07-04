@@ -1,5 +1,5 @@
 .button{
-  background: #0B84F3;
+  background: #424243;
   color: white;
   text-decoration: none;
   border: solid black 2px;
@@ -8,4 +8,13 @@
   padding: 10px 15px;
   border-width: 2px 2px 4px;
   transition: background-color .1s;
+}
+
+.navbar-nav{
+  align-items: center;
+  font-weight: bold;
+}
+
+.nav-link:hover{
+  color: #0B84F3;
 }
