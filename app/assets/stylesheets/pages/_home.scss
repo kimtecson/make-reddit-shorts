@@ -1,1 +1,61 @@
 // Specific CSS for your home-page
+body{
+  color: #E3E3E3;
+}
+h1{
+  font-size: 7rem;
+  font-weight: 900;
+}
+.custom-search {
+  position: relative;
+  width: 550px;
+  text-align: center;
+
+}
+.custom-search-input {
+  border: none;
+  width: 100%;
+  max-width: 550px;
+  border-radius: 100px;
+  padding: 10px 100px 10px 20px;
+  line-height: 1;
+  box-sizing: border-box;
+  outline: none;
+  background-color: #18191a;
+  box-shadow: 0 0 4px 0px #444950;
+  align-items: center;
+  height: 50px;
+  display: inline-flex;
+  flex-direction: row;
+  justify-content: space-around;
+  color: #E3E3E3;
+
+}
+.custom-search-btn {
+  position: absolute;
+  right: 16px;
+  top: 3px;
+  bottom: 3px;
+  background: #E3E3E3;
+  color: black;
+  text-decoration: none;
+  border: solid black 2px;
+  border-radius: 20px;
+  font-weight: bold;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  padding: 8px 16px;
+  z-index: 2;
+}
+
+.feedback{
+  background-color: #424243;
+  width: 80%;
+  border-radius: 15px;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-height: 250px;
+  padding: 10px;
+}
