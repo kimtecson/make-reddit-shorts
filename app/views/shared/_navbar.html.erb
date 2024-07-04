@@ -1,15 +1,13 @@
 <nav class="navbar navbar-expand navbar-dark sticky-top" style="background-color: #242526;">
-  <div class="container-fluid">
+  <div class="container-fluid ">
     <a class="navbar-brand" href="/">Logo</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarText" aria-controls="navbarText" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarText">
       <ul class="navbar-nav ms-auto">
-
-
-       <% if user_signed_in? %>
-         <li class="nav-item">
+        <% if user_signed_in? %>
+          <li class="nav-item">
             <%= link_to "Planner", "/schedules", class: "button2" %>
           </li>
           <li class="nav-item">
@@ -24,19 +22,17 @@
             <% end %>
           </li>
         <% else %>
-        <li class="nav-item">
-          <a class="nav-link" href="/pricing">Pricing</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/users/sign_in">Login</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-item button" href="/users/sign_up">Get Started For Free</a>
-        </li>
-
+          <li class="nav-item">
+            <a class="nav-link" href="/pricing">Pricing</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/users/sign_in">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-item button" href="/users/sign_up">Get Started For Free</a>
+          </li>
         <% end %>
-
-    </ul>
+      </ul>
       <%# <a class="button" href="#" role="button"><%= current_user ? 'Logout' : 'Sign up'%>
     </div>
   </div>
