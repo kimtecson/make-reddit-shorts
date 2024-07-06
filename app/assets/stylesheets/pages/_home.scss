@@ -123,6 +123,7 @@ input{
   font-size: 2.5em;
   font-weight: 700;
   line-height: 1.1;
+  text-align: center;
 }
 
 .feature-1{
@@ -147,4 +148,8 @@ input{
   justify-content: flex-start;
   text-align: left;
   margin: auto;
+}
+
+img{
+  height: 500px;
 }
