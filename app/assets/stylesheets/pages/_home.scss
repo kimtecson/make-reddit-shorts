@@ -64,9 +64,6 @@ h1{
 }
 .feedback-input{
   padding: 16px;
-  border: none;
-  outline: none;
-  border-radius: 4px;
   min-width: 35px;
   font-size: 16px;
   width: 100%;
@@ -118,7 +115,7 @@ input{
   overflow: hidden;
   width: 100%;
   :focus{
-    border-color: #0B84F3;
+    border: 2px solid #0B84F3;
   }
 }
 

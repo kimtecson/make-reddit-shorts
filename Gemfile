@@ -14,9 +14,6 @@ gem "bootstrap", "~> 5.2"
 gem "sassc-rails"
 gem "autoprefixer-rails"
 gem 'htmlbeautifier'
-gem "omniauth"
-gem "omniauth-google-oauth2"
-gem "omniauth-rails_csrf_protection", "~> 1.0"
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
