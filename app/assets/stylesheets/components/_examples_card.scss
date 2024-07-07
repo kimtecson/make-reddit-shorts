@@ -1,14 +1,21 @@
+#video-container{
+  position: relative;
+  width: 238px;
+  height: 480px;
+
+}
 .phone{
   position: relative;
+  object-fit: cover;
 }
 
 .video{
   position: absolute;
-  width: 238px;
-  height: 480px;
-  -o-object-fit: cover;
+  width: 233px;
+  top: 1.5px;
+  height: 103%;
   object-fit: cover;
   border-radius: 50px;
-  right: 510px;
-  bottom: -400px;
+  right: 5px;
+  left: 5px;
 }
