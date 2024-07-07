@@ -127,7 +127,6 @@ input{
 }
 
 .feature-1{
-  border: 1px solid white;
   width: 960px;
   height: 360px;
   align-items: center;
@@ -142,12 +141,14 @@ input{
   border-radius: 10px;
   border: 4px solid white;
   height: 240px;
-  align-items: center;
+  width: 400px;
+  align-items: start;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   text-align: left;
   margin: auto;
+  padding-left: 20px;
 }
 
 img{

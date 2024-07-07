@@ -8,8 +8,21 @@
   padding: 10px 15px;
   border-width: 2px 2px 4px;
   transition: background-color .1s;
+  margin-right: 5px;
 }
 
+.button-1{
+  background: hsla(0, 0%, 26%, 0.101);
+  color: #424243;
+  text-decoration: none;
+  border: solid black 1px;
+  border-radius: 8px;
+  font-weight: 700;
+  padding: 10px 15px;
+  border-width: 2px 2px 4px;
+  transition: background-color .1s;
+  margin-right: 5px;
+}
 .navbar-nav{
   align-items: center;
   font-weight: bold;
@@ -20,13 +33,13 @@
 }
 
 .navbar{
-  background-color: white;
+  background-color:#E3E3E3;
   color: #18191a;
 }
 
 .logo{
   font-weight: 900;
-  font-size: 32px;
+  font-size: 28px;
   padding: 0;
   color:#18191a;
   text-decoration: none;

@@ -8,16 +8,16 @@
       <ul class="navbar-nav ms-auto">
         <% if user_signed_in? %>
           <li class="nav-item">
-            <%= link_to "Planner", "/schedules", class: "button2" %>
+            <a class="nav-link" href="/schedules">Planner</a>
           </li>
           <li class="nav-item">
-            <%= link_to "Your Videos", "/outputs", class: "button2" %>
+            <a class="nav-link" href="/outputs">Your Videos</a>
           </li>
           <li class="nav-item active">
             <%= link_to "Create", "/batches/new", class: "button" %>
           </li>
           <li class="nav-item">
-            <%= link_to destroy_user_session_path, class: "button", data: {turbo_method: :delete} do %>
+            <%= link_to destroy_user_session_path, class: "button-1", data: {turbo_method: :delete} do %>
               Log-out
             <% end %>
           </li>
