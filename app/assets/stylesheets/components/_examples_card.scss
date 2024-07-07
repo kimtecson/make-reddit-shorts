@@ -1,0 +1,14 @@
+.phone{
+  position: relative;
+}
+
+.video{
+  position: absolute;
+  width: 238px;
+  height: 480px;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 50px;
+  right: 510px;
+  bottom: -400px;
+}
