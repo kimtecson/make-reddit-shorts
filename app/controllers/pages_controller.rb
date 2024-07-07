@@ -3,7 +3,6 @@ class PagesController < ApplicationController
 
   def home
     @user = current_user
-    @source = Source.new
   end
 
   def tos
