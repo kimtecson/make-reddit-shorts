@@ -19,3 +19,17 @@
   right: 5px;
   left: 5px;
 }
+
+.new-vid-container{
+  height: 400px;
+  gap: 30px;
+
+  .phone{
+    height: 300px;
+  }
+
+  .video{
+    width: 150px;
+    height: 300px;
+  }
+}
