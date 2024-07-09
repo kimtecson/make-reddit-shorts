@@ -1,0 +1,11 @@
+<div class="container">
+  <%= month_calendar(events: @schedules, attribute: :publish_time) do |date, schedules| %>
+    <%= date %>
+    <% schedules.each do |schedule| %>
+      <div class='schedule'>
+        <i class="fa-brands fa-tiktok"></i>
+
+      </div>
+    <% end %>
+  <% end %>
+</div>

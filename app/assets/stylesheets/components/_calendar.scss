@@ -1,0 +1,32 @@
+.simple-calendar {
+  table {
+    min-height: 80vh;
+    background-color: white;
+  }
+  .today {
+    background-color: #E4E1CD;
+  }
+  .table-striped {
+    background-color: white;
+  }
+}
+
+.calendar-title {
+  color:#F4C644;
+  font-weight: bold;
+}
+
+.schedule {
+  color: black;
+  padding: 2px 2px;
+  border-radius: 4px;
+  background: #F4C644;
+  transition: background 0.3s ease;
+
+}
+
+.schedule:hover {
+  background: #E4E1CD;
+  color: black;
+  cursor: pointer;
+}
