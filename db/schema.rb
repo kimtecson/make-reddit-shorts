@@ -11,21 +11,6 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema[7.1].define(version: 2024_07_02_125942) do
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.datetime "remember_created_at"
-    t.string "tiktok_username"
-    t.string "ig_username"
-    t.string "yt_username"
-    t.string "fb_username"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-  end
   create_table "batches", force: :cascade do |t|
     t.integer "source_id", null: false
     t.datetime "created_at", null: false
@@ -63,6 +48,21 @@ ActiveRecord::Schema[7.1].define(version: 2024_07_02_125942) do
     t.index ["user_id"], name: "index_sources_on_user_id"
   end
 
+  create_table "users", force: :cascade do |t|
+    t.string "email", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.string "tiktok_username"
+    t.string "ig_username"
+    t.string "yt_username"
+    t.string "fb_username"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["email"], name: "index_users_on_email", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+  end
 
   add_foreign_key "batches", "sources"
   add_foreign_key "outputs", "batches"

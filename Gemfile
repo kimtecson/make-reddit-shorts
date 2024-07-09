@@ -14,7 +14,7 @@ gem "bootstrap", "~> 5.2"
 gem "sassc-rails"
 gem "autoprefixer-rails"
 gem 'htmlbeautifier'
-gem 'pg', '~> 1.1'
+
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem "sprockets-rails"
 
@@ -49,7 +49,7 @@ gem "redis", ">= 4.0.1"
 gem "tzinfo-data", platforms: %i[ mswin mswin64 mingw x64_mingw jruby ]
 
 # Reduces boot times through caching; required in config/boot.rb
-gem 'bootsnap', '>= 1.4.4', require: false
+gem 'bootsnap', require: false
 
 # Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
 # gem "image_processing", "~> 1.2"
