@@ -1,29 +1,50 @@
-<div class="container mt-3 text-white" data-controller="reddit-form">
-  <div class="row">
-    <div class="col-6">
-      <div class="d-flex flex-column h-100">
-        <div class="search-container custom-search ">
-    <input type="text" class="custom-search-input" placeholder="Reddit Post Url">
-
+<div class="d-flex align-items-start">
+  <!-- Vertical navigation pills -->
+  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+    <!-- Reddit tab button -->
+    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Reddit</button>
+    <!-- Video tab button -->
+    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Video</button>
+    <!-- Subtitles tab button -->
+    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Subtitles</button>
+    <!-- Settings tab button -->
+    <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
   </div>
-        <div style="height: 20%">
-          <h1 style="font-size: 40px">Choose your background <span style="color: #F4C644">video.</span></h1>
-          <p style="color: #6d6d6d">You can also upload your own video or let us select randomly from the video library.</p>
+
+  <!-- Main content container -->
+  <div class="container mt-3 text-white" data-controller="reddit-form">
+    <div class="row">
+      <!-- Left column: Tab contents and buttons -->
+      <div class="col-6">
+        <div class="tab-content" id="v-pills-tabContent">
+          <!-- Reddit tab content -->
+          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+            <%= render 'new_reddit_story' %>
+          </div>
+          <!-- Video tab content -->
+          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+            <%= render "new_video" %>
+          </div>
+          <!-- Subtitles tab content -->
+          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+            <%= render "new_subtitles" %>
+          </div>
+          <!-- Settings tab content -->
+          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+            ...
+          </div>
         </div>
-        <div class="d-flex flex-row new-vid-container">
-        <div id="video-container">
-          <%= render "pages/examples_card" %>
-        </div>
-        <div id="video-container">
-          <%= render "pages/examples_card" %>
-        </div>
-        <div id="video-container">
-          <%= render "pages/examples_card" %>
-        </div>
+        <br>
+        <!-- Submit button -->
+        <%= render 'pages/button', text: 'Submit', path: output_path(:id), class: 'btn btn-primary' %>
+        <!-- Upload Video button -->
+        <%= render 'pages/button', text: 'Upload Video', path: new_output_path %>
+      </div>
+
+      <!-- Right column: Preview -->
+      <div class="col-6 mx-auto">
+        <%= render 'preview' %>
       </div>
     </div>
-      <%= render 'pages/button', text: 'Upload Video', path: new_output_path %>
-      <%= render 'pages/button', text: 'Submit', path: output_path(:id), class: 'btn btn-primary' %>
   </div>
-</div>
 </div>
