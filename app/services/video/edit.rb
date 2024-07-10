@@ -1,20 +1,18 @@
-require 'streamio-ffmpeg'
 require 'json'
+require 'streamio-ffmpeg'
 
 
 # Create a new class to hold all the methods
-class Video
-  def initialize(input_video_path, output_video_path, audio_path, image_path)
-    @input_video_path = input_video_path
-    @output_video_path = output_video_path
-    @audio_path = audio_path
-    @image_path = image_path
-  end
+class VideoGenerator
+  # def initialize(input_video_path, output_video_path, audio_path)
+  #   '/app/assets/videos/sample.mp4' = input_video_path
+  #   @output_video_path = output_video_path
+  #   '/app/assets/videos/sample.mp3' = audio_path
+  # end
 
   def edit_video()
-
     subtitles = create_subs()
-    movie = FFMPEG::Movie.new(@input_video_path)
+    movie = FFMPEG::Movie.new('app/assets/videos/sample.mp4')
 
     # Settings for subtitles
     font_color = 'FFFFFF'
@@ -36,13 +34,12 @@ class Video
       drawtext_filter
     end.join(',')
 
-    # Prepare FFmpeg command with image overlay enabled only for the first 3 seconds
+    # Prepare FFmpeg command without image overlay
     ffmpeg_command = %W(
-      ffmpeg -i #{@input_video_path}
-      -i #{@audio_path}
-      -i #{@image_path}
-      -filter_complex "#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'"
-      -map 0:v:0 -map 1:a:0 -c:v libx264 -c:a aac -strict experimental -shortest #{@output_video_path}
+      ffmpeg -i app/assets/videos/sample.mp4
+      -i app/assets/audio/speech.wav
+      -filter_complex "#{drawtext_options}"
+      -map 0:v:0 -map 1:a:0 -c:v libx264 -c:a aac -strict experimental -shortest app/assets/videos/output.mp4
     ).join(' ')
 
     system(ffmpeg_command)
@@ -51,7 +48,7 @@ class Video
   private
 
   def create_subs
-    file = File.read('video/outputs/transcription_with_timestamps.json')
+    file = File.read('app/assets/tts/transcription_with_timestamps.json')
     data = JSON.parse(file)
 
     # Process the words array
@@ -81,8 +78,6 @@ class Video
         end: group.last["end"]
       }
     end
-
     return subtitles
-
   end
 end

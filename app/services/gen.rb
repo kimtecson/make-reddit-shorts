@@ -1,0 +1,50 @@
+require_relative 'video/video.rb'
+require_relative 'video/tts.rb'
+require_relative 'video/whispr.rb'
+require_relative 'reddit/get_post.rb'
+
+# Define the parameters
+input_video_path = '/app/assets/videos/sample.mp4'
+audio_path = '/app/assets/videos/sample.mp3'
+output_video_path = '/app/assets/videos/output.mp4'
+
+# # Initialize classes
+# video_editor = Video.new(input_video_path, output_video_path, audio_path, image_path)
+# generate_voice = TTS.new
+# generate_subs = Whispr.new
+# get_post = RedditPost.new
+
+# # Start total timer
+# total_start_time = Time.now
+
+# # Get reddit post
+# puts "Getting Reddit post"
+# reddit_start_time = Time.now
+# get_post.write_script()
+# reddit_end_time = Time.now
+# puts "Reddit post fetched in #{reddit_end_time - reddit_start_time} seconds"
+
+# # Generate TTS voice
+# puts "Generating TTS voice"
+# tts_start_time = Time.now
+# generate_voice.generate_voice()
+# tts_end_time = Time.now
+# puts "TTS voice generated in #{tts_end_time - tts_start_time} seconds"
+
+# # Generate subtitles
+# puts "Generating subtitles"
+# subs_start_time = Time.now
+# generate_subs.create_subs()
+# subs_end_time = Time.now
+# puts "Subtitles generated in #{subs_end_time - subs_start_time} seconds"
+
+# Edit video
+# puts "Editing video"
+# video_edit_start_time = Time.now
+# video_editor.edit_video()
+# video_edit_end_time = Time.now
+# puts "Video edited in #{video_edit_end_time - video_edit_start_time} seconds"
+
+# # End total timer
+# total_end_time = Time.now
+# puts "Total time taken: #{total_end_time - total_start_time} seconds"
