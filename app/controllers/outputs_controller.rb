@@ -11,8 +11,11 @@ class OutputsController < ApplicationController
     Rails.logger.info "Entering create action in OutputsController"
     @output = Output.new(output_params)
     @output.source = Source.first
-    @output.user = User.first
-    @output.batch = Batch.first
+    @output.user = current_user
+    @batch = Batch.new
+    @batch.source=  @output.source
+    @output.batch = @batch
+
 
     if @output.save
       Rails.logger.info "Output saved successfully with reddit_post_url: #{@output.reddit_post_url}"
@@ -44,6 +47,10 @@ class OutputsController < ApplicationController
       Rails.logger.info "Output failed to save. Errors: #{@output.errors.full_messages}"
       render :new
     end
+  end
+
+  def show
+    @output = Output.find(params[:id])
   end
 
   private
