@@ -1,16 +1,15 @@
 require 'json'
 require 'streamio-ffmpeg'
 
-
-# Create a new class to hold all the methods
 class VideoGenerator
-  # def initialize(input_video_path, output_video_path, audio_path)
-  #   '/app/assets/videos/sample.mp4' = input_video_path
-  #   @output_video_path = output_video_path
-  #   '/app/assets/videos/sample.mp3' = audio_path
-  # end
+  def self.generate(output)
+    Rails.logger.info "Starting video generation..."
+    new.edit_video
+    Rails.logger.info "Video generation completed."
+    'app/assets/videos/output.mp4'
+  end
 
-  def edit_video()
+  def edit_video
     subtitles = create_subs()
     movie = FFMPEG::Movie.new('app/assets/videos/sample.mp4')
 
@@ -21,17 +20,15 @@ class VideoGenerator
     increase_font_size_animation = 6
 
     drawtext_options = subtitles.map do |subtitle|
-      subtitle_text = subtitle[:text].gsub("'", "")  # Escape single quotes in the subtitle text because it breaks the FFmpeg command
+      subtitle_text = subtitle[:text].gsub("'", "")
 
       start = subtitle[:start]
       end_time = subtitle[:end]
 
       # Drawtext filter with animation
-      drawtext_filter = %{
+      %{
         drawtext=text='#{subtitle_text}':fontcolor=0x#{font_color}:bordercolor=#{font_border_color}:borderw=#{font_border_width}:fontsize='36+#{increase_font_size_animation}*if(between(t,#{start},#{start}+0.1),(t-#{start})*10,if(between(t,#{end_time}-0.1,#{end_time}),(#{end_time}-t)*10,1))':fontfile=video/resources/font.ttf:box=0:boxcolor=black@0.5:boxborderw=5:x=(w-text_w)/2:y=(h-text_h)/2:enable='between(t,#{start},#{end_time})'
       }.strip
-
-      drawtext_filter
     end.join(',')
 
     # Prepare FFmpeg command without image overlay
@@ -58,18 +55,15 @@ class VideoGenerator
     i = 0
     while i < words.length
       if i + 1 < words.length && words[i]["word"].length < 3 && words[i + 1]["word"].length >= 3
-        # Include the next word if the current word's length < 3
         group = [words[i], words[i + 1]]
-        i += 2  # Move to the next pair
+        i += 2
       else
-        # Otherwise, just include the current word
         group = [words[i]]
-        i += 1  # Move to the next word
+        i += 1
       end
 
-      # Adjust end time dynamically
       if i < words.length
-        group[-1]["end"] = words[i]["start"]  # Set end time of current word to start time of next word
+        group[-1]["end"] = words[i]["start"]
       end
 
       subtitles << {
@@ -78,6 +72,6 @@ class VideoGenerator
         end: group.last["end"]
       }
     end
-    return subtitles
+    subtitles
   end
 end
