@@ -18,7 +18,7 @@ class TTS
 
     # Set up the request body
 
-    script_text = File.open("video/resources/script.txt", "r").read
+    script_text = File.open("app/services/resources/script.txt", "r").read
     body = {
       model: "tts-1",
       input: script_text,
@@ -31,7 +31,7 @@ class TTS
 
     # Check the response and save the file if successful
     if response.code.to_i == 200
-      File.open("video/outputs/speech.wav", "wb") do |file|
+      File.open("app/services/outputs/speech.wav", "wb") do |file|
         file.write(response.body)
       end
 

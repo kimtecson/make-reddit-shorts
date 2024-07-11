@@ -13,6 +13,11 @@ class VideoGen
     reddit = RedditPost.new
     reddit.write_script(reddit_post_url)
 
+
+    tts = TTS.new
+    tts.generate_voice
+
+
     video_edit = VideoEdit.new
     video_path = video_edit.generate
 
