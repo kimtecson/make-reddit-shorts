@@ -53,6 +53,10 @@ class OutputsController < ApplicationController
     @output = Output.find(params[:id])
   end
 
+  def index
+    @outputs = Output.all
+  end
+
   private
 
   def output_params
