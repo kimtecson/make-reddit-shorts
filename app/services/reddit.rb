@@ -12,8 +12,8 @@ class RedditPost
   USER_AGENT = 'RubyScript/1.0'
   AUTH_URL = 'https://www.reddit.com/api/v1/access_token'
 
-  def write_script
-    File.open('video/resources/script.txt', 'w') { |file| file.write(fetch_reddit_post(get_post_id('https://www.reddit.com/r/Shortify/comments/1d43oj4/no_i_wont_tell_you_my_computer_name/'))) }
+  def write_script(reddit_post_url)
+    File.open('app/services/resources/script.txt', 'w') { |file| file.write(fetch_reddit_post(get_post_id(reddit_post_url))) }
   end
 
   private

@@ -1,13 +1,23 @@
 require 'json'
 require 'streamio-ffmpeg'
 
-class VideoGenerator
-  def self.generate(output)
+class VideoEdit
+  def generate
+    gen_start = Time.now
     Rails.logger.info "Starting video generation..."
-    new.edit_video
+
+    output_path = Rails.root.join('app', 'assets', 'videos', 'output.mp4').to_s
+    File.delete(output_path) if File.exist?(output_path)
+
+    edit_video
+
+    gen_end = Time.now
     Rails.logger.info "Video generation completed."
-    'app/assets/videos/output.mp4'
+    Rails.logger.info "Video generated in #{gen_end - gen_start} seconds"
+
+    output_path  # Make sure this is a single string path
   end
+
 
   def edit_video
     subtitles = create_subs()

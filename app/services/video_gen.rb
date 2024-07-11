@@ -1,21 +1,32 @@
-require_relative 'video/video.rb'
-require_relative 'video/tts.rb'
-require_relative 'video/whispr.rb'
-require_relative 'reddit/get_post.rb'
+require_relative 'video_edit.rb'
+require_relative 'tts.rb'
+require_relative 'whispr.rb'
+require_relative 'reddit.rb'
 
-# Define the parameters
-input_video_path = '/app/assets/videos/sample.mp4'
-audio_path = '/app/assets/videos/sample.mp3'
-output_video_path = '/app/assets/videos/output.mp4'
+class VideoGen
+  def self.generate(output)
+    total_start_time = Time.now
 
-# # Initialize classes
-# video_editor = Video.new(input_video_path, output_video_path, audio_path, image_path)
-# generate_voice = TTS.new
-# generate_subs = Whispr.new
-# get_post = RedditPost.new
+    reddit_post_url = output.reddit_post_url
+    Rails.logger.info "Generating video for Reddit post: #{reddit_post_url}"
+
+    reddit = RedditPost.new
+    reddit.write_script(reddit_post_url)
+
+    video_edit = VideoEdit.new
+    video_path = video_edit.generate
+
+    total_end_time = Time.now
+    Rails.logger.info "Total video generation time: #{total_end_time - total_start_time} seconds"
+
+    video_path
+  end
+end
+
+# # # Initialize classes
 
 # # Start total timer
-# total_start_time = Time.now
+
 
 # # Get reddit post
 # puts "Getting Reddit post"
@@ -38,13 +49,13 @@ output_video_path = '/app/assets/videos/output.mp4'
 # subs_end_time = Time.now
 # puts "Subtitles generated in #{subs_end_time - subs_start_time} seconds"
 
-# Edit video
+# # Edit video
 # puts "Editing video"
 # video_edit_start_time = Time.now
 # video_editor.edit_video()
 # video_edit_end_time = Time.now
 # puts "Video edited in #{video_edit_end_time - video_edit_start_time} seconds"
 
-# # End total timer
-# total_end_time = Time.now
-# puts "Total time taken: #{total_end_time - total_start_time} seconds"
+# # # End total timer
+# # total_end_time = Time.now
+# # puts "Total time taken: #{total_end_time - total_start_time} seconds"

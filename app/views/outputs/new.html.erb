@@ -37,6 +37,7 @@
         <%= simple_form_for @output do |f| %>
           <%= f.error_notification %>
           <div class="form-inputs">
+            <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
             <!-- Add any other fields your Output model needs -->
           </div>
           <div class="form-actions">
