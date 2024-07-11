@@ -1,5 +1,8 @@
 class OutputsController < ApplicationController
 
+  include Rails.application.routes.url_helpers # Ensure you include the URL helpers
+
+
  def new
     @output = Output.new
   end
@@ -22,6 +25,9 @@ class OutputsController < ApplicationController
           @output.video.attach(io: File.open(video_path),
                                filename: "output.mp4",
                                content_type: 'video/mp4')
+
+          @output.url = url_for(@output.video) if @output.video.attached?
+          @output.save
           redirect_to @output, notice: 'Output was successfully created and video generated.'
         else
           Rails.logger.error "Invalid video path returned: #{video_path}"

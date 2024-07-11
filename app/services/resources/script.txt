@@ -1,7 +1,1 @@
-First off, I'm not tech support but I figured this fits here.  
-About me: I (M 36) am a security guard on a data centre at weekends to pay for my Cybersecurity degree I am just wrapping up. It was staff at this data centre that actually pushed me to university as I was asking a lot of questions.  
-Today, I come into work at 7am and have a quick handover from the night guards (M 30's). He tells me he accidentally turned the PC off instead of locking the screen before his patrol in the night.  
-The computer, being on a data centre, has high level of security than a normal office and is encrypted with bitlocker. The night guard tells me he has not managed to get past the encryption to log back in. With him being a new guard on this site, I assumed he just didn't know how to use the yubikey correctly so I start to show him how to use it.  
-I go to plug it in to the computer and it is switched off. I turn it on and was surprised when he asked what that button was for?  
-I can not fathom how a young bloke in his 30's does not know how to even turn on a computer. The schools here, as in many countries, have classes dedicated to using computers and have since before I was in school, around the same time as him, and he never even picked up what a power switch is for.  
-4 hours he had no computer, and in turn, no cctv because he didn't know he needed to turn on the computer to log in.
+One time I went across the road and to my shock, there was an actual chicken on the other side.
