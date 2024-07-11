@@ -31,7 +31,7 @@ class TTS
 
     # Check the response and save the file if successful
     if response.code.to_i == 200
-      File.open("app/services/outputs/speech.wav", "wb") do |file|
+      File.open("app/services/resources/speech.wav", "wb") do |file|
         file.write(response.body)
       end
 

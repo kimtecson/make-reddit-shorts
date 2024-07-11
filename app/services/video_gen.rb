@@ -18,8 +18,12 @@ class VideoGen
     tts.generate_voice
 
 
+    whispr = Whispr.new
+    whispr.create_subs
+
     video_edit = VideoEdit.new
     video_path = video_edit.generate
+
 
     total_end_time = Time.now
     Rails.logger.info "Total video generation time: #{total_end_time - total_start_time} seconds"

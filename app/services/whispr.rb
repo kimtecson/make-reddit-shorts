@@ -11,7 +11,7 @@ class Whispr
     api_key = ENV['OPENAI_API_KEY']
 
     # Path to the audio file
-    audio_file_path = 'video/outputs/speech.wav'
+    audio_file_path = 'app/services/resources/speech.wav'
 
     # Prepare the request
 
@@ -38,7 +38,7 @@ class Whispr
     # Parse the response
     response_body = JSON.parse(response.body)
     # Save the response to a JSON file
-    File.open('video/outputs/transcription_with_timestamps.json', 'w') do |file|
+    File.open('app/services/resources/transcription_with_timestamps.json', 'w') do |file|
       file.write(JSON.pretty_generate(response_body))
     end
   end
