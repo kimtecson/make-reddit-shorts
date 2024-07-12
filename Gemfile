@@ -2,6 +2,15 @@ source "https://rubygems.org"
 
 ruby "3.1.2"
 
+
+# gems for services (added by stan)
+gem 'streamio-ffmpeg'
+gem 'dotenv'
+gem 'json'
+gem 'net-http'
+gem 'uri'
+
+
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem "rails", "~> 7.1.3", ">= 7.1.3.4"
 gem "devise"

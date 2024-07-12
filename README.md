@@ -1,24 +1,19 @@
 # README
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+Don't forget to ask Stan for .env file:
 
-Things you may want to cover:
+- OPENAI_API_KEY
+- REDDIT_CLIENT_ID
+- REDDIT_SECRET
 
-* Ruby version
+In order for the video generation to run:
 
-* System dependencies
+- rails active_storage:install
+- rails db:migrate
 
-* Configuration
+Create:
+- Batch
+- Source
+- User
 
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+Ask stan if you have any questions
