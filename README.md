@@ -16,4 +16,19 @@ Create:
 - Source
 - User
 
+```
+rails c
+user = User.find_or_create_by(email: 'test@example.com') do |u|
+  u.password = 'password'
+  u.password_confirmation = 'password'
+end
+sn = Source.new(url: 'your_video_url_here', user_id: user.id)
+if sn.save
+  puts 'Source saved successfully'
+else
+  puts sn.errors.full_messages
+end
+
+```
+
 Ask stan if you have any questions
