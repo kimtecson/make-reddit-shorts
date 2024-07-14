@@ -5,16 +5,18 @@ class OutputsController < ApplicationController
 
  def new
     @output = Output.new
+    @source = Source.new
   end
 
   def create
     Rails.logger.info "Entering create action in OutputsController"
     @output = Output.new(output_params)
-    @output.source = Source.first
-    @output.user = current_user
+    @output.source = Source.find_by(user_id: current_user.id)
+    @output.user_id = current_user.id
     @batch = Batch.new
-    @batch.source=  @output.source
-    @output.batch = @batch
+
+    @output.batch_id = @batch.id
+
 
 
     if @output.save
