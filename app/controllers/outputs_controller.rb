@@ -7,9 +7,10 @@ class OutputsController < ApplicationController
   end
 
   def create
-
     Rails.logger.info "Entering create action in OutputsController"
     Rails.logger.info "Params received: #{params.inspect}"
+    Rails.logger.info "Output params: #{params[:output]}"
+
     @output = Output.new(output_params)
     @output.source = Source.find_by(user_id: current_user.id)
     @output.user_id = current_user.id
@@ -49,11 +50,19 @@ class OutputsController < ApplicationController
         end
       else
         Rails.logger.info "Output failed to save. Errors: #{@output.errors.full_messages}"
-        format.html { render :new }
-        format.json { render json: @output.errors, status: :unprocessable_entity }
+        format.html { render :new, status: :unprocessable_entity }
+        format.json { render json: { errors: @output.errors.full_messages }, status: :unprocessable_entity }
       end
     end
+  rescue => e
+    Rails.logger.error "Error in create action: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    respond_to do |format|
+      format.html { render :new, status: :internal_server_error }
+      format.json { render json: { error: e.message }, status: :internal_server_error }
+    end
   end
+
 
   def show
     @output = Output.find(params[:id])

@@ -9,36 +9,39 @@ export default class extends Controller {
 
   submit(event) {
     event.preventDefault();
-    console.log("Form submission prevented");
+    console.log("Submit function called");
 
     const formData = new FormData(this.formTarget);
 
-    for (const [key, value] of formData.entries()) {
-      console.log(`${key}: ${value} t`);
+    // Log form data
+    for (let [key, value] of formData.entries()) {
+      console.log(key, value);
     }
 
-
-
-
-    console.log("Sending fetch request");
     fetch(this.formTarget.action, {
       method: this.formTarget.method,
       body: formData,
       headers: {
-        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content
+        'X-CSRF-Token': document.querySelector('meta[name="csrf-token"]').content,
+        'Accept': 'application/json'
       }
     })
     .then(response => {
-      if (!response.ok) {
-        console.log('Response not ok:', response);
-      }
-      return response.json()
+      console.log('Response status:', response.status);
+      console.log('Response headers:', response.headers);
+      return response.text();  // Change this from response.json()
     })
-    .then(data => {
-      console.log('Submission successful:', data);
+    .then(text => {
+      console.log('Response text:', text);
+      try {
+        const data = JSON.parse(text);
+        console.log('Parsed JSON:', data);
+      } catch (error) {
+        console.error('Error parsing JSON:', error);
+      }
     })
     .catch(error => {
-      console.error('Error:', error);
+      console.error('Fetch error:', error);
     });
   }
 }
