@@ -1,23 +1,18 @@
-class SourcesController < ApplicationController
 
-  def new
-    @source = Source.new
-  end
+class SourcesController < ApplicationController
   def create
+    Rails.logger.info "Params: #{params.inspect}"
+    Rails.logger.info "File attached?: #{params[:source][:file].present?}"
+
     @source = Source.new(source_params)
-    @source.user = current_user
-    @source.url = 'test_url'
+    @source.user_id = current_user.id
 
     if @source.save
-      respond_to do |format|
-        format.html { redirect_to @source, notice: 'Video uploaded successfully.' }
-        format.json { render json: { success: true, message: 'Video uploaded successfully' }, status: :created }
-      end
+      Rails.logger.info "Source saved. File attached?: #{@source.file.attached?}"
+      render json: { success: true, message: "File uploaded successfully" }, status: :created
     else
-      respond_to do |format|
-        format.html { render :new }
-        format.json { render json: { success: false, errors: @source.errors.full_messages }, status: :unprocessable_entity }
-      end
+      Rails.logger.info "Source errors: #{@source.errors.full_messages}"
+      render json: { success: false, errors: @source.errors.full_messages }, status: :unprocessable_entity
     end
   end
 

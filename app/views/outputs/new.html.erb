@@ -11,48 +11,51 @@
     <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
   </div>
   <!-- Main content container -->
-  <div class="container mt-3 text-white" data-controller="reddit-form">
+  <div class="container mt-3 text-white"> <!--data-controller="reddit-form" -->
     <div class="row">
       <!-- Left column: Tab contents and buttons -->
       <div class="col-6">
-        <%#= simple_form_for @output, data: { turbo: false } do |f| %>
-          <%#= f.error_notification %>
-          <div class="tab-content" id="v-pills-tabContent">
-            <!-- Reddit tab content -->
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-              <%#= render 'new_reddit_story' %>
-            </div>
-            <!-- Video tab content -->
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-              <div data-controller="video-upload">
-                <%= form_with model: @source, url: sources_path, html: { data: { controller: "video-upload" } } do |sf| %>
-                  <%= sf.file_field :file, data: { video_upload_target: "input", action: "change->video-upload#upload" } %>
-                <% end %>
+        <div data-controller="output-upload">
+          <%= simple_form_for @output, data: { output_upload_target: "form" } do |f| %>
+            <%= f.error_notification %>
+            <div class="tab-content" id="v-pills-tabContent">
+              <!-- Reddit tab content -->
+              <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+                <%#= render 'new_reddit_story' %>
+              </div>
+              <!-- Video tab content -->
+              <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+                <div data-controller="video-upload">
+                  <%= simple_form_for @source, url: sources_path, local: false do |sf| %>
+                    <%= sf.file_field :file, data: { video_upload_target: "file" } %>
+                    <%= sf.submit "Upload Video", data: { action: "click->video-upload#upload", disable_with: "Uploading..." } %>
+                  <% end %>
+                </div>
+              </div>
+              <!-- Subtitles tab content -->
+              <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+                <%#= render "new_subtitles" %>
+              </div>
+              <!-- Settings tab content -->
+              <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+                ...
               </div>
             </div>
-            <!-- Subtitles tab content -->
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-              <%#= render "new_subtitles" %>
+            <br>
+            <div class="form-inputs">
+              <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
+              <!-- Add any other fields your Output model needs -->
             </div>
-            <!-- Settings tab content -->
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-              ...
+            <div class="form-actions">
+              <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
             </div>
           </div>
-          <br>
-          <div class="form-inputs">
-            <%#= f.input :reddit_post_url, label: "Reddit Post URL" %>
-            <!-- Add any other fields your Output model needs -->
-          </div>
-          <div class="form-actions">
-            <%#= f.button :submit, "Create Output and Generate Video" %>
-          </div>
-          <%# end %>
-        </div>
-        <!-- Right column: Preview -->
-        <div class="col-6 mx-auto">
-          <%= render 'preview' %>
-        </div>
+        <% end %>
+      </div>
+      <!-- Right column: Preview -->
+      <div class="col-6 mx-auto">
+        <%= render 'preview' %>
       </div>
     </div>
   </div>
+</div>
