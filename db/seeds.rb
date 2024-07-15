@@ -1,5 +1,4 @@
 
-p 'test'
 include ActionView::Helpers::AssetUrlHelper
 
 # Generate the URL for the video

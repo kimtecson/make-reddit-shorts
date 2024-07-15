@@ -1,40 +1,6 @@
-
-<div class="d-flex flex-column h-100">
-  <div style="height: 20%">
-    <h1 style="font-size: 40px">Choose your background <span style="color: #F4C644">video.</span></h1>
-    <p style="color: #6d6d6d">You can also upload your own video or let us select randomly from the video library.</p>
-  </div>
-  <div class="d-flex flex-row new-vid-container">
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-  </div>
-  <div class="d-flex flex-row new-vid-container">
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-  </div>
-  <div class="d-flex flex-row new-vid-container">
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-    <div id="video-container">
-      <%= render "pages/examples_card" %>
-    </div>
-  </div>
+      
+<div data-controller="video-upload">
+  <%= form_with model: @source, url: sources_path, html: { data: { controller: "video-upload" } } do |sf| %>
+    <%= sf.file_field :file, data: { video_upload_target: "input", action: "change->video-upload#upload" } %>
+  <% end %>
 </div>

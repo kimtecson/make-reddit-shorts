@@ -12,6 +12,7 @@ class VideoGen
 
     reddit = RedditPost.new
     reddit.write_script(reddit_post_url)
+    Rails.logger.info "Reddit post fetched"
 
 
     tts = TTS.new

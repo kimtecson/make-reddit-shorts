@@ -1,0 +1,57 @@
+=> 
+[[32m#<Source:0x00007f36bc498938[0m
+  id: [34m[1m1[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Thu, 11 Jul 2024 15:09:08.534285000 UTC +00:00,
+  updated_at: Thu, 11 Jul 2024 15:09:08.534285000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479718[0m
+  id: [34m[1m2[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 13:06:11.681391000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 13:06:22.893289000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479628[0m
+  id: [34m[1m3[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 13:06:42.889060000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 13:06:43.850080000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479560[0m
+  id: [34m[1m4[0m,
+  url: [31m[1m"[0m[31mtest_url[0m[31m[1m"[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 13:07:46.940499000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 13:07:47.717534000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479498[0m
+  id: [34m[1m5[0m,
+  url: [31m[1m"[0m[31mtest_url[0m[31m[1m"[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 13:08:53.054627000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 13:08:53.845901000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc4793d0[0m
+  id: [34m[1m6[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 22:21:42.178224000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 22:21:42.757863000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479308[0m
+  id: [34m[1m7[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 22:22:19.316014000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 22:22:19.478917000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m,
+ [32m#<Source:0x00007f36bc479240[0m
+  id: [34m[1m8[0m,
+  url: [36m[1mnil[0m,
+  user_id: [34m[1m1[0m,
+  created_at: Sun, 14 Jul 2024 22:27:04.457280000 UTC +00:00,
+  updated_at: Sun, 14 Jul 2024 22:27:04.977785000 UTC +00:00,
+  file: [36m[1mnil[0m[32m>[0m]
