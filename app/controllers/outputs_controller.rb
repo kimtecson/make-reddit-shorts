@@ -7,7 +7,9 @@ class OutputsController < ApplicationController
   end
 
   def create
+
     Rails.logger.info "Entering create action in OutputsController"
+    Rails.logger.info "Params received: #{params.inspect}"
     @output = Output.new(output_params)
     @output.source = Source.find_by(user_id: current_user.id)
     @output.user_id = current_user.id

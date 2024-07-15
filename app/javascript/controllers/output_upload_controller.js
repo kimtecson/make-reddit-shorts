@@ -18,6 +18,8 @@ export default class extends Controller {
     }
 
 
+
+
     console.log("Sending fetch request");
     fetch(this.formTarget.action, {
       method: this.formTarget.method,
