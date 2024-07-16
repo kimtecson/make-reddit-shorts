@@ -40,3 +40,4 @@ app/assets/audio/speech.wav
 /config/master.key
 .env*
 .env*
+.env*
