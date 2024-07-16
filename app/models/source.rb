@@ -3,7 +3,7 @@ class Source < ApplicationRecord
   validates :user_id, presence: true
   has_one_attached :file
 
-  validates :file, presence: true
+  # validates :file, presence: true
   # has_many :batches Why many batches? Shouldn't sources and everything else be separate? (stan)
 
 

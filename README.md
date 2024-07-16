@@ -1,15 +1,28 @@
-# README
-
-Don't forget to ask Stan for .env file:
-
-- OPENAI_API_KEY
-- REDDIT_CLIENT_ID
-- REDDIT_SECRET
-
-In order for the video generation to run:
-
-- rails active_storage:install
-- rails db:migrate
+### Run
+In order to run the code from this repo you must:
+- run migrations
+- install active storage
+- bundle install
+- precompile assets
+- seed initial source and batch (batch to be removed later)
+```
+rails active_storage:install
+rails db:migrate
+bundle install
+rails assets:precompile
+rails db:seed
+```
+- create an env file
+```
+touch .env
+echo '.env*' >> .gitignore
+```
+- set the correct variables for:
+```
+OPENAI_API_KEY=
+REDDIT_CLIENT_ID=
+REDDIT_SECRET=
+```
 
 Create:
 - Batch
