@@ -11,7 +11,11 @@
     <%= csrf_meta_tags %>
   </head>
   <body>
+    <%# <% unless action_name == "root" %>
+    <%# <--# render the footer partial "_footer.html.erb" file from "shared" folder
+       <%= render 'shared/footer' %>
     <%= render "shared/navbar" %>
+    <%# <% end %>
     <%= yield %>
     <p class="notice"><%= notice %></p>
     <p class="alert"><%= alert %></p>
