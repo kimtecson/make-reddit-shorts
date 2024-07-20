@@ -1,6 +1,7 @@
-      
 <div data-controller="video-upload">
-  <%= form_with model: @source, url: sources_path, html: { data: { controller: "video-upload" } } do |sf| %>
-    <%= sf.file_field :file, data: { video_upload_target: "input", action: "change->video-upload#upload" } %>
+  <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
+    <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
+    <%= f.input :src_video, as: :radio_buttons %>
+    <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
   <% end %>
 </div>
