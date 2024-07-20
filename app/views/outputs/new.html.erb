@@ -15,10 +15,7 @@
     <div class="row">
       <!-- Left column: Tab contents and buttons -->
       <div class="col-6">
-        <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
-          <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
-          <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
-        <% end %>
+        <%= render 'new_video' %>
         <div class="tab-content" id="v-pills-tabContent">
           <!-- Reddit tab content -->
           <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
@@ -55,7 +52,7 @@
       <!-- Right column: Preview -->
       <div class="col-6">
         <div class="sticky-top col-6 mx-auto">
-        <%= render 'preview' %>
+          <%= render 'preview' %>
         </div>
       </div>
     </div>
