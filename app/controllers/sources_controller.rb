@@ -1,4 +1,3 @@
-
 class SourcesController < ApplicationController
   def create
     Rails.logger.info "Params: #{params.inspect}"
@@ -9,7 +8,14 @@ class SourcesController < ApplicationController
 
     if @source.save
       Rails.logger.info "Source saved. File attached?: #{@source.file.attached?}"
-      render json: { success: true, message: "File uploaded successfully" }, status: :created
+
+      # Generate the path for the attached file
+      if @source.file.attached?
+        path = rails_blob_path(@source.file, only_path: true)
+        @source.update(url: path)
+      end
+
+      render json: { success: true, message: "File uploaded successfully", url: @source.url }, status: :created
     else
       Rails.logger.info "Source errors: #{@source.errors.full_messages}"
       render json: { success: false, errors: @source.errors.full_messages }, status: :unprocessable_entity
