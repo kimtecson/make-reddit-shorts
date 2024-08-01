@@ -15,19 +15,19 @@
     <div class="row">
       <!-- Left column: Tab contents and buttons -->
       <div class="col-6">
-        <%= render 'new_video' %>
         <div class="tab-content" id="v-pills-tabContent">
           <!-- Reddit tab content -->
           <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
+            <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
+              <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
+              <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
+            <% end %>
             <%#= render 'new_reddit_story' %>
           </div>
           <!-- Video tab content -->
           <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
             <div data-controller="video-upload">
-              <%= simple_form_for @source, url: sources_path, local: false do |sf| %>
-                <%= sf.file_field :file, data: { video_upload_target: "file" } %>
-                <%= sf.submit "Upload Video", data: { action: "click->video-upload#upload", disable_with: "Uploading..." } %>
-              <% end %>
+              <%= render 'new_video' %>
             </div>
           </div>
           <!-- Subtitles tab content -->

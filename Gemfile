@@ -9,6 +9,10 @@ gem 'dotenv'
 gem 'json'
 gem 'net-http'
 gem 'uri'
+gem 'httparty'
+gem 'down'
+gem 'fileutils'
+gem 'open-uri'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
