@@ -1,10 +1,12 @@
 require 'json'
 require 'streamio-ffmpeg'
+require_relative 'video_downloader.rb'
 
 class VideoEdit
   def generate
     gen_start = Time.now
     Rails.logger.info "Starting video generation..."
+
 
     output_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
     File.delete(output_path) if File.exist?(output_path)
@@ -20,6 +22,7 @@ class VideoEdit
 
 
   def edit_video
+    #VideoDownloader.download('/rails/active_storage/blobs/redirect/eyJfcmFpbHMiOnsiZGF0YSI6MTMsInB1ciI6ImJsb2JfaWQifX0=--dbfff742f2caa3a7456db712364322664d93b20d/output%20(1)%20(2).mp4', 'app/assets/videos/video.mp4')
     subtitles = create_subs()
     movie = FFMPEG::Movie.new('app/assets/videos/sample.mp4')
 
