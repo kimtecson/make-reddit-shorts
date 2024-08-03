@@ -3,14 +3,14 @@ require 'streamio-ffmpeg'
 require_relative 'video_downloader'
 
 class VideoEdit
-  def generate
+  def generate(source)
     gen_start = Time.now
     Rails.logger.info "Starting video generation..."
 
     output_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
     File.delete(output_path) if File.exist?(output_path)
 
-    edit_video
+    edit_video(source)
 
     gen_end = Time.now
     Rails.logger.info "Video generation completed."
@@ -19,10 +19,10 @@ class VideoEdit
     output_path
   end
 
-  def edit_video
+  def edit_video(source)
     subtitles = create_subs
 
-    Source.first.file.open do |tempfile|
+    source.file.open do |tempfile|
       movie = FFMPEG::Movie.new(tempfile.path)
 
       font_color = 'FFFFFF'

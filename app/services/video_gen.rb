@@ -4,7 +4,7 @@ require_relative 'whispr.rb'
 require_relative 'reddit.rb'
 
 class VideoGen
-  def self.generate(output)
+  def self.generate(output, source)
     total_start_time = Time.now
 
     reddit_post_url = output.reddit_post_url
@@ -23,7 +23,7 @@ class VideoGen
     whispr.create_subs
 
     video_edit = VideoEdit.new
-    video_path = video_edit.generate
+    video_path = video_edit.generate(source) # specify which source to gen video with
 
 
     total_end_time = Time.now

@@ -1,13 +1,16 @@
-<div data-controller="video-upload">
-  <%= simple_form_for @source, url: sources_path, local: false do |sf| %>
-    <%= sf.file_field :file, data: { video_upload_target: "file" } %>
-    <%= sf.input :url, as: :radio_buttons, collection: [
+<%# <div data-controller="video-upload"> %>
+<%#= simple_form_for @source, url: sources_path, local: false do |sf| %>
+  <%#= sf.file_field :file, data: { video_upload_target: "file" } %>
+  <%#= sf.input :url, as: :radio_buttons, collection: [
       ['source1', 'source1'],
       ['source2', 'source2'],
       ['source3', 'source3'],
       ['source4', 'source4'],
       ['source5', 'source5']
     ] %>
-    <%= sf.submit "Upload Video", data: { action: "click->video-upload#upload", disable_with: "Uploading..." } %>
+  <%#= sf.submit "Upload Video", data: { action: "click->video-upload#upload", disable_with: "Uploading..." } %>
+  <%# end %>
+  <%# </div> %>
+  <% Source.all.each do |thing| %>
+    <p>hello</p>
   <% end %>
-</div>

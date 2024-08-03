@@ -9,6 +9,11 @@ class Source < ApplicationRecord
 
   after_save :debug_file_attachment
 
+  def to_s
+    # Replace this with whatever attributes best describe your Source
+    "Source ##{id}"
+  end
+
   private
 
   def debug_file_attachment

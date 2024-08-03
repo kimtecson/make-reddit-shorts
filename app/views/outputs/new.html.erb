@@ -15,30 +15,35 @@
     <div class="row">
       <!-- Left column: Tab contents and buttons -->
       <div class="col-6">
-        <div class="tab-content" id="v-pills-tabContent">
-          <!-- Reddit tab content -->
-          <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-            <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
+        <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
+          <div class="tab-content" id="v-pills-tabContent">
+            <!-- Reddit tab content -->
+            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
               <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
-              <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
-            <% end %>
-            <%#= render 'new_reddit_story' %>
-          </div>
-          <!-- Video tab content -->
-          <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-            <div data-controller="video-upload">
-              <%= render 'new_video' %>
+              <%#= render 'new_reddit_story' %>
+            </div>
+            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
+              <!-- Video tab content -->
+              <div data-controller="video-upload">
+                <h4>Select a Source:</h4>
+                <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
+                  <div class="form-check">
+                    <%= b.radio_button(class: "form-check-input") %>
+                    <%= b.label(class: "form-check-label") %>
+                  </div>
+                <% end %>
+              </div>
+            </div>
+            <%#= render "new_subtitles" %>
+            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+            </div>
+            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
+              <!-- Settings tab content -->
+              ...
             </div>
           </div>
-          <!-- Subtitles tab content -->
-          <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-            <%#= render "new_subtitles" %>
-          </div>
-          <!-- Settings tab content -->
-          <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-            ...
-          </div>
-        </div>
+          <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
+        <% end %>
         <br>
         <%# <div class="form-inputs"> %>
         <%#= f.input :reddit_post_url, label: "Reddit Post URL" %>
