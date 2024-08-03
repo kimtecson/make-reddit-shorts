@@ -1,6 +1,6 @@
 class Source < ApplicationRecord
-  belongs_to :user #Why should source belong to user, let's implement that later maybe (stan)
-  validates :user_id, presence: true
+  # belongs_to :user #Why should source belong to user, let's implement that later maybe (stan)
+  # validates :user_id, presence: true
   has_one_attached :file
 
   # validates :file, presence: true
@@ -8,6 +8,11 @@ class Source < ApplicationRecord
 
 
   after_save :debug_file_attachment
+
+  def to_s
+    # Replace this with whatever attributes best describe your Source
+    "Source ##{id}"
+  end
 
   private
 

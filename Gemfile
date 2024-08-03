@@ -4,6 +4,7 @@ ruby "3.1.2"
 
 
 # gems for services (added by stan)
+gem 'aws-sdk-s3'
 gem 'streamio-ffmpeg'
 gem 'dotenv'
 gem 'json'
@@ -13,6 +14,7 @@ gem 'httparty'
 gem 'down'
 gem 'fileutils'
 gem 'open-uri'
+gem 'tempfile'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

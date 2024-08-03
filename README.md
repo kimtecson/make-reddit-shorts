@@ -16,4 +16,7 @@ In the new `.env` file set the variables:
 OPENAI_API_KEY=
 REDDIT_CLIENT_ID=
 REDDIT_SECRET=
+AWS_ACCESS_KEY=
+AWS_SECRET_KEY=
+AWS_BUCKET_NAME=
 ```

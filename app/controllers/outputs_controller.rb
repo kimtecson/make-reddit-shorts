@@ -3,7 +3,7 @@ class OutputsController < ApplicationController
 
   def new
     @output = Output.new
-    @source = Source.new
+    @sources = Source.where(user_id: current_user.id)
   end
 
   def create
@@ -12,7 +12,6 @@ class OutputsController < ApplicationController
     Rails.logger.info "Output params: #{params[:output]}"
 
     @output = Output.new(output_params)
-    @output.source = Source.find_by(user_id: current_user.id)
     @output.user_id = current_user.id
     @batch = Batch.first
     @output.batch_id = @batch.id
@@ -22,7 +21,7 @@ class OutputsController < ApplicationController
         Rails.logger.info "Output saved successfully with reddit_post_url: #{@output.reddit_post_url}"
         Rails.logger.info "About to generate video"
         begin
-          video_path = VideoGen.generate(@output)
+          video_path = VideoGen.generate(@output, @output.source)
           Rails.logger.info "Video generated at path: #{video_path}"
 
           if video_path.is_a?(String) && File.exist?(video_path)
@@ -63,7 +62,6 @@ class OutputsController < ApplicationController
     end
   end
 
-
   def show
     @output = Output.find(params[:id])
   end
@@ -75,6 +73,6 @@ class OutputsController < ApplicationController
   private
 
   def output_params
-    params.require(:output).permit(:reddit_post_url)
+    params.require(:output).permit(:reddit_post_url, :source_id)
   end
 end
