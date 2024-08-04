@@ -6,7 +6,6 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
         # :omniauth, omniauth_providers: [:google_oauth2]
   has_many :outputs, dependent: :destroy
-  has_many :sources, dependent: :destroy
 
   def self.from_omniauth(access_token)
     data = access_token.info
