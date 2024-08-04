@@ -41,5 +41,3 @@ app/assets/audio/speech.mp4
 .env*
 .env*
 .env*
-
-/config/credentials/development.key
