@@ -3,7 +3,7 @@ class OutputsController < ApplicationController
 
   def new
     @output = Output.new
-    @sources = Source.where(user_id: current_user.id)
+    @sources = Source.all
   end
 
   def create
@@ -13,8 +13,6 @@ class OutputsController < ApplicationController
 
     @output = Output.new(output_params)
     @output.user_id = current_user.id
-    @batch = Batch.first
-    @output.batch_id = @batch.id
 
     Rails.logger.info "Output text color: #{@output.font_color}"
     font_settings = {font_color: @output.font_color,

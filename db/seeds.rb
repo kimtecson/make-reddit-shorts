@@ -63,15 +63,14 @@ rescue Aws::Errors::ServiceError => e
 end
 
 puts "[AWS] Found #{source_amount} sources"
-puts "[STAN NOTE] File doesn't have to be attached"
 
 source_amount.times do |i|
   puts "[AWS] Creating new source..."
   source = Source.new
   source.url = urls[i]
-  source.user_id = 1
 
   # Download the image content
+  puts ['[AWS] Downloading source from s3...']
   downloaded_image = URI.open(urls[i])
   tempfile = Tempfile.new(['downloaded_image', File.extname(filenames[i])])
   IO.copy_stream(downloaded_image, tempfile.path)
@@ -86,17 +85,5 @@ source_amount.times do |i|
   end
 
   tempfile.close
-  tempfile.unlink # Delete the tempfile
-end
-
-# Create a new batch
-puts '[BATCH SEED] Creating new batch...'
-puts '[STAN NOTE] Gete rid of batches!'
-batch = Batch.new
-batch.source_id = Source.first.id
-puts '[BATCH SEED] Saving batch...'
-if batch.save
-  puts '[BATCH SEED] Batch saved!'
-else
-  puts batch.errors.full_messages
+  tempfile.unlink
 end
