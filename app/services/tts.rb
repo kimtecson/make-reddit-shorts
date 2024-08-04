@@ -5,39 +5,31 @@ require 'json'
 class TTS
 
   def generate_voice
-    api_key = ENV['OPENAI_API_KEY']
-
-    uri = URI("https://api.openai.com/v1/audio/speech")
-
-    # Prepare the request
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request['Authorization'] = "Bearer #{api_key}"
-    request['Content-Type'] = 'application/json'
-
-    # Set up the request body
-
     script_text = File.open("app/services/resources/script.txt", "r").read
-    body = {
-      model: "tts-1",
-      input: script_text,
-      voice: "onyx"
-    }
-    request.body = body.to_json
 
-    # Execute the request
-    response = http.request(request)
+    Aws.config.update({
+      region: 'eu-central-1',
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_KEY'])
+    })
+    # SSML text with increased speaking rate
+    ssml_text = "<speak><prosody rate='medium'>#{script_text}</prosody></speak>"
+    # Create a Polly client
+    polly = Aws::Polly::Client.new
 
-    # Check the response and save the file if successful
-    if response.code.to_i == 200
-      File.open("app/services/resources/speech.wav", "wb") do |file|
-        file.write(response.body)
-      end
+    # Set up the parameters for the speech synthesis
+    response = polly.synthesize_speech({
+      output_format: "mp3",
+      text: ssml_text,
+      text_type: "ssml",
+      voice_id: "Matthew",
+      engine: "neural"
+    })
 
-    else
-      puts "Error: #{response.code}"
-      puts response.body
+    # Save the audio stream to a file
+    File.open("app/services/resources/speech.mp3", "wb") do |file|
+      file.write(response.audio_stream.read)
     end
+
+    puts "Audio file 'output.mp3' has been created."
   end
 end

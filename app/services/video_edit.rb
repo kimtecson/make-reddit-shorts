@@ -61,7 +61,7 @@ class VideoEdit
       ffmpeg_command = %W(
         ffmpeg
         -i #{tempfile.path}
-        -i app/services/resources/speech.wav
+        -i app/services/resources/speech.mp3
         -filter_complex "#{drawtext_options}"
         -map 0:v:0 -map 1:a:0
         -c:v libx264 -c:a aac
