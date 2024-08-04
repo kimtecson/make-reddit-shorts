@@ -36,6 +36,9 @@
             </div>
             <%#= render "new_subtitles" %>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
+              <%= f.color_field :font_color, as: :font_color %>
+              <%= f.color_field :font_border_color, as: :font_border_color %>
+              <%= f.number_field :font_border_width, as: :font_border_width, input_html: { min: 0, max: 10, step: 1 } %>
             </div>
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
               <!-- Settings tab content -->

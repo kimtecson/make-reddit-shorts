@@ -16,12 +16,17 @@ class OutputsController < ApplicationController
     @batch = Batch.first
     @output.batch_id = @batch.id
 
+    Rails.logger.info "Output text color: #{@output.font_color}"
+    font_settings = {font_color: @output.font_color,
+                font_border_color: @output.font_border_color,
+                font_border_width: @output.font_border_width}
+
     respond_to do |format|
       if @output.save
         Rails.logger.info "Output saved successfully with reddit_post_url: #{@output.reddit_post_url}"
         Rails.logger.info "About to generate video"
         begin
-          video_path = VideoGen.generate(@output, @output.source)
+          video_path = VideoGen.generate(@output, @output.source, font_settings)
           Rails.logger.info "Video generated at path: #{video_path}"
 
           if video_path.is_a?(String) && File.exist?(video_path)
@@ -73,6 +78,6 @@ class OutputsController < ApplicationController
   private
 
   def output_params
-    params.require(:output).permit(:reddit_post_url, :source_id)
+    params.require(:output).permit(:reddit_post_url, :source_id, :font_color, :font_border_color, :font_border_width)
   end
 end
