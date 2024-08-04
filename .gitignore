@@ -7,8 +7,7 @@
 
 # Ignore large files
 app/services/outputs/output.mp4
-app/assets/videos/sample.mp4
-app/assets/audio/speech.wav
+app/assets/audio/speech.mp4
 # Ignore bundler config.
 /.bundle
 

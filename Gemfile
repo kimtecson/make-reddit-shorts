@@ -15,6 +15,7 @@ gem 'down'
 gem 'fileutils'
 gem 'open-uri'
 gem 'tempfile'
+gem 'aws-sdk-polly'
 
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"

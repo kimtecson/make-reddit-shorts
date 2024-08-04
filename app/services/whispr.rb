@@ -11,7 +11,7 @@ class Whispr
     api_key = ENV['OPENAI_API_KEY']
 
     # Path to the audio file
-    audio_file_path = 'app/services/resources/speech.wav'
+    audio_file_path = 'app/services/resources/speech.mp3'
 
     # Prepare the request
 
