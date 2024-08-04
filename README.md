@@ -4,10 +4,13 @@ In order to run the code from this repo you must run the commands below:
 rails active_storage:install
 rails db:migrate
 rails assets:precompile
-rails db:seed
 bundle install
 ```
+- Log into the site at `localhost:3000` and create a user
+
+- Run the following commands:
 ```
+rails db:seed
 touch .env
 echo '.env*' >> .gitignore
 ```
