@@ -36,10 +36,11 @@
             </div>
             <%#= render "new_subtitles" %>
             <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-              <%= f.color_field :font_color, as: :font_color %>
-              <%= f.color_field :font_border_color, as: :font_border_color %>
-              <%= f.number_field :font_border_width, as: :font_border_width, input_html: { min: 0, max: 10, step: 1 } %>
-              <%= f.number_field :font_size, as: :font_size, input_html: { min: 0, max: 5, step: 1 } %>
+              <%#= f.color_field :font_color, as: :font_color %>
+              <%#= f.color_field :font_border_color, as: :font_border_color %>
+              <%#= f.number_field :font_border_width, as: :font_border_width, input_html: { min: 0, max: 10, step: 1 } %>
+              <%#= f.number_field :font_size, as: :font_size, input_html: { min: 0, max: 5, step: 1 } %>
+              <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
             </div>
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
               <!-- Settings tab content -->
