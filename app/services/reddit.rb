@@ -4,8 +4,14 @@ require 'json'
 require 'dotenv/load'
 
 class RedditPost
-  CLIENT_ID = ENV['REDDIT_CLIENT_ID']
-  SECRET = ENV['REDDIT_SECRET']
+  CLIENT_ID = Rails.application.credentials.dig(
+                    :reddit,
+                    :reddit_client_id
+                  )
+  SECRET = Rails.application.credentials.dig(
+                    :reddit,
+                    :reddit_secret
+                  )
   USER_AGENT = 'RubyScript/1.0'
   AUTH_URL = 'https://www.reddit.com/api/v1/access_token'
 

@@ -9,14 +9,23 @@ filenames = []
 # Configure AWS credentials
 Aws.config.update({
   region: 'eu-north-1',
-  credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_KEY'])
+  credentials: Aws::Credentials.new(Rails.application.credentials.dig(
+                    :aws,
+                    :aws_access_key_id
+                  ), Rails.application.credentials.dig(
+                    :aws,
+                    :aws_secret_access_key
+                  ))
 })
 
 # Create an S3 client
 s3_client = Aws::S3::Client.new
 
 # Set your bucket name
-bucket_name = ENV['AWS_BUCKET_NAME']
+bucket_name = Rails.application.credentials.dig(
+                    :aws,
+                    :aws_bucket_name
+                  )
 
 # Create a presigner
 presigner = Aws::S3::Presigner.new(client: s3_client)

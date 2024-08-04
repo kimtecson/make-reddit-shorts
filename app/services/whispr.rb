@@ -8,7 +8,10 @@ require 'dotenv/load'
 
 class Whispr
   def create_subs
-    api_key = ENV['OPENAI_API_KEY']
+    api_key = Rails.application.credentials.dig(
+                    :whisper,
+                    :open_api_key
+                  )
 
     # Path to the audio file
     audio_file_path = 'app/services/resources/speech.mp3'
