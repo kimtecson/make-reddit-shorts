@@ -9,7 +9,13 @@ class TTS
 
     Aws.config.update({
       region: 'eu-central-1',
-      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_KEY'], ENV['AWS_SECRET_KEY'])
+      credentials: Aws::Credentials.new(Rails.application.credentials.dig(
+                    :aws,
+                    :aws_access_key_id
+                  ), Rails.application.credentials.dig(
+                    :aws,
+                    :aws_secret_access_key
+                  ))
     })
     # SSML text with increased speaking rate
     ssml_text = "<speak><prosody rate='medium'>#{script_text}</prosody></speak>"
