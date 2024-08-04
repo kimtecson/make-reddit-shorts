@@ -20,6 +20,7 @@
             <!-- Reddit tab content -->
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
               <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
+              <%= f.button :submit, "Edit Script", data: { controller: 'script-edit', action: "click->script-edit#submit" }, class: 'button-1' %>
               <%#= render 'new_reddit_story' %>
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
@@ -51,7 +52,7 @@
               <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
             </div>
           </div>
-          <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
+          <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'button' %>
         <% end %>
         <br>
         <%# <div class="form-inputs"> %>
