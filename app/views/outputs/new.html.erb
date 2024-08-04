@@ -44,7 +44,7 @@
             </div>
             <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
               <!-- Settings tab content -->
-              ...
+              <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
             </div>
           </div>
           <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>

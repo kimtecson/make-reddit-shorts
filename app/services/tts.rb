@@ -4,7 +4,7 @@ require 'json'
 
 class TTS
 
-  def generate_voice
+  def generate_voice(settings)
     script_text = File.open("app/services/resources/script.txt", "r").read
 
     Aws.config.update({
@@ -27,7 +27,7 @@ class TTS
       output_format: "mp3",
       text: ssml_text,
       text_type: "ssml",
-      voice_id: "Matthew",
+      voice_id: "#{settings[:voice_preset]}",
       engine: "neural"
     })
 

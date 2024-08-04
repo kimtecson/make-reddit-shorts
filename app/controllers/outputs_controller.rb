@@ -15,12 +15,13 @@ class OutputsController < ApplicationController
     @output.user_id = current_user.id
 
     Rails.logger.info "Output text color: #{@output.font_color}"
-    font_settings = {
+    settings = {
       # font_color: @output.font_color,
       # font_border_color: @output.font_border_color,
       # font_border_width: @output.font_border_width,
       # font_size: @output.font_size,
-      subtitle_preset: @output.subtitle_preset
+      subtitle_preset: @output.subtitle_preset,
+      voice_preset: @output.voice_preset
 
     }
 
@@ -28,7 +29,7 @@ class OutputsController < ApplicationController
       ActiveRecord::Base.transaction do
         Rails.logger.info "About to generate video"
         begin
-          video_path = VideoGen.generate(@output, @output.source, font_settings)
+          video_path = VideoGen.generate(@output, @output.source, settings)
           Rails.logger.info "Video generated at path: #{video_path}"
 
           if video_path.is_a?(String) && File.exist?(video_path)
@@ -85,6 +86,6 @@ class OutputsController < ApplicationController
   private
 
   def output_params
-    params.require(:output).permit(:reddit_post_url, :source_id, :subtitle_preset)
+    params.require(:output).permit(:reddit_post_url, :source_id, :subtitle_preset, :voice_preset)
   end
 end

@@ -3,14 +3,14 @@ require 'streamio-ffmpeg'
 require_relative 'video_downloader'
 
 class VideoEdit
-  def generate(source, font_settings)
+  def generate(source, settings)
     gen_start = Time.now
     Rails.logger.info "Starting video generation..."
 
     output_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
     File.delete(output_path) if File.exist?(output_path)
 
-    edit_video(source, font_settings)
+    edit_video(source, settings)
 
     gen_end = Time.now
     Rails.logger.info "Video generation completed."
@@ -19,26 +19,26 @@ class VideoEdit
     output_path
   end
 
-  def edit_video(source, font_settings)
+  def edit_video(source, settings)
     subtitles = create_subs
 
     source.file.open do |tempfile|
       movie = FFMPEG::Movie.new(tempfile.path)
 
       #
-      p font_settings[:subtitle_preset]
-      subtitle_preset = font_settings[:subtitle_preset]
+      p settings[:subtitle_preset]
+      subtitle_preset = settings[:subtitle_preset]
 
 
-      # font_settings
-      # font_color = font_settings[:font_color].gsub('#', '')
-      # font_border_color = font_settings[:font_border_color].gsub('#', '')
-      # font_border_width = font_settings[:font_border_width]
-      # font_size = (font_settings[:font_size] * 5) + 36
+      # settings
+      # font_color = settings[:font_color].gsub('#', '')
+      # font_border_color = settings[:font_border_color].gsub('#', '')
+      # font_border_width = settings[:font_border_width]
+      # font_size = (settings[:font_size] * 5) + 36
 
       # add later
-      # font_box = font_settings[:font_box]
-      # font_box_color = font_settings[:font_box_color]
+      # font_box = settings[:font_box]
+      # font_box_color = settings[:font_box_color]
 
       case subtitle_preset
       when 'Vanilla'
