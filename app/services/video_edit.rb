@@ -25,9 +25,18 @@ class VideoEdit
     source.file.open do |tempfile|
       movie = FFMPEG::Movie.new(tempfile.path)
 
+
+      # font_settings
       font_color = font_settings[:font_color].gsub('#', '')
       font_border_color = font_settings[:font_border_color].gsub('#', '')
       font_border_width = font_settings[:font_border_width]
+      font_size = (font_settings[:font_size] * 5) + 36 # 36 is default font size (*5 means if user inputs font size 2 it will be 46)
+
+      # add later
+      # font_box = font_settings[:font_box]
+      # font_box_color = font_settings[:font_box_color]
+
+
       increase_font_size_animation = 6
 
       drawtext_options = subtitles.map do |subtitle|
@@ -38,10 +47,10 @@ class VideoEdit
           fontcolor=0x#{font_color}:
           bordercolor=#{font_border_color}:
           borderw=#{font_border_width}:
-          fontsize='36+#{increase_font_size_animation}*if(between(t,#{subtitle[:start]},#{subtitle[:start]}+0.1),(t-#{subtitle[:start]})*10,if(between(t,#{subtitle[:end]}-0.1,#{subtitle[:end]}),(#{subtitle[:end]}-t)*10,1))':
-          fontfile=video/resources/font.ttf:
+          fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start]},#{subtitle[:start]}+0.1),(t-#{subtitle[:start]})*10,if(between(t,#{subtitle[:end]}-0.1,#{subtitle[:end]}),(#{subtitle[:end]}-t)*10,1))':
+          fontfile=app/services/resources/font.ttf:
           box=0:
-          boxcolor=black@0.5:
+          boxcolor=black@1:
           boxborderw=5:
           x=(w-text_w)/2:
           y=(h-text_h)/2:

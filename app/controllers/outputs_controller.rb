@@ -19,7 +19,8 @@ class OutputsController < ApplicationController
     Rails.logger.info "Output text color: #{@output.font_color}"
     font_settings = {font_color: @output.font_color,
                 font_border_color: @output.font_border_color,
-                font_border_width: @output.font_border_width}
+                font_border_width: @output.font_border_width,
+                font_size: @output.font_size}
 
     respond_to do |format|
       if @output.save
@@ -78,6 +79,6 @@ class OutputsController < ApplicationController
   private
 
   def output_params
-    params.require(:output).permit(:reddit_post_url, :source_id, :font_color, :font_border_color, :font_border_width)
+    params.require(:output).permit(:reddit_post_url, :source_id, :font_color, :font_border_color, :font_border_width, :font_size)
   end
 end
