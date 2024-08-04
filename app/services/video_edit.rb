@@ -94,11 +94,14 @@ class VideoEdit
         -i app/services/resources/speech.mp3
         -filter_complex "#{drawtext_options}"
         -map 0:v:0 -map 1:a:0
-        -c:v libx264 -c:a aac
-        -strict experimental
+        -c:v libx264 -preset ultrafast -crf 23
+        -c:a aac -b:a 128k
         -shortest
+        -r 24
         app/services/outputs/output.mp4
       ).join(' ')
+
+      # -threads 0 (use all threads for local testing)
 
       system(ffmpeg_command)
     end
