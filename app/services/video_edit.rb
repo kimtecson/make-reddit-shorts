@@ -46,22 +46,26 @@ class VideoEdit
         font_border_color = '000000'
         font_border_width = 5
         font_size = 36
+        font = 'neue'
       when 'Yellow'
         font_color = 'ffffff'
         font_border_color = 'f0c424'
         font_border_width = 3
         font_size = 36
+        font = 'bangers'
       when 'Red'
         font_color = 'ffffff'
         font_border_color = 'ff0000'
         font_border_width = 3
         font_size = 36
+        font = 'bangers'
       else
         # Default settings if no preset matches
         font_color = 'ffffff'
         font_border_color = '000000'
         font_border_width = 5
         font_size = 36
+        font = 'bangers'
       end
       increase_font_size_animation = 6
 
@@ -74,7 +78,7 @@ class VideoEdit
           bordercolor=#{font_border_color}:
           borderw=#{font_border_width}:
           fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start]},#{subtitle[:start]}+0.1),(t-#{subtitle[:start]})*10,if(between(t,#{subtitle[:end]}-0.1,#{subtitle[:end]}),(#{subtitle[:end]}-t)*10,1))':
-          fontfile=app/services/resources/font.ttf:
+          fontfile=app/services/resources/#{font}.ttf:
           box=0:
           boxcolor=black@1:
           boxborderw=5:
