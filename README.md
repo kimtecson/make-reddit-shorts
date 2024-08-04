@@ -7,6 +7,7 @@ rails assets:precompile
 bundle install
 ```
 - Log into the site at `localhost:3000` and create a user
+- Download FFMPEG version 7.x
 
 - Run the following commands:
 ```
