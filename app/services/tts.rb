@@ -4,7 +4,7 @@ require 'json'
 
 class TTS
 
-  def generate_voice
+  def generate_voice(settings)
     script_text = File.open("app/services/resources/script.txt", "r").read
 
     Aws.config.update({
@@ -18,7 +18,7 @@ class TTS
                   ))
     })
     # SSML text with increased speaking rate
-    ssml_text = "<speak><prosody rate='medium'>#{script_text}</prosody></speak>"
+    ssml_text = "<speak><prosody rate='#{settings[:voice_speed]}'>#{script_text}</prosody></speak>"
     # Create a Polly client
     polly = Aws::Polly::Client.new
 
@@ -27,7 +27,7 @@ class TTS
       output_format: "mp3",
       text: ssml_text,
       text_type: "ssml",
-      voice_id: "Matthew",
+      voice_id: "#{settings[:voice_preset]}",
       engine: "neural"
     })
 
