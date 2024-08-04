@@ -25,18 +25,44 @@ class VideoEdit
     source.file.open do |tempfile|
       movie = FFMPEG::Movie.new(tempfile.path)
 
+      #
+      p font_settings[:subtitle_preset]
+      subtitle_preset = font_settings[:subtitle_preset]
+
 
       # font_settings
-      font_color = font_settings[:font_color].gsub('#', '')
-      font_border_color = font_settings[:font_border_color].gsub('#', '')
-      font_border_width = font_settings[:font_border_width]
-      font_size = (font_settings[:font_size] * 5) + 36 # 36 is default font size (*5 means if user inputs font size 2 it will be 46)
+      # font_color = font_settings[:font_color].gsub('#', '')
+      # font_border_color = font_settings[:font_border_color].gsub('#', '')
+      # font_border_width = font_settings[:font_border_width]
+      # font_size = (font_settings[:font_size] * 5) + 36
 
       # add later
       # font_box = font_settings[:font_box]
       # font_box_color = font_settings[:font_box_color]
 
-
+      case subtitle_preset
+      when 'Vanilla'
+        font_color = 'ffffff'
+        font_border_color = '000000'
+        font_border_width = 5
+        font_size = 36
+      when 'Yellow'
+        font_color = 'ffffff'
+        font_border_color = 'f0c424'
+        font_border_width = 3
+        font_size = 36
+      when 'Red'
+        font_color = 'ffffff'
+        font_border_color = 'ff0000'
+        font_border_width = 3
+        font_size = 36
+      else
+        # Default settings if no preset matches
+        font_color = 'ffffff'
+        font_border_color = '000000'
+        font_border_width = 5
+        font_size = 36
+      end
       increase_font_size_animation = 6
 
       drawtext_options = subtitles.map do |subtitle|
