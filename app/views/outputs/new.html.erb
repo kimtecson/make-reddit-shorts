@@ -30,11 +30,16 @@
                 }
               } %>
                 <%= f.input :script,
+              label: "Script",
               as: :text,
               input_html: {
-                data: { script_edit_target: "script" },
-                rows: 2
+                data: {
+                  script_edit_target: "script",
+                  action: "input->script-edit#updateEstimate"
+                },
+                rows: 10
               } %>
+                <p data-script-edit-target="estimate">Estimated speech time: 0 seconds</p>
               </div>
               <%#= render 'new_reddit_story' %>
             </div>
