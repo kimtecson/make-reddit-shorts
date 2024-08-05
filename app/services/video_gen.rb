@@ -1,7 +1,7 @@
 require_relative 'video_edit.rb'
 require_relative 'tts.rb'
 require_relative 'whispr.rb'
-require_relative 'reddit.rb'
+require_relative 'reddit_post.rb'
 
 class VideoGen
   def self.generate(output, source, settings)

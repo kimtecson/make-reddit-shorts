@@ -1,22 +1,37 @@
 import { Controller } from "@hotwired/stimulus"
 
-// Connects to data-controller="script-edit"
 export default class extends Controller {
+  static targets = ["input", "script"]
+
   connect() {
     console.log('script controller connected');
   }
 
-  submit(event) {
-    event.preventDefault();
-    const redditPostUrl = 'https://www.reddit.com/r/relationship_advice/comments/1ek0pmb/im_a_30f_and_my_boyfriend_is_29m_weve_been/'
+  checkUrl() {
+    const inputField = this.inputTarget;
+    const url = inputField.value.trim();
 
-    fetch(`/reddit_post?url=${encodeURIComponent(redditPostUrl)}`)
+    if (this.isValidRedditPostUrl(url)) {
+      this.fetchRedditPost(url);
+    } else {
+      this.scriptTarget.value = '';
+    }
+  }
+
+  isValidRedditPostUrl(url) {
+    const redditPostPattern = /^https?:\/\/(www\.)?reddit\.com\/r\/[\w-]+\/comments\/[\w-]+\//;
+    return redditPostPattern.test(url);
+  }
+
+  fetchRedditPost(url) {
+    fetch(`/reddit_post?url=${encodeURIComponent(url)}`)
       .then(response => response.json())
       .then(data => {
-        console.log('Reddit post selftext:', data.selftext);
+        this.scriptTarget.value = data.selftext || 'No content available';
       })
       .catch(error => {
         console.error('Error fetching Reddit post:', error);
+        this.scriptTarget.value = 'Error fetching Reddit post';
       });
   }
 }
