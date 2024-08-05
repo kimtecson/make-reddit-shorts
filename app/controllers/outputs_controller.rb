@@ -22,7 +22,8 @@ class OutputsController < ApplicationController
       # font_size: @output.font_size,
       subtitle_preset: @output.subtitle_preset,
       voice_preset: @output.voice_preset,
-      voice_speed: @output.voice_speed
+      voice_speed: @output.voice_speed,
+      script: @output.script
 
     }
 
@@ -87,6 +88,6 @@ class OutputsController < ApplicationController
   private
 
   def output_params
-    params.require(:output).permit(:reddit_post_url, :source_id, :subtitle_preset, :voice_preset, :voice_speed)
+    params.require(:output).permit(:reddit_post_url, :source_id, :subtitle_preset, :voice_preset, :voice_speed, :script)
   end
 end

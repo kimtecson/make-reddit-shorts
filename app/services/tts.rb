@@ -5,7 +5,7 @@ require 'json'
 class TTS
 
   def generate_voice(settings)
-    script_text = File.open("app/services/resources/script.txt", "r").read
+    script_text = settings[:script]
 
     Aws.config.update({
       region: 'eu-central-1',

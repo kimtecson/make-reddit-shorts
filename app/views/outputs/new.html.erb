@@ -19,7 +19,23 @@
           <div class="tab-content" id="v-pills-tabContent">
             <!-- Reddit tab content -->
             <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-              <%= f.input :reddit_post_url, label: "Reddit Post URL" %>
+              <div data-controller="script-edit">
+                <%= f.input :reddit_post_url,
+              label: "Reddit Post URL",
+              placeholder: "Enter Reddit post URL",
+              input_html: {
+                data: {
+                  script_edit_target: "input",
+                  action: "input->script-edit#checkUrl"
+                }
+              } %>
+                <%= f.input :script,
+              as: :text,
+              input_html: {
+                data: { script_edit_target: "script" },
+                rows: 2
+              } %>
+              </div>
               <%#= render 'new_reddit_story' %>
             </div>
             <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
@@ -51,7 +67,7 @@
               <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
             </div>
           </div>
-          <%= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
+          <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'button' %>
         <% end %>
         <br>
         <%# <div class="form-inputs"> %>

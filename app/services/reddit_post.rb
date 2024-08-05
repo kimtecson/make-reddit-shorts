@@ -23,7 +23,12 @@ class RedditPost
     end
   end
 
-  private
+  def get_post_id(url)
+    regex = %r{https:\/\/www\.reddit\.com\/r\/[a-zA-Z0-9_]+\/comments\/([a-zA-Z0-9]+)\/}
+    match = url.match(regex)
+    match[1] if match
+  end
+
 
   def get_token
     uri = URI(AUTH_URL)
@@ -64,9 +69,4 @@ class RedditPost
     end
   end
 
-  def get_post_id(url)
-    regex = %r{https:\/\/www\.reddit\.com\/r\/[a-zA-Z0-9_]+\/comments\/([a-zA-Z0-9]+)\/}
-    match = url.match(regex)
-    match[1] if match
-  end
 end
