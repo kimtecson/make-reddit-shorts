@@ -5,6 +5,7 @@ export default class extends Controller {
 
   connect() {
     console.log('script controller connected');
+    this.checkUrl();
   }
 
   checkUrl() {

@@ -23,11 +23,12 @@
                 <%= f.input :reddit_post_url,
               label: "Reddit Post URL",
               placeholder: "Enter Reddit post URL",
-              input_html: {
-                data: {
-                  script_edit_target: "input",
-                  action: "input->script-edit#checkUrl"
-                }
+       input_html: {
+      value: params[:query],
+      data: {
+        script_edit_target: "input",
+        action: "input->script-edit#checkUrl"
+      }
               } %>
                 <%= f.input :script,
                             label: "Script",

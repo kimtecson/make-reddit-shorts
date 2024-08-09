@@ -13,6 +13,7 @@ class OutputsController < ApplicationController
 
     @output = Output.new(output_params)
     @output.user_id = current_user.id
+    @query = session[:query] = params[:query]
 
     Rails.logger.info "Output text color: #{@output.font_color}"
     settings = {
