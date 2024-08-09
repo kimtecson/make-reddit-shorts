@@ -7,23 +7,25 @@
   <h2>Generate Engaging Shorts Using Customizable Templates</h2>
   <br>
 </div>
-
 <!-- Row to center the search container -->
 <div class="row d-flex justify-content-center">
   <!-- Search container with custom styling -->
   <div class="search-container custom-search">
+    <%= form_with url: 'outputs/new', method: :get do |form| %>
+      <%= form.text_field :query %>
+      <%= form.submit "generate 😎 (we really need to work on css)"%>
+    <% end %>
     <!-- Input field for the Reddit post URL -->
-    <input type="text" class="custom-search-input" placeholder="Reddit Post Url">
+    <%# <input type="text" class="custom-search-input" placeholder="Reddit Post Url"> %>
     <!-- Button to start creating, with an SVG icon -->
-    <a href="/outputs/new" class="custom-search-btn">Start Creating
+    <%# <a href="/outputs/new" class="custom-search-btn">Start Creating
       <svg style="height:16px;margin-left:10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
         <path fill="currentColor" d="M438.6 278.6l-160 160C272.4 444.9 264.2 448 256 448s-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L338.8 288H32C14.33 288 .0016 273.7 .0016 256S14.33 224 32 224h306.8l-105.4-105.4c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160C451.1 245.9 451.1 266.1 438.6 278.6z"></path>
       </svg>
-    </a>
+    </a> %>
   </div>
 </div>
 <br>
-
 <!-- Examples section with flexbox for even spacing -->
 <div class="examples d-flex justify-content-evenly" style="padding: 50px 0px;">
   <!-- Each video container rendering a partial for example cards -->
@@ -41,7 +43,6 @@
   </div>
 </div>
 <br>
-
 <!-- Feature section with alternating content -->
 <div class="feature-1">
   <div class="col-6"></div>
@@ -51,7 +52,6 @@
     <p>Share your favorite Reddit stories effortlessly! With just a few clicks and under a minute, we transform them into captivating, shareable short-form content.</p>
   </div>
 </div>
-
 <div class="feature-1">
   <div class="col-6">
     <h2>Fast And Delightful Editing</h2>
@@ -59,7 +59,6 @@
   </div>
   <div class="col-6 pr-2"></div>
 </div>
-
 <div class="feature-1">
   <div class="col-6"></div>
   <div class="col-6 pr-2">
@@ -67,7 +66,6 @@
     <p>Store all your created short-form videos in your personal library. Access, download, or share them directly to your favorite social media sites and sharing platforms anytime!</p>
   </div>
 </div>
-
 <!-- Pricing section -->
 <div class="pricing-container">
   <h2 class="pricing-header">Pricing</h2>
@@ -91,7 +89,6 @@
         <div class="text_pP5P">Max length of video is 1 minute</div>
       </div>
     </div>
-
     <!-- Starter plan container -->
     <div class="pricingcontainer_1">
       <h2 class="pricingtitle_iouC mt-1">Starter</h2>
@@ -110,7 +107,6 @@
         <div class="text_pP5P">Max Length of video is 2 minutes</div>
       </div>
     </div>
-
     <!-- Pro plan container -->
     <div class="pricingcontainer_1">
       <h2 class="pricingtitle_iouC mt-1">Pro</h2>
@@ -137,7 +133,6 @@
       </div>
     </div>
   </div>
-
   <!-- Feedback section -->
   <div class="feedback">
     <div class="feedback-box">

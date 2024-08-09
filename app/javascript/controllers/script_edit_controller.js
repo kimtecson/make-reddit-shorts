@@ -5,6 +5,8 @@ export default class extends Controller {
 
   connect() {
     console.log('script controller connected');
+    this.scriptTarget.value = 'Loading...'
+    this.checkUrl();
   }
 
   checkUrl() {
@@ -14,7 +16,7 @@ export default class extends Controller {
     if (this.isValidRedditPostUrl(url)) {
       this.fetchRedditPost(url);
     } else {
-      this.scriptTarget.value = '';
+      this.scriptTarget.value = `"${url}" is not a valid Reddit post URL`;
       this.updateEstimate();
     }
   }
