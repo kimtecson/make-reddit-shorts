@@ -12,8 +12,9 @@ class PagesController < ApplicationController
 
     @error_occurred = false
     begin
-      ContactMailer.contact(sender, subject, message).deliver_later
-    rescue StandardError
+      FeedbackMailer.send_feedback(sender, subject, message).deliver_later
+    rescue StandardError => e
+      puts e
       #flash[:alert] = "Failed to send email: #{e.message}"
       @error_occurred = true
     end

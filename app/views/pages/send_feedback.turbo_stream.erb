@@ -12,13 +12,13 @@
   <% end %>
 <% else %>
   <%= turbo_stream.replace 'feedback' do %>
-    <section class="bg-white" id="contact">
+    <section id="contact">
       <div class="py-5 px-4 mx-auto max-w-900">
-        <%= image_tag "thankyou-mail.gif", class: "d-block mx-auto", style: "width: 50%;" %>
-        <h2 class="mb-4 display-6 fw-bold text-center text-dark">Thank you for reaching out!</h2>
-        <p class="mb-4 text-center text-muted">You are an invaluable part of everything we do here. And we’re absolutely thrilled to hear from you.</p>
-        <p class="mb-4 text-center text-muted">Be it your suggestions, ideas, or even criticism, our inbox is always waiting for your messages, so talk to us like you have today any time and often.</p>
-        <p class="mb-4 text-center text-muted">Cheers!</p>
+        <%= image_tag "thankyou-mail.gif", class: "d-block mx-auto", style: "width: 30%;" %>
+        <h2 class="mb-4 display-6 fw-bold text-center">Thank you for reaching out!</h2>
+        <p class="mb-4 text-center">You are an invaluable part of everything we do here. And we’re absolutely thrilled to hear from you.</p>
+        <p class="mb-4 text-center">Be it your suggestions, ideas, or even criticism, our inbox is always waiting for your messages, so talk to us like you have today any time and often.</p>
+        <p class="mb-4 text-center">Cheers!</p>
       </div>
     </section>
   <% end %>

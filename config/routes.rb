@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   get '/privacy', to: 'pages#privacy'
   get '/pricing', to: 'pages#pricing'
   root to: "pages#home"
-  post "send_feedback" => "pages#send_feedback"
+  post "send_feedback", to: "pages#send_feedback"
   # Defines the root path route ("/")
   # root "posts#index"
   resources :outputs, only: [:index, :show, :new, :create] do
