@@ -1,8 +1,8 @@
 // Specific CSS for your home-page
-body{
-  color: #E3E3E3;
+body {
+  color: #e3e3e3;
 }
-h1{
+h1 {
   font-size: 5rem;
   font-weight: 900;
 }
@@ -10,7 +10,6 @@ h1{
   position: relative;
   width: 550px;
   text-align: center;
-
 }
 .custom-search-input {
   border: none;
@@ -28,8 +27,7 @@ h1{
   display: inline-flex;
   flex-direction: row;
   justify-content: space-around;
-  color: #E3E3E3;
-
+  color: #e3e3e3;
 }
 .custom-search-btn {
   position: absolute;
@@ -49,20 +47,20 @@ h1{
   z-index: 2;
 }
 
-.feedback{
+.feedback {
   background-color: #1b1b1d;
   width: 80%;
   border-radius: 15px;
   min-height: 250px;
   padding: 10px;
   margin: auto;
-  box-shadow: 0 1px 8px hsla(0, 0%, 100%, .2);
+  box-shadow: 0 1px 8px hsla(0, 0%, 100%, 0.2);
 }
 
-.feedback-box{
+.feedback-box {
   flex: 1;
 }
-.feedback-input{
+.feedback-input {
   padding: 16px;
   min-width: 35px;
   font-size: 16px;
@@ -70,12 +68,12 @@ h1{
   background-color: #18191a;
 }
 
-.fb-header{
+.fb-header {
   font-size: 40px;
   font-weight: 700;
 }
 
-input{
+input {
   padding: 2px;
   background: #e3e3e3;
   display: block;
@@ -85,7 +83,7 @@ input{
   width: 100%;
 }
 
-.feedback-btn{
+.feedback-btn {
   padding: 16px 22px;
   color: white;
   cursor: pointer;
@@ -103,10 +101,10 @@ input{
   font: inherit;
   font-weight: 700;
   justify-content: center;
-  transition: background-color .1s;
+  transition: background-color 0.1s;
 }
 
-.fb-input-container{
+.fb-input-container {
   padding: 2px;
   background: #e3e3e3;
   display: block;
@@ -114,19 +112,19 @@ input{
   border-radius: 7px;
   overflow: hidden;
   width: 100%;
-  :focus{
-    border: 2px solid #0B84F3;
+  :focus {
+    border: 2px solid #0b84f3;
   }
 }
 
-.pricing-header{
+.pricing-header {
   font-size: 2.5em;
   font-weight: 700;
   line-height: 1.1;
   text-align: center;
 }
 
-.feature-1{
+.feature-1 {
   width: 960px;
   height: 360px;
   align-items: center;
@@ -137,7 +135,7 @@ input{
   margin: auto;
 }
 
-.pricingcontainer_1{
+.pricingcontainer_1 {
   border-radius: 10px;
   border: 4px solid white;
   height: 240px;
@@ -151,6 +149,6 @@ input{
   padding-left: 20px;
 }
 
-img{
+img {
   height: 360px;
 }
