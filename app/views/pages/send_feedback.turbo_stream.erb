@@ -1,0 +1,25 @@
+<% if @error_occurred %>
+  <%= turbo_stream.replace 'feedback-error-message' do %>
+    <%= turbo_frame_tag "feedback-error-message" do %>
+      <div class="p-3 mb-4 text-danger bg-light border border-danger rounded" role="alert">
+        <div class="d-flex align-items-center mb-2">
+          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
+          <span class="fw-bold">Warning</span>
+        </div>
+        <p>There is a problem with sending your message. Please send us an email at makeredditshorts@gmail.com.</p>
+      </div>
+    <% end %>
+  <% end %>
+<% else %>
+  <%= turbo_stream.replace 'feedback' do %>
+    <section class="bg-white" id="contact">
+      <div class="py-5 px-4 mx-auto max-w-900">
+        <%= image_tag "thankyou-mail.gif", class: "d-block mx-auto", style: "width: 50%;" %>
+        <h2 class="mb-4 display-6 fw-bold text-center text-dark">Thank you for reaching out!</h2>
+        <p class="mb-4 text-center text-muted">You are an invaluable part of everything we do here. And we’re absolutely thrilled to hear from you.</p>
+        <p class="mb-4 text-center text-muted">Be it your suggestions, ideas, or even criticism, our inbox is always waiting for your messages, so talk to us like you have today any time and often.</p>
+        <p class="mb-4 text-center text-muted">Cheers!</p>
+      </div>
+    </section>
+  <% end %>
+<% end %>

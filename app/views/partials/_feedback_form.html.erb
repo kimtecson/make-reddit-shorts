@@ -1,0 +1,28 @@
+<%= turbo_frame_tag 'feedback' do %>
+  <section class="feedback-box" id="contact">
+    <div class="feedback py-5 px-4 mx-auto max-w-900">
+      <h2 class="mb-4 display-5 fw-bold fb-header">Give us feedback, we're new!</h2>
+      <p class="mb-4">Give us your thoughts about possible improvements to our website, we’re newbies 🦖.</p>
+      <%= turbo_frame_tag 'feedback-error-message' do %>
+      <% end %>
+      <%= form_with url: send_feedback_path, method: :post, class: "row g-3" do %>
+        <div class="col-md-12">
+          <label for="email" class="form-label">Your email</label>
+          <input type="email" id="email" name="email" class="feedback-input" placeholder="name@flowbite.com" style="color:white" required>
+        </div>
+        <div class="col-md-12">
+          <label for="subject" class="form-label">Subject</label>
+          <input type="text" id="subject" name="subject" class="feedback-input" placeholder="Subject" style="color:white"
+ required>
+        </div>
+        <div class="col-md-12">
+          <label for="message" class="form-label">Your message</label>
+          <textarea id="message" name="message" style="color:white" rows="6" class="feedback-input" placeholder="Let us know how we can improve user experience" required></textarea>
+        </div>
+        <div class="col-md-12 text-center">
+          <button type="submit" class="feedback-btn">Send message</button>
+        </div>
+      <% end %>
+    </div>
+  </section>
+<% end %>
