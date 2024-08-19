@@ -336,6 +336,12 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    sidekiq (7.3.1)
+      concurrent-ruby (< 2)
+      connection_pool (>= 2.3.0)
+      logger
+      rack (>= 2.2.4)
+      redis-client (>= 0.22.2)
     simple_calendar (3.0.4)
       rails (>= 6.1)
     snaky_hash (2.0.1)
@@ -421,6 +427,7 @@ DEPENDENCIES
   rest-client
   sassc-rails
   selenium-webdriver
+  sidekiq
   simple_calendar
   simple_form!
   sprockets-rails
