@@ -1,22 +1,19 @@
 import { Controller } from "@hotwired/stimulus"
 
+console.log("Output upload controller loaded - version 1.0"); // Add this line
+
 export default class extends Controller {
   static targets = ["form"]
 
   connect() {
-    console.log("Submit controller connected");
+    console.log("Output upload controller connected");
   }
 
   submit(event) {
     event.preventDefault();
-    console.log("Submit function called");
+    console.log("Submit function called - version 1.0"); // Update this line
 
     const formData = new FormData(this.formTarget);
-
-    // Log form data
-    for (let [key, value] of formData.entries()) {
-      console.log(key, value);
-    }
 
     fetch(this.formTarget.action, {
       method: this.formTarget.method,
@@ -28,20 +25,23 @@ export default class extends Controller {
     })
     .then(response => {
       console.log('Response status:', response.status);
-      console.log('Response headers:', response.headers);
-      return response.text();  // Change this from response.json()
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
     })
-    .then(text => {
-      console.log('Response text:', text);
-      try {
-        const data = JSON.parse(text);
-        console.log('Parsed JSON:', data);
-      } catch (error) {
-        console.error('Error parsing JSON:', error);
+    .then(data => {
+      console.log('Response data:', data);
+      if (data.redirect_url) {
+        window.location.href = data.redirect_url;
+      } else if (data.errors) {
+        console.error('Errors:', data.errors);
+        // You might want to update the UI to show these errors
       }
     })
     .catch(error => {
       console.error('Fetch error:', error);
+      // Handle the error (e.g., show an error message to the user)
     });
   }
 }
