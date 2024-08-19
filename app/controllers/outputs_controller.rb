@@ -9,72 +9,58 @@ class OutputsController < ApplicationController
   def create
     Rails.logger.info "Entering create action in OutputsController"
     Rails.logger.info "Params received: #{params.inspect}"
-    Rails.logger.info "Output params: #{params[:output]}"
 
     @output = Output.new(output_params)
     @output.user_id = current_user.id
     @query = session[:query] = params[:query]
 
-    Rails.logger.info "Output text color: #{@output.font_color}"
     settings = {
-      # font_color: @output.font_color,
-      # font_border_color: @output.font_border_color,
-      # font_border_width: @output.font_border_width,
-      # font_size: @output.font_size,
       subtitle_preset: @output.subtitle_preset,
       voice_preset: @output.voice_preset,
       voice_speed: @output.voice_speed,
       script: @output.script
-
     }
 
-    respond_to do |format|
-      ActiveRecord::Base.transaction do
-        Rails.logger.info "About to generate video"
-        begin
-          video_path = VideoGen.generate(@output, @output.source, settings)
-          Rails.logger.info "Video generated at path: #{video_path}"
+    success = false
 
-          if video_path.is_a?(String) && File.exist?(video_path)
-            if @output.save
-              @output.video.attach(io: File.open(video_path),
-                                    filename: "output.mp4",
-                                    content_type: 'video/mp4')
+    ActiveRecord::Base.transaction do
+      begin
+        video_path = VideoGen.generate(@output, @output.source, settings)
+        Rails.logger.info "Video generated at path: #{video_path}"
 
-              @output.url = url_for(@output.video)
-              @output.save!
+        if video_path.is_a?(String) && File.exist?(video_path)
+          if @output.save
+            @output.video.attach(io: File.open(video_path),
+                                  filename: "output.mp4",
+                                  content_type: 'video/mp4')
 
-              Rails.logger.info "Output saved successfully with reddit_post_url: #{@output.reddit_post_url}"
-              format.html { redirect_to @output, notice: 'Output was successfully created and video generated.' }
-              format.json { render json: @output, status: :created }
-            else
-              Rails.logger.info "Output failed to save. Errors: #{@output.errors.full_messages}"
-              raise ActiveRecord::Rollback
-            end
+            @output.url = url_for(@output.video)
+            @output.save!
+
+            success = true
+            Rails.logger.info "Output saved successfully with ID: #{@output.id}"
           else
-            Rails.logger.error "Invalid video path returned: #{video_path}"
-            @output.errors.add(:base, "Error generating video")
-            raise ActiveRecord::Rollback
+            Rails.logger.info "Output failed to save. Errors: #{@output.errors.full_messages}"
           end
-        rescue => e
-          Rails.logger.error "Error in video generation: #{e.message}"
-          Rails.logger.error e.backtrace.join("\n")
-          @output.errors.add(:base, "Error generating video: #{e.message}")
-          raise ActiveRecord::Rollback
+        else
+          Rails.logger.error "Invalid video path returned: #{video_path}"
+          @output.errors.add(:base, "Error generating video")
         end
+      rescue => e
+        Rails.logger.error "Error in video generation: #{e.message}"
+        Rails.logger.error e.backtrace.join("\n")
+        @output.errors.add(:base, "Error generating video: #{e.message}")
       end
+    end
 
-      if @output.errors.any?
+    respond_to do |format|
+      if success
+        format.html { redirect_to output_path(@output), notice: 'Output was successfully created.' }
+        format.json { render json: { redirect_url: output_path(@output) }, status: :created }
+      else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: { errors: @output.errors.full_messages }, status: :unprocessable_entity }
       end
-    end
-  rescue => e
-    Rails.logger.error "Error in create action: #{e.message}"
-    Rails.logger.error e.backtrace.join("\n")
-    respond_to do |format|
-      format.html { render :new, status: :internal_server_error }
-      format.json { render json: { error: e.message }, status: :internal_server_error }
     end
   end
 
