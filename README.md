@@ -8,10 +8,10 @@ Easily create short form videos from reddit posts.
 ### Run
 In order to run the code from this repo:
 ```
+bundle install
 rails active_storage:install
 rails db:migrate
 rails assets:precompile
-bundle install
 rails db:seed
 ```
 
