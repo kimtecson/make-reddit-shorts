@@ -12,6 +12,7 @@ class GenerateVideoJob < ApplicationJob
   
       ActiveRecord::Base.transaction do
         begin
+
           video_path = VideoGen.generate(output, output.source, settings)
           Rails.logger.info "Video generated at path: #{video_path}"
   

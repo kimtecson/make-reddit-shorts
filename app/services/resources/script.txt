@@ -1,13 +1,1 @@
-Sporo osób w oryginalnym wątku prosiło o update, więc chyba najlatwiej założyć szybki nowy wątek, który i tak zginie za dzień-dwa.
-
-Dziewczyna obudziła mnie rano mocno skrępowana. Postanowiła iść bez śniadania, ale chciała zadzwonić ode mnie. Ostatecznie napisała sms-a do kogoś, że żyje i wraca.
-
-Na trzeźwo była już mocno zawstydzona i skrępowana, pamiętała, jak się u mnie znalazła, ale zupełnie nie miała pojęcia np. którędy szliśmy (jeszcze w nocy rozpaczała nad zaginionym telefonem i pytała, czy nie miała go w ręce przy mnie).
-
-Dopiero na trzeźwo zwróciła uwagę na to, jak bardzo była poobijana i sama przyznała, że rozumie, czemu mnie to zaniepokoiło.
-
-Wcisnąłem jej batona i jogurt pitny do torebki na drogę. Zrobiła minę, jakby miała się rozpłakać. Ogólnie bardzo wylewnie dziękowała. Nie miałem serca jak gestapowiec kazać jej wywalać torebkę przed wyjściem, ale po pobieżnych oględzinach nic raczej nie zginęło.
-
-Bilans jest taki, że jakiś tam jej gach czy krewny ma mój numer (SMS), ale mam nadzieję, że na tym historia się zakończy. 
-
-Powstrzymałem się od moralizowania przy pożegnaniu.
+I know nothing about API pricing, so I'm hoping the community can help me understand the problem here. Reddit is charging $0.24 per 1,000 API calls. How does that compare to API pricing from other services? What *should* Reddit be charging?

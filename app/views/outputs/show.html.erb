@@ -1,7 +1,5 @@
 <h1>Output Details</h1>
-
 <p>Status: <%= @output.status %></p>
-
 <% if @output.status == 'completed' %>
   <%= video_tag @output.url, size: "320x240", controls: true %>
 <% elsif @output.status == 'pending' || @output.status == 'processing' %>
@@ -9,11 +7,10 @@
 <% else %>
   <p>There was an error generating your video. Please try again or contact support.</p>
 <% end %>
-
 <script>
   <% if @output.status == 'pending' || @output.status == 'processing' %>
     setTimeout(function() {
       location.reload();
-    }, 10000);  // Reload the page every 10 seconds
+    }, 1000);  // Reload the page every 10 seconds
   <% end %>
 </script>

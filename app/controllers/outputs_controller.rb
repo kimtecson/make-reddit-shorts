@@ -12,10 +12,18 @@ class OutputsController < ApplicationController
 
     @output = Output.new(output_params)
     @output.user_id = current_user.id
+    @user = current_user
     @query = session[:query] = params[:query]
+
+    # if @user.role == 'free'
+    #   flash[:notice] = 'test'
+    #   return
+    # end
 
     if @output.save
       # Enqueue the background job to generate the video
+      @output.status = 'generating'
+      @output.save!
       GenerateVideoJob.perform_later(@output.id)
       
       Rails.logger.info "Output record created and video generation job enqueued with Output ID: #{@output.id}"

@@ -7,20 +7,26 @@ class VideoGen
   def self.generate(output, source, settings)
     total_start_time = Time.now
 
+
     reddit_post_url = output.reddit_post_url
     Rails.logger.info "Generating video for Reddit post: #{reddit_post_url}"
 
     reddit = RedditPost.new
     reddit.write_script(reddit_post_url)
+    reddit.write_title(reddit_post_url)
     Rails.logger.info "Reddit post fetched"
 
 
     tts = TTS.new
-    tts.generate_voice(settings)
+    tts.generate_voice_script(settings)
+    tts.generate_voice_title(settings)
 
 
     whispr = Whispr.new
     whispr.create_subs
+
+    title = Title.new
+    title.overlay_texts_on_image
 
     video_edit = VideoEdit.new
     video_path = video_edit.generate(source, settings) # specify which source to gen video with
