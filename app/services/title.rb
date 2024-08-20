@@ -14,11 +14,10 @@ class Title
     image_path = 'app/services/resources/title_template.png'
     output_path = 'app/services/outputs/title_image.png'
 
-    main_text = "Stan doing stan things 🚀"
-    author_text = "Stan 😎"
+    main_text = File.read('app/services/resources/title.txt')
+    author_text = "Author Placeholder"
 
     image = Magick::Image.read(image_path).first
-    main_text_lines = main_text.split("\n")
 
 
 
