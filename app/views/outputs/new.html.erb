@@ -15,6 +15,11 @@
     <div class="row">
       <!-- Left column: Tab contents and buttons -->
       <div class="col-6">
+        <% flash.each do |type, msg| %>
+          <div>
+            <%= msg %>
+          </div>
+        <% end %>
         <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
           <div class="tab-content" id="v-pills-tabContent">
             <!-- Reddit tab content -->

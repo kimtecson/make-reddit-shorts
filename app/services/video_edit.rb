@@ -21,91 +21,90 @@ class VideoEdit
 
   def edit_video(source, settings)
     subtitles = create_subs
-
+  
     source.file.open do |tempfile|
       movie = FFMPEG::Movie.new(tempfile.path)
-
-      #
-      p settings[:subtitle_preset]
+  
       subtitle_preset = settings[:subtitle_preset]
-
-
-      # settings
-      # font_color = settings[:font_color].gsub('#', '')
-      # font_border_color = settings[:font_border_color].gsub('#', '')
-      # font_border_width = settings[:font_border_width]
-      # font_size = (settings[:font_size] * 5) + 36
-
-      # add later
-      # font_box = settings[:font_box]
-      # font_box_color = settings[:font_box_color]
-
+  
+      # Define subtitle options based on preset
       case subtitle_preset
       when 'Vanilla'
         font_color = 'ffffff'
         font_border_color = '000000'
         font_border_width = 5
-        font_size = 36
+        font_size = 48
         font = 'neue'
       when 'Yellow'
         font_color = 'ffffff'
         font_border_color = 'f0c424'
         font_border_width = 3
-        font_size = 36
+        font_size = 48
         font = 'bangers'
       when 'Red'
         font_color = 'ffffff'
         font_border_color = 'ff0000'
         font_border_width = 3
-        font_size = 36
+        font_size = 48
         font = 'bangers'
       else
-        # Default settings if no preset matches
         font_color = 'ffffff'
         font_border_color = '000000'
         font_border_width = 5
-        font_size = 36
+        font_size = 48
         font = 'bangers'
       end
       increase_font_size_animation = 6
-
+  
+      # Calculate the delay based on the first subtitle start time
+      first_subtitle_start = subtitles.first[:start] + 3
+      audio_delay = (first_subtitle_start * 1000).to_i  # Convert to milliseconds
+  
+      # Build subtitle filter
       drawtext_options = subtitles.map do |subtitle|
         subtitle_text = subtitle[:text].gsub("'", "''")  # Escape single quotes properly
-
+  
         %{
           drawtext=text='#{subtitle_text}':
           fontcolor=0x#{font_color}:
           bordercolor=#{font_border_color}:
           borderw=#{font_border_width}:
-          fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start]},#{subtitle[:start]}+0.1),(t-#{subtitle[:start]})*10,if(between(t,#{subtitle[:end]}-0.1,#{subtitle[:end]}),(#{subtitle[:end]}-t)*10,1))':
+          fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start] + 3},#{subtitle[:start] + 3}+0.1),(t-#{subtitle[:start] + 3})*10,if(between(t,#{subtitle[:end] + 3}-0.1,#{subtitle[:end] + 3}),(#{subtitle[:end] + 3}-t)*10,1))':
           fontfile=app/services/resources/#{font}.ttf:
           box=0:
           boxcolor=black@1:
           boxborderw=5:
           x=(w-text_w)/2:
           y=(h-text_h)/2:
-          enable='between(t,#{subtitle[:start]},#{subtitle[:end]})'
+          enable='between(t,#{subtitle[:start] + 3},#{subtitle[:end] + 3})'
         }.gsub(/\s+/, ' ').strip
       end.join(',')
-
+  
+      # Image overlay with subtitle filter
+      image_path = Rails.root.join('app', 'services', 'outputs', 'title_image.png').to_s
+      output_video_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
+  
+      # Construct the FFmpeg command
       ffmpeg_command = %W(
         ffmpeg
         -i #{tempfile.path}
         -i app/services/resources/speech.mp3
-        -filter_complex "#{drawtext_options}"
-        -map 0:v:0 -map 1:a:0
-        -c:v libx264 -preset ultrafast -crf 23
-        -c:a aac -b:a 128k
-        -shortest
-        -r 24
-        app/services/outputs/output.mp4
+        -i #{image_path}
+        -filter_complex "[0:v]#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v]; 
+        [1:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a]"
+        -map "[v]" -map "[a]" -c:v libx264 -c:a aac -strict experimental -t 10 #{output_video_path}
       ).join(' ')
-
-      # -threads 0 (use all threads for local testing)
-
+  
+      puts "Executing FFmpeg command: #{ffmpeg_command}"
       system(ffmpeg_command)
     end
   end
+  
+  
+  
+  
+  
+  
 
   private
 

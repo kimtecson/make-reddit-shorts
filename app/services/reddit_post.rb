@@ -17,9 +17,17 @@ class RedditPost
 
   def write_script(reddit_post_url)
     post_id = get_post_id(reddit_post_url)
-    post_content = fetch_reddit_post(post_id)
+    post_content = fetch_reddit_post_text(post_id)
     File.open('app/services/resources/script.txt', 'w') do |file|
       file.write(post_content)
+    end
+  end
+
+  def write_title(reddit_post_url)
+    post_id = get_post_id(reddit_post_url)
+    post_title = fetch_reddit_post_title(post_id)
+    File.open('app/services/resources/script.txt', 'w') do |file|
+      file.write(post_title)
     end
   end
 
@@ -47,7 +55,7 @@ class RedditPost
     end
   end
 
-  def fetch_reddit_post(post_id)
+  def fetch_reddit_post_text(post_id)
     token = get_token
     return unless token
 
@@ -63,6 +71,28 @@ class RedditPost
       data = JSON.parse(res.body)
       post = data['data']['children'][0]['data']
       post['selftext']
+    else
+      Rails.logger.error("Failed to fetch Reddit post. HTTP #{res.code}: #{res.body}")
+      nil
+    end
+  end
+
+  def fetch_reddit_post_title(post_id)
+    token = get_token
+    return unless token
+
+    post_url = "https://oauth.reddit.com/api/info/?id=t3_#{post_id}"
+    uri = URI(post_url)
+    req = Net::HTTP::Get.new(uri)
+    req['Authorization'] = "Bearer #{token}"
+    req['User-Agent'] = USER_AGENT
+
+    res = Net::HTTP.start(uri.hostname, uri.port, use_ssl: true) { |http| http.request(req) }
+
+    if res.is_a?(Net::HTTPSuccess)
+      data = JSON.parse(res.body)
+      post = data['data']['children'][0]['data']
+      post['title']
     else
       Rails.logger.error("Failed to fetch Reddit post. HTTP #{res.code}: #{res.body}")
       nil
