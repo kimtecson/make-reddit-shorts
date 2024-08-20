@@ -26,7 +26,7 @@ class RedditPost
   def write_title(reddit_post_url)
     post_id = get_post_id(reddit_post_url)
     post_title = fetch_reddit_post_title(post_id)
-    File.open('app/services/resources/script.txt', 'w') do |file|
+    File.open('app/services/resources/title.txt', 'w') do |file|
       file.write(post_title)
     end
   end

@@ -1,1 +1,1 @@
-Reddit's API Pricing
+I know nothing about API pricing, so I'm hoping the community can help me understand the problem here. Reddit is charging $0.24 per 1,000 API calls. How does that compare to API pricing from other services? What *should* Reddit be charging?

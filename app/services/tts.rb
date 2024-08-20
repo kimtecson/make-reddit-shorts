@@ -36,11 +36,11 @@ class TTS
       file.write(response.audio_stream.read)
     end
 
-    puts "Audio file 'output.mp3' has been created."
+    puts "Audio file 'speech.mp3' has been created."
   end
 
   def generate_voice_title(settings)
-    title_text = settings[:title]
+    title_text = File.read('app/services/resources/title.txt')
 
     Aws.config.update({
       region: 'eu-central-1',
@@ -71,7 +71,7 @@ class TTS
       file.write(response.audio_stream.read)
     end
 
-    puts "Audio file 'output.mp3' has been created."
+    puts "Audio file 'speech_title.mp3' has been created."
   end
 
 

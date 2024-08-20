@@ -84,14 +84,20 @@ class VideoEdit
       image_path = Rails.root.join('app', 'services', 'outputs', 'title_image.png').to_s
       output_video_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
   
+      # Add the path to the new audio clip for the beginning
+      title_audio_path = Rails.root.join('app', 'services', 'resources', 'speech_title.mp3').to_s
+  
       # Construct the FFmpeg command
       ffmpeg_command = %W(
         ffmpeg
         -i #{tempfile.path}
+        -i #{title_audio_path}
         -i app/services/resources/speech.mp3
         -i #{image_path}
         -filter_complex "[0:v]#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v]; 
-        [1:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a]"
+        [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1]; 
+        [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2]; 
+        [a1][a2]amix=inputs=2[a]"
         -map "[v]" -map "[a]" -c:v libx264 -c:a aac -strict experimental -t 10 #{output_video_path}
       ).join(' ')
   
@@ -99,8 +105,6 @@ class VideoEdit
       system(ffmpeg_command)
     end
   end
-  
-  
   
   
   
