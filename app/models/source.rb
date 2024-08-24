@@ -1,9 +1,9 @@
 class Source < ApplicationRecord
 
-  has_one_attached :file
-  validates :file, presence: true
+  # has_one_attached :file
+  # validates :file, presence: true
 
-  after_save :debug_file_attachment
+  # after_save :debug_file_attachment
 
   def to_s
     # Replace this with whatever attributes best describe your Source

@@ -22,10 +22,7 @@ Aws.config.update({
 s3_client = Aws::S3::Client.new
 
 # Set your bucket name
-bucket_name = Rails.application.credentials.dig(
-                    :aws,
-                    :aws_bucket_name
-                  )
+bucket_name = Rails.application.credentials.dig(:aws, :aws_bucket_name)
 
 # Create a presigner
 presigner = Aws::S3::Presigner.new(client: s3_client)
@@ -69,21 +66,11 @@ source_amount.times do |i|
   source = Source.new
   source.url = urls[i]
 
-  # Download the image content
-  puts ['[AWS] Downloading source from s3...']
-  downloaded_image = URI.open(urls[i])
-  tempfile = Tempfile.new(['downloaded_image', File.extname(filenames[i])])
-  IO.copy_stream(downloaded_image, tempfile.path)
-
-  source.file.attach(io: File.open(tempfile.path), filename: filenames[i])
-
+  # Save the source with the presigned URL
   puts '[SOURCE SEED] Saving source...'
   if source.save
     puts '[SOURCE SEED] Source saved!'
   else
     puts source.errors.full_messages
   end
-
-  tempfile.close
-  tempfile.unlink
 end
