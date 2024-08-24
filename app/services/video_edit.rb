@@ -1,6 +1,6 @@
 require 'json'
 require 'streamio-ffmpeg'
-require_relative 'video_downloader'
+require 'open-uri'
 
 class VideoEdit
   def generate(source, settings)
@@ -22,7 +22,10 @@ class VideoEdit
   def edit_video(source, settings)
     subtitles = create_subs
   
-    source.file.open do |tempfile|
+    # Download the video from the URL
+    tempfile = download_video_from_url(source.url)
+  
+    begin
       movie = FFMPEG::Movie.new(tempfile.path)
   
       subtitle_preset = settings[:subtitle_preset]
@@ -103,14 +106,27 @@ class VideoEdit
   
       puts "Executing FFmpeg command: #{ffmpeg_command}"
       system(ffmpeg_command)
+    ensure
+      tempfile.close
+      tempfile.unlink
     end
   end
-  
-  
-  
-  
 
   private
+
+  def download_video_from_url(url)
+    # Ensure the open-uri is required for remote file access
+    tempfile = Tempfile.new(['video', '.mp4'])
+    tempfile.binmode
+
+    # Use open-uri to open the remote URL and stream it into the tempfile
+    URI.open(url) do |remote_file|
+      IO.copy_stream(remote_file, tempfile)
+    end
+
+    tempfile.rewind
+    tempfile
+  end
 
   def create_subs
     file_path = Rails.root.join('app', 'services', 'resources', 'transcription_with_timestamps.json')
