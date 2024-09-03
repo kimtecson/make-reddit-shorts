@@ -1,152 +1,138 @@
-<!-- Main container for the top content section -->
-<div class="top-content text-center pt-3">
-  <!-- Main heading with a span for the typed effect -->
-  <h1>Turn REDDIT stories into shorts.<span class="accent" data-controller="typed"></span></h1>
-  <br>
-  <!-- Subheading for additional context -->
-  <h2>Generate Engaging Shorts Using Customizable Templates</h2>
-  <br>
-</div>
-<!-- Row to center the search container -->
-<div class="row d-flex justify-content-center">
-  <!-- Search container with custom styling -->
-  <div class="search-container custom-search">
-    <%= form_with url: 'outputs/new', method: :get do |form| %>
-      <%= form.text_field :query %>
-      <%= form.submit "generate 😎 (we really need to work on css)"%>
-    <% end %>
-    <!-- Input field for the Reddit post URL -->
-    <%# <input type="text" class="custom-search-input" placeholder="Reddit Post Url"> %>
-    <!-- Button to start creating, with an SVG icon -->
-    <%# <a href="/outputs/new" class="custom-search-btn">Start Creating
-      <svg style="height:16px;margin-left:10px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
-        <path fill="currentColor" d="M438.6 278.6l-160 160C272.4 444.9 264.2 448 256 448s-16.38-3.125-22.62-9.375c-12.5-12.5-12.5-32.75 0-45.25L338.8 288H32C14.33 288 .0016 273.7 .0016 256S14.33 224 32 224h306.8l-105.4-105.4c-12.5-12.5-12.5-32.75 0-45.25s32.75-12.5 45.25 0l160 160C451.1 245.9 451.1 266.1 438.6 278.6z"></path>
-      </svg>
-    </a> %>
-  </div>
-</div>
-<br>
-<!-- Examples section with flexbox for even spacing -->
-<div class="examples d-flex justify-content-evenly" style="padding: 50px 0px;">
-  <!-- Each video container rendering a partial for example cards -->
-  <div id="video-container">
-    <%= render "pages/examples_card" %>
-  </div>
-  <div id="video-container">
-    <%= render "pages/examples_card" %>
-  </div>
-  <div id="video-container">
-    <%= render "pages/examples_card" %>
-  </div>
-  <div id="video-container">
-    <%= render "pages/examples_card" %>
-  </div>
-</div>
-<br>
-<!-- Feature section with alternating content -->
-<div class="feature-1">
-  <div class="col-6"></div>
-  <div class="col-6 pr-2">
-    <!-- Feature heading and description -->
-    <h2>Instant Story Magic</h2>
-    <p>Share your favorite Reddit stories effortlessly! With just a few clicks and under a minute, we transform them into captivating, shareable short-form content.</p>
-  </div>
-</div>
-<div class="feature-1">
-  <div class="col-6">
-    <h2>Fast And Delightful Editing</h2>
-    <p>Customize your video with a variety of font styles, sizes, and families for subtitles. Choose the perfect voice-over, tweak to your taste, and create your video instantly!.</p>
-  </div>
-  <div class="col-6 pr-2"></div>
-</div>
-<div class="feature-1">
-  <div class="col-6"></div>
-  <div class="col-6 pr-2">
-    <h2>Focus On What Matters</h2>
-    <p>Store all your created short-form videos in your personal library. Access, download, or share them directly to your favorite social media sites and sharing platforms anytime!</p>
-  </div>
-</div>
-<!-- Pricing section -->
-<div class="pricing-container">
-  <h2 class="pricing-header">Pricing</h2>
-  <div style="display:flex;flex-direction:column;gap:20px;margin-bottom:40px">
-    <!-- Free plan container -->
-    <div class="pricingcontainer_1">
-      <h2 class="pricingtitle_iouC mt-1">Free</h2>
-      <div style="display:flex;flex-direction:row;align-items:start;gap:10px">
-        <!-- Feature icon and description for free plan -->
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">1 video/day</div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:start;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">Max length of video is 1 minute</div>
-      </div>
-    </div>
-    <!-- Starter plan container -->
-    <div class="pricingcontainer_1">
-      <h2 class="pricingtitle_iouC mt-1">Starter</h2>
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">10 videos/day</div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">Max Length of video is 2 minutes</div>
-      </div>
-    </div>
-    <!-- Pro plan container -->
-    <div class="pricingcontainer_1">
-      <h2 class="pricingtitle_iouC mt-1">Pro</h2>
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">30 videos/day</div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">Max Length of video is 5 minutes</div>
-      </div>
-      <div style="display:flex;flex-direction:row;align-items:center;gap:10px">
-        <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg" style="flex-shrink:0">
-          <circle cx="10" cy="10" r="10" fill="#0B84F3"></circle>
-          <path d="M14.7908 7.20505C15.0697 7.47844 15.0697 7.92243 14.7908 8.19583L9.07711 13.795C8.79813 14.0683 8.34505 14.0683 8.06606 13.795L5.20924 10.9954C4.93025 10.722 4.93025 10.278 5.20924 10.0046C5.48823 9.73121 5.9413 9.73121 6.22029 10.0046L8.5727 12.3077L13.7819 7.20505C14.0609 6.93165 14.514 6.93165 14.793 7.20505H14.7908Z" fill="white"></path>
-        </svg>
-        <div class="text_pP5P">Prioritized support</div>
+<section class="py-24 mt-24 py-sm-24 position-relative overflow-hidden mb-24 mt-12" >
+  <div class="container">
+    <div class="mw-7xl align-items-center">
+      <div class="row mx-auto">
+        <div class="col-lg-5 col-xl-4 order-last order-lg-first mt-0">
+          <img class="d-block w-75 img-fluid mw-xl mx-auto rounded-5 ms-36" 
+       src="/home_gif.gif" 
+       alt="" 
+       style="height: auto; width: 100%; object-fit: cover;">
+        </div>
+        <div class="col-lg-7 col-xl-8 mb-16 mb-lg-0 position-relative">
+          <img class="position-absolute bottom-0 mb-12 end-0 me-n40 pt-16" src="flaro-assets/images/cta/gradient3.svg" alt="">
+          <div class="mw-xl mx-auto me-xl-0 position-relative">
+            <h1 class="h2 mb-10" contenteditable="false">Easily create high quality Reddit shorts</h1>
+            <div class="mw-md mb-10" contenteditable="false">
+              <div class="d-flex mb-5">
+                <div class="me-3">
+                  <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="10" fill="#4F46E5"></circle>
+                    <path d="M6 10.6667L8.66667 13.3333L14 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </div>
+                <p contenteditable="false">Create up to 3 free videos per day during your free trial</p>
+              </div>
+              <div class="d-flex" contenteditable="false">
+                <div class="me-3">
+                  <svg width="20" height="20" viewbox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="10" cy="10" r="10" fill="#4F46E5"></circle>
+                    <path d="M6 10.6667L8.66667 13.3333L14 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+                  </svg>
+                </div>
+                <p contenteditable="false">Choose between multiple subtitle and backgorund video templates to compliment your style</p>
+              </div>
+            </div>
+            <div class="input-group mw-xl mb-4 p-2 bg-white border border-dark rounded-4">
+              <%= form_with url: 'outputs/new', method: :get, html: { class: "w-100 d-flex" } do |form| %>
+                <%= form.text_field :query, class: "form-control border-0 bg-transparent me-3 w-75", placeholder: "Paste a link to a Reddit post..." %>
+                <%= form.submit "Generate", class: "btn btn-primary rounded-3 fs-9 fw-bold text-uppercase w-25 btn-glow" %>
+              <% end %>
+            </div>
+            <div class="d-flex ps-2 align-items-center"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
-  <%= render "partials/feedback_form" %>
-  <%# <!-- Feedback section -->
-  <div class="feedback">
-    <div class="feedback-box">
-      <!-- Feedback header and description -->
-      <div class="fb-header">Give us feedback, we're new!</div>
-      <p>Give us your thoughts about possible improvements to our website, we’re newbies 🦖</p>
-      <!-- Input field for user feedback -->
-      <div class="fb-input-container">
-        <input type="text" class="feedback-input" placeholder="How can we improve user experience?">
-      </div>
-      <div style="width:4px;height:8px"></div>
-      <!-- Button to send feedback -->
-      <button type="button" class="feedback-btn">Send</button>
+</section>
+<section class="py-12 py-sm-24 pb-md-32 position-relative overflow-hidden bg-primary-light">
+  <img class="position-absolute top-0 start-0" src="flaro-assets/images/how-it-works/gradient2.svg" alt="">
+  <div class="container position-relative">
+    <div class="mb-24 text-center">
+      <span class="fs-9 fw-semibold text-primary text-uppercase">HOW IT WORKS</span>
+      <h3 class="mt-6">Content a few clicks away</h3>
     </div>
-  </div> %>
+    <div class="row mx-n0 mw-xs mw-sm-2xl mx-auto mw-lg-none">
+      <div class="col-12 col-sm-6 col-lg-3 mb-12 mb-lg-0 px-0">
+        <div class="text-center overflow-hidden position-relative">
+          <div class="d-none d-sm-block position-absolute top-0 end-0 col-6 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="position-relative d-flex mx-auto mb-8 align-items-center justify-content-center fs-5 fw-bold bg-white border border-primary-light rounded-pill" style="width: 54px; height: 54px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewbox="0 0 16 16">
+              <path d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5L14 4.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5h-2z"></path>
+              <path d="M4 6.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-7zm0-3a.5.5 0 0 1 .5-.5H7a.5.5 0 0 1 0 1H4.5a.5.5 0 0 1-.5-.5z"></path>
+            </svg>
+          </div>
+          <h5 class="fs-6 mb-3">Choose a post</h5>
+          <p class="px-10 text-secondary">Choose a reddit post you'd like to make a video from, then give us the link</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 mb-12 mb-lg-0 px-0">
+        <div class="text-center overflow-hidden position-relative">
+          <div class="d-none d-lg-block position-absolute top-0 end-0 w-100 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="d-none d-sm-block d-lg-none position-absolute top-0 start-0 col-6 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="position-relative d-flex mx-auto mb-8 align-items-center justify-content-center fs-5 fw-bold bg-white border border-primary-light rounded-pill" style="width: 54px; height: 54px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewbox="0 0 24 24" class="">
+              <path d="M10 13c.55 0 1 .45 1 1s-.45 1-1 1-1-.45-1-1 .45-1 1-1m0-2c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3zm8.5-2 1.09-2.41L22 5.5l-2.41-1.09L18.5 2l-1.09 2.41L15 5.5l2.41 1.09L18.5 9zm2.78 3.72L20.5 11l-.78 1.72-1.72.78 1.72.78.78 1.72.78-1.72L23 13.5l-1.72-.78zM16.25 14c0-.12 0-.25-.01-.37l1.94-1.47-2.5-4.33-2.24.94c-.2-.13-.42-.26-.64-.37L12.5 6h-5l-.3 2.41c-.22.11-.43.24-.64.37l-2.24-.95-2.5 4.33 1.94 1.47c-.01.12-.01.25-.01.37s0 .25.01.37l-1.94 1.47 2.5 4.33 2.24-.94c.2.13.42.26.64.37l.3 2.4h5l.3-2.41c.22-.11.43-.23.64-.37l2.24.94 2.5-4.33-1.94-1.47c.01-.11.01-.24.01-.36zm-1.42 3.64-1.73-.73c-.56.6-1.3 1.04-2.13 1.23L10.73 20H9.27l-.23-1.86c-.83-.19-1.57-.63-2.13-1.23l-1.73.73-.73-1.27 1.49-1.13c-.12-.39-.18-.8-.18-1.23 0-.43.06-.84.18-1.23l-1.49-1.13.73-1.27 1.73.73c.56-.6 1.3-1.04 2.13-1.23L9.27 8h1.47l.23 1.86c.83.19 1.57.63 2.13 1.23l1.73-.73.73 1.27-1.49 1.13c.12.39.18.8.18 1.23 0 .43-.06.84-.18 1.23l1.49 1.13-.73 1.29z"></path>
+            </svg>
+          </div>
+          <h5 class="fs-6 mb-3">Configure settings</h5>
+          <p class="px-10 text-secondary">Configure your fonts, voice and more to give your video that extra flair</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 mb-12 mb-sm-0 px-0">
+        <div class="text-center overflow-hidden position-relative">
+          <div class="d-none d-lg-block position-absolute top-0 end-0 w-100 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="d-none d-sm-block d-lg-none position-absolute top-0 end-0 col-6 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="position-relative d-flex mx-auto mb-8 align-items-center justify-content-center fs-5 fw-bold bg-white border border-primary-light rounded-pill" style="width: 54px; height: 54px;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="" viewbox="0 0 16 16">
+              <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0v1.829Zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707L14 2.707ZM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707L7.293 4Zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1h1.829Zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1h1.829ZM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707L13.293 10ZM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0v1.829Zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0L8.354 9.06Z"></path>
+            </svg>
+          </div>
+          <h5 class="fs-6 mb-3">Generate</h5>
+          <p class="px-10 text-secondary">Generate and let LazyShorts take care of the magic behind the scenes</p>
+        </div>
+      </div>
+      <div class="col-12 col-sm-6 col-lg-3 px-0">
+        <div class="text-center overflow-hidden position-relative">
+          <div class="d-none d-sm-block position-absolute top-0 start-0 col-6 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
+          <div class="position-relative mb-8 mx-auto" style="width: 54px; height: 54px;">
+            <svg width="51" height="50" viewbox="0 0 51 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="25.5127" cy="25" r="25" fill="#4F46E5"></circle>
+              <path fill-rule="evenodd" clip-rule="evenodd" d="M35.5734 17.9393C36.1591 18.5251 36.1591 19.4749 35.5734 20.0607L23.5734 32.0607C22.9876 32.6464 22.0378 32.6464 21.452 32.0607L15.452 26.0607C14.8662 25.4749 14.8662 24.5251 15.452 23.9393C16.0378 23.3536 16.9876 23.3536 17.5734 23.9393L22.5127 28.8787L33.452 17.9393C34.0378 17.3536 34.9876 17.3536 35.5734 17.9393Z" fill="white"></path>
+            </svg>
+          </div>
+          <h5 class="fs-6 mb-3">Upload</h5>
+          <p class="px-10 text-secondary">Upload your video to TikTok, Instagram or Youtube and look at the views!</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<%= turbo_frame_tag 'feedback' do %>
+  <section class="position-relative overflow-hidden bg-primary-light">
+    <img class="position-absolute start-50 bottom-0 translate-middle-x" src="flaro-assets/images/newsletter/gradient.svg" alt="">
+    <div class="container position-relative">
+      <div class="mw-lg mx-auto text-center">
+        <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase">FEEDBACK</span>
+        <h3 class="mb-12">What should we improve on?</h3>
+        <%= turbo_frame_tag 'feedback-error-message' do %>
+        <% end %>
+        <%= form_with url: send_feedback_path, method: :post, class: "row g-3" do %>
+          <div class="col-md-12">
+            <input type="email" id="email" name="email" class="form-control py-4 mb-3" placeholder="john@gmail.com" style="color: black;" required>
+          </div>
+          <div class="col-md-12">
+            <input type="text" id="subject" name="subject" class="form-control py-4 mb-3" placeholder="Subject" style="color: black;" required>
+          </div>
+          <div class="col-md-12">
+            <textarea id="message" name="message" class="form-control py-4 mb-5" rows="6" placeholder="Message" style="height: 100px; color: black; text-align: left;" required></textarea>
+          </div>
+          <button type="submit" class="btn mb-8 w-100 btn-primary">Send</button>
+        <% end %>
+      </div>
+    </div>
+  </section>
+<% end %>
 </div>
+<script src="js/bootstrap/bootstrap.bundle.min.js"></script>
+<script src="js/main.js"></script>

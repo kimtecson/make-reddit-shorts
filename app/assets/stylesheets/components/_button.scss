@@ -25,3 +25,12 @@
   border-width: 2px 2px 4px;
   transition: background-color .1s;
 }
+
+.btn-glow {
+  box-shadow: 0 0 8px #4C44DD; /* Blue glow with a blur radius of 8px */
+  transition: box-shadow 4s ease !important; /* Ensure the transition is applied */
+  
+  &:hover {
+    box-shadow: 0 0 168px #4C44DD; /* Blue glow on hover with a blur radius of 124px */
+  }
+}
