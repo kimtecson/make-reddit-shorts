@@ -103,19 +103,31 @@
     </div>
   </div>
 </section>
-<section class="position-relative overflow-hidden bg-primary-light ">
-  <img class="position-absolute start-50 bottom-0 translate-middle-x" src="flaro-assets/images/newsletter/gradient.svg" alt="">
-  <div class="container position-relative">
-    <div class="mw-lg mx-auto text-center">
-      <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase">FEEDBACK</span>
-      <h3 class="mb-12">What should we improve on?</h3>
-      <form action="">
-        <textarea class="form-control py-4 mb-5 text-center" rows="2" placeholder="Help us get better at what we do!" name="" id="" style="height: 43px;"></textarea>
-        <button class="btn mb-8 w-100 btn-primary" type="submit">Send</button>
-      </form>
+<%= turbo_frame_tag 'feedback' do %>
+  <section class="position-relative overflow-hidden bg-primary-light">
+    <img class="position-absolute start-50 bottom-0 translate-middle-x" src="flaro-assets/images/newsletter/gradient.svg" alt="">
+    <div class="container position-relative">
+      <div class="mw-lg mx-auto text-center">
+        <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase">FEEDBACK</span>
+        <h3 class="mb-12">What should we improve on?</h3>
+        <%= turbo_frame_tag 'feedback-error-message' do %>
+        <% end %>
+        <%= form_with url: send_feedback_path, method: :post, class: "row g-3" do %>
+          <div class="col-md-12">
+            <input type="email" id="email" name="email" class="form-control py-4 mb-3" placeholder="john@gmail.com" style="color: black;" required>
+          </div>
+          <div class="col-md-12">
+            <input type="text" id="subject" name="subject" class="form-control py-4 mb-3" placeholder="Subject" style="color: black;" required>
+          </div>
+          <div class="col-md-12">
+            <textarea id="message" name="message" class="form-control py-4 mb-5" rows="6" placeholder="Message" style="height: 100px; color: black; text-align: left;" required></textarea>
+          </div>
+          <button type="submit" class="btn mb-8 w-100 btn-primary">Send</button>
+        <% end %>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+<% end %>
 </div>
 <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="js/main.js"></script>
