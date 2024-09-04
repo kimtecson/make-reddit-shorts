@@ -24,8 +24,13 @@
             </ul>
           </div>
           <div>
-            <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
-            <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
+            <% if user_signed_in? %>
+              <a class="btn w-100 fw-medium" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
+              <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a>
+            <% else %>
+              <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
+              <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
+            <% end %>
           </div>
         </nav>
       </div>
@@ -39,13 +44,18 @@
           </a>
           <div class="collapse navbar-collapse">
             <ul class="navbar-nav">
-              <li class="nav-item"><a class="nav-link" href="http://localhost:3000">About</a></li>
-              <li class="nav-item"><a class="nav-link" href="http://localhost:3000">Pricing</a></li>
+              <li class="nav-item"><a class="nav-link" href="<%= about_path %>">FAQ</a></li>
+              <li class="nav-item"><a class="nav-link" href="<%= pricing_path %>">Pricing</a></li>
             </ul>
           </div>
           <div class="d-none d-lg-block">
-            <a class="fw-medium me-4" href="/users/sign_in">Sign In</a>
-            <a class="btn btn-primary fs-9" href="http://localhost:3000">Try 14 Days Free Trial</a>
+            <% if user_signed_in? %>
+              <a class="fw-medium me-4" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
+              <a class="btn btn-primary fs-9" href="<%= outputs_path %>">My Videos</a>
+            <% else %>
+              <a class="fw-medium me-4" href="/users/sign_in">Sign In</a>
+              <a class="btn btn-primary fs-9" href="http://localhost:3000">Try 14 Days Free Trial</a>
+            <% end %>
           </div>
           <div class="d-lg-none">
             <button class="btn navbar-burger p-0" data-bs-toggle="offcanvas" data-bs-target="#mobileMenu">
@@ -76,8 +86,13 @@
       <li class="nav-item"><a class="nav-link text-dark" href="http://localhost:3000">Pricing</a></li>
     </ul>
     <div class="pt-3">
-      <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
-      <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
+      <% if user_signed_in? %>
+        <a class="btn w-100 fw-medium" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
+        <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a>
+      <% else %>
+        <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
+        <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
+      <% end %>
     </div>
   </div>
 </div>
