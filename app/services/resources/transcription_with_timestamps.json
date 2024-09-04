@@ -1,8 +1,23 @@
 {
-  "error": {
-    "message": "Incorrect API key provided: sk-proj-********************************************U56o. You can find your API key at https://platform.openai.com/account/api-keys.",
-    "type": "invalid_request_error",
-    "param": null,
-    "code": "invalid_api_key"
-  }
+  "task": "transcribe",
+  "language": "english",
+  "duration": 0.9800000190734863,
+  "text": "I've been flying.",
+  "words": [
+    {
+      "word": "I've",
+      "start": 0.0,
+      "end": 0.30000001192092896
+    },
+    {
+      "word": "been",
+      "start": 0.30000001192092896,
+      "end": 0.41999998688697815
+    },
+    {
+      "word": "flying",
+      "start": 0.41999998688697815,
+      "end": 0.7400000095367432
+    }
+  ]
 }

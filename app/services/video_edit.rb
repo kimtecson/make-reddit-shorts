@@ -21,6 +21,8 @@ class VideoEdit
 
   def edit_video(source, settings)
     subtitles = create_subs
+
+    Rails.logger.info(source.url)
   
     # Download the video from the URL
     tempfile = download_video_from_url(source.url)

@@ -1,10 +1,6 @@
-Rails.logger.info "AWS initializer loaded 🔴🔴🔴🔴"
+require 'aws-sdk-s3' # or require any other service you're using
 
 Aws.config.update({
-    region: Rails.application.credentials.dig(:aws, :region),
-    credentials: Aws::Credentials.new(
-      Rails.application.credentials.dig(:aws, :access_key_id),
-      Rails.application.credentials.dig(:aws, :secret_access_key)
-    )
-  })
-  
+  region: 'us-west-2', # Set your AWS region
+  credentials: Aws::SharedCredentials.new
+})
