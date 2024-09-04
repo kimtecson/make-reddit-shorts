@@ -50,11 +50,11 @@
           </div>
           <div class="d-none d-lg-block">
             <% if user_signed_in? %>
-              <a class="fw-medium me-4" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
+              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'fw-medium me-4' %>
               <a class="btn btn-primary fs-9" href="<%= outputs_path %>">My Videos</a>
             <% else %>
               <a class="fw-medium me-4" href="/users/sign_in">Sign In</a>
-              <a class="btn btn-primary fs-9" href="http://localhost:3000">Try 14 Days Free Trial</a>
+              <a class="btn btn-primary fs-9" href="<%= new_user_registration_path %>">Try 14 Days Free Trial</a>
             <% end %>
           </div>
           <div class="d-lg-none">
