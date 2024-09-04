@@ -4,19 +4,19 @@
       <a class="d-inline-block mb-32" href="#"><img src="flaro-assets/logos/flaro-logo-black-xl.svg" alt=""/></a>
       <h3 class="mb-4">Welcome Back</h3>
       <p class="fs-8 text-secondary mb-12">Lorem ipsum dolor sit amet, to the con adipiscing. Volutpat tempor to the condim entum.</p>
-      <form action="<%= session_path(resource_name) %>" method="post">
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { method: :post }) do |f| %>
         <div class="mb-5">
-          <input class="form-control" type="email" name="user[email]" placeholder="Email address" autocomplete="email"/>
+          <%= f.email_field :email, class: 'form-control', placeholder: 'Email address', autocomplete: 'email' %>
         </div>
         <div class="mb-5 position-relative">
-          <input class="form-control" type="password" name="user[password]" placeholder="Password" autocomplete="current-password"/>
-          <a class="position-absolute top-50 end-0 me-4 translate-middle-y btn p-0 btn-link fs-9" href="<%= new_user_password_path %>">Forgot Password?</a>
+          <%= f.password_field :password, class: 'form-control', placeholder: 'Password', autocomplete: 'current-password' %>
+          <%= link_to 'Forgot Password?', new_user_password_path, class: 'position-absolute top-50 end-0 me-4 translate-middle-y btn p-0 btn-link fs-9' %>
         </div>
-        <button type="submit" class="btn w-100 mb-8 btn-primary shadow">Sign In</button>
+        <%= f.submit 'Sign In', class: 'btn w-100 mb-8 btn-primary shadow' %>
         <div class="d-flex flex-column w-100">
           <% if devise_mapping.omniauthable? %>
             <% resource_class.omniauth_providers.each do |provider| %>
-              <%= button_to omniauth_authorize_path(resource_name, provider), class: "btn d-flex justify-content-center align-items-center px-3 mb-2 w-100 btn-light border fw-semibold", data: { turbo: false } do %>
+              <%= button_to omniauth_authorize_path(resource_name, provider), class: 'btn d-flex justify-content-center align-items-center px-3 mb-2 w-100 btn-light border fw-semibold', data: { turbo: false } do %>
                 <svg width="19" height="20" viewbox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
                   <path d="M9.64622 3.94602C10.9855 3.9452 12.2818 4.41846 13.3054 5.28195L16.1729 2.55134C15.0721 1.53639 13.75 0.791963 12.3114 0.377139C10.8727 -0.0376843 9.35723 -0.111485 7.88511 0.161594C6.41298 0.434673 5.02477 1.04711 3.83064 1.95031C2.63651 2.85351 1.66933 4.02261 1.00586 5.36482L4.23849 7.85648C4.61549 6.71964 5.34062 5.73023 6.31117 5.0284C7.28173 4.32657 8.4485 3.9479 9.64622 3.94602Z" fill="#D94F3D"></path>
                   <path d="M3.94597 9.64569C3.94678 9.03746 4.04537 8.43333 4.23797 7.85641L1.00534 5.36475C0.344108 6.69493 0 8.16021 0 9.64569C0 11.1312 0.344108 12.5964 1.00534 13.9266L4.23797 11.435C4.04537 10.858 3.94678 10.2539 3.94597 9.64569Z" fill="#F2C042"></path>
@@ -30,9 +30,9 @@
         </div>
         <p class="d-flex flex-wrap align-items-center justify-content-center">
           <span class="me-1">Don’t have an account?</span>
-          <a class="btn px-0 btn-link fw-bold" href="<%= new_user_registration_path %>">Create free account</a>
+          <%= link_to 'Create free account', new_user_registration_path, class: 'btn px-0 btn-link fw-bold' %>
         </p>
-      </form>
+      <% end %>
     </div>
   </div>
 </section>
