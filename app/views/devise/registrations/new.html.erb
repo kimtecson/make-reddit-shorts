@@ -1,33 +1,41 @@
-<div class="container row py-5 mx-auto">
-  <div class="col-lg-4 mx-auto">
-    <h2 class="text-capitalize px-2 py-1"><%= resource_name %> Registration</h2>
+<section class="pt-0 pb-0" my-0>
+  <div class="container">
+    <div class="mw-md mx-auto">
+      <a class="d-inline-block mb-32" href="#"><img src="flaro-assets/logos/flaro-logo-black-xl.svg" alt=""/></a>
+      <h3 class="mb-4">Join for free</h3>
+      <p class="fs-8 text-secondary mb-12">Enjoy your 14 day free trial! By signing up you agree to the <a href="<%= tos_path %>">Terms of Service</a></span> of LazyShorts.</p>
     <%= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f| %>
       <%= f.error_notification %>
-      <div class="form-inputs">
-        <div class="field mt-5">
-          <%= f.input :email,
-                required: true,
-                autofocus: true,
-                input_html: { autocomplete: "email" }%>
-        </div>
-        <div class="field mt-1">
-          <%= f.input :password,
-                required: true,
-                hint: ("#{@minimum_password_length} characters minimum" if @minimum_password_length),
-                input_html: { autocomplete: "new-password" } %>
-        </div>
-        <div class="field mt-1">
-          <%= f.input :password_confirmation,
-                required: true,
-                input_html: { autocomplete: "new-password" } %>
-        </div>
+      <div class="mb-5">
+        <%= f.input :email, placeholder: "Email address", required: true, autofocus: true, input_html: { autocomplete: "email", class: "form-control" }, label: false %>
       </div>
-      <div class="form-actions mt-2">
-        <%= f.button :submit, "Sign up", class: "button"  %>
+      <div class="mb-5">
+        <%= f.input :password, placeholder: "Password", required: true, input_html: { autocomplete: "new-password", class: "form-control" }, label: false %>
       </div>
+      <div class="mb-5">
+        <%= f.input :password_confirmation, placeholder: "Confirm password", required: true, input_html: { autocomplete: "new-password", class: "form-control" }, label: false %>
+      </div>
+      <%= f.button :submit, "Create Account", class: "btn w-100 mb-8 btn-primary shadow" %>
     <% end %>
-    <div class="field mt-3">
-      <%= render "devise/shared/links" %>
+    <div class="d-flex flex-column w-100">
+      <% if devise_mapping.omniauthable? %>
+        <% resource_class.omniauth_providers.each do |provider| %>
+          <%= button_to omniauth_authorize_path(resource_name, provider), class: "btn d-flex justify-content-center align-items-center px-3 mb-2 w-100 btn-light border fw-semibold", data: { turbo: false } do %>
+            <svg width="19" height="20" viewbox="0 0 19 20" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
+              <path d="M9.64622 3.94602C10.9855 3.9452 12.2818 4.41846 13.3054 5.28195L16.1729 2.55134C15.0721 1.53639 13.75 0.791963 12.3114 0.377139C10.8727 -0.0376843 9.35723 -0.111485 7.88511 0.161594C6.41298 0.434673 5.02477 1.04711 3.83064 1.95031C2.63651 2.85351 1.66933 4.02261 1.00586 5.36482L4.23849 7.85648C4.61549 6.71964 5.34062 5.73023 6.31117 5.0284C7.28173 4.32657 8.4485 3.9479 9.64622 3.94602Z" fill="#D94F3D"></path>
+              <path d="M3.94597 9.64569C3.94678 9.03746 4.04537 8.43333 4.23797 7.85641L1.00534 5.36475C0.344108 6.69493 0 8.16021 0 9.64569C0 11.1312 0.344108 12.5964 1.00534 13.9266L4.23797 11.435C4.04537 10.858 3.94678 10.2539 3.94597 9.64569Z" fill="#F2C042"></path>
+              <path d="M18.8967 7.89197H9.68945V11.8379H14.9069C14.5965 12.9537 13.8854 13.9156 12.9098 14.5396L16.1174 17.0124C18.1672 15.1727 19.3715 12.1812 18.8967 7.89197Z" fill="#5085ED"></path>
+              <path d="M12.9091 14.5397C11.9178 15.107 10.7877 15.3862 9.64622 15.3455C8.4485 15.3436 7.28173 14.965 6.31117 14.2631C5.34062 13.5613 4.61549 12.5719 4.23849 11.4351L1.00586 13.9267C1.80432 15.5363 3.03604 16.8911 4.56247 17.8389C6.0889 18.7866 7.84949 19.2897 9.64622 19.2915C12.0105 19.3557 14.315 18.5437 16.1167 17.0116L12.9091 14.5397Z" fill="#57A75C"></path>
+            </svg>
+            Sign up with Google
+          <% end %>
+        <% end %>
+      <% end %>
     </div>
+    <p class="d-flex flex-wrap align-items-center justify-content-center">
+      <span class="me-1">Already have an account?</span>
+      <%= link_to "Login", new_session_path(resource_name), class: "btn px-0 btn-link fw-bold" %>
+    </p>
   </div>
 </div>
+</section>
