@@ -7,107 +7,100 @@
       </div>
     <% end %>
     <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
-      <!-- Reddit Post URL -->
+      <!-- Reddit Post URL & Video Script -->
       <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm" data-controller="script-edit">
-        <div class="mb-3">
-          <h5>Reddit Post</h5>
-          <p class="text-dark">Link to your reddit post, make sure the subreddit is public!</p>
-          <%= f.input :reddit_post_url,
-                      placeholder: "Enter Reddit post URL",
-                      input_html: {
-                        value: params[:query],
-                        class: 'form-control border-primary border-2 bg-transparent',
-                        data: {
-                          script_edit_target: "input",
-                          action: "input->script-edit#checkUrl"
-                        }
-                      } %>
-          <h5 class="mt-3">Video Script</h5>
-          <p class="text-dark">Enter the script for the video here.</p>
-          <%= f.input :script,
-                      as: :text,
-                      input_html: {
-                        data: {
-                          script_edit_target: "script",
-                          action: "input->script-edit#updateEstimate"
-                        },
-                        class: 'form-control border-primary border-2 bg-transparent',
-                        rows: 10
-                      },
-                      error: false %>
-          <p data-script-edit-target="estimate">Estimated speech time: 0 seconds</p>
-        </div>
+        <h5>Reddit Post</h5>
+        <p class="text-dark">Link to your reddit post, make sure the subreddit is public!</p>
+        <%= f.input :reddit_post_url, placeholder: "Enter Reddit post URL", 
+                    input_html: {
+                      value: params[:query],
+                      class: 'form-control border-primary border-2 bg-transparent',
+                      data: { script_edit_target: "input", action: "input->script-edit#checkUrl" }
+                    } %>
+        <h5 class="mt-3">Video Script</h5>
+        <p class="text-dark">Enter the script for the video here.</p>
+        <%= f.input :script, as: :text,
+                    input_html: {
+                      data: { script_edit_target: "script", action: "input->script-edit#updateEstimate" },
+                      class: 'form-control border-primary border-2 bg-transparent', rows: 10
+                    }, error: false %>
+        <p data-script-edit-target="estimate">Estimated speech time: 0 seconds</p>
       </div>
       <!-- Video Source Selection -->
       <div class="border rounded-3 p-4 pt-3 mb-3 bg-light shadow-sm" data-controller="video-upload">
         <h5>Background Video</h5>
         <p class="text-dark">The video of your choice will be played in the background.</p>
-        <div class="mb-3 mt-3">
-          <h4>Select a Source:</h4>
-          <div class="d-flex flex-row">
-            <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
-              <div class="form-check">
-                <%= b.radio_button(class: "form-check-input") %>
-                <img src="/home_gif.gif" alt="" class="rounded-3 shadow-sm image-container">
-              </div>
-            <% end %>
+        <h4>Select a Source:</h4>
+        <div class="d-flex gap-3">
+          <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
+            <div class="form-check">
+              <%= b.radio_button(class: "form-check-input visually-hidden") %>
+              <img src="/home_gif.gif" alt="" class="rounded-3 shadow-sm image-container">
+            </div>
+          <% end %>
+        </div>
+      </div>
+      <!-- Subtitle Presets -->
+      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
+        <h5>Subtitle Presets</h5>
+        <p class="text-dark">Choose a style from one of our presets.</p>
+        <%= f.input :subtitle_preset, as: :hidden %> <!-- Hidden input -->
+        <div class="d-flex gap-3 justify-content-center">
+          <% [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']].each do |value, label| %>
+            <label class="form-check" style="cursor: pointer;">
+              <%= f.radio_button :subtitle_preset, value, class: 'form-check-input visually-hidden' %>
+              <img src="/text_sample.png" alt="<%= label %>" class="rounded-3 shadow-sm image-sample">
+            </label>
+          <% end %>
+        </div>
+      </div>
+      <!-- Voice Settings -->
+      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
+        <h5>Voice Settings</h5>
+        <p class="text-dark">Choose a voice style from our presets.</p>
+        <div class="d-flex flex-column align-items-start">
+          <!-- Voice Preset Radio Buttons -->
+          <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], 
+          label: false, item_wrapper_class: 'form-check', 
+          input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
+          <!-- Speed Settings Radio Buttons -->
+          <h5 class="mt-4">Voice Speed</h5>
+          <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], 
+          label: false, item_wrapper_class: 'form-check', 
+          input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
+          <!-- Submit Button -->
+          <div class="p-4">
+            <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
           </div>
-          <style>
-            .d-flex {
-              margin: 0; /* Reset margin for the container */
-              padding: 0; /* Reset padding for the container */
-            }
-            .form-check {
-              display: flex;
-              align-items: center;
-              justify-content: center; /* Center aligns content horizontally */
-              margin: 0; /* Reset margin */
-              padding: 0; /* Reset padding */
-            }
-            .form-check-input {
-              margin-right: 10px; /* Space between radio button and image */
-            }
-            .image-container {
-              object-fit: cover;
-              width: 50%;
-              height: auto;
-              margin: 0; /* Reset margin */
-              padding: 0; /* Reset padding */
-            }
-          </style>
         </div>
       </div>
-    </div>
-    <!-- Subtitle Presets -->
-    <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
-      <h5>Subtitle Presets</h5>
-      <p class="text-dark">Choose a style fZrom one of our presets.</p>
-      <div class="mb-3 mt-3">
-        <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']],
-                      label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
-          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-        </div>
-      </div>
-    </div>
-    <!-- Voice Settings -->
-    <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
-      <h5>Voice Settings</h5>
-      <p class="text-dark">Choose a voice style from our presets.</p>
-      <div class="d-flex flex-column flex-wrap gap-3 align-items-center justify-content-center">
-        <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false,
-                      item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-        <h5>Speed Settings</h5>
-        <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false,
-                      item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-      </div>
-    </div>
-    <!-- Submit Button -->
-    <div class="p-4 pt-3">
-      <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
-    </div>
-  <% end %>
+    <% end %>
+  </div>
 </div>
-</div>
+<!-- Simplified CSS -->
+<style>
+  .d-flex {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .form-check {
+    display: flex;
+  }
+  .form-check-input {
+    margin-right: 0.5rem;
+  }
+  .visually-hidden {
+    position: absolute;
+    left: -9999px;
+  }
+  .image-container, .image-sample {
+    object-fit: cover;
+    width: 100px;
+    height: auto;
+    transition: outline 0.3s ease;
+  }
+  .form-check input:checked + img {
+    outline: 3px solid #007bff;
+  }
+</style>
