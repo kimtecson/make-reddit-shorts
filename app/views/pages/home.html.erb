@@ -2,16 +2,25 @@
   <div class="container">
     <div class="mw-7xl align-items-center">
       <div class="row mx-auto">
-        <div class="col-lg-5 col-xl-4 order-last order-lg-first mt-0">
-          <img class="d-block w-75 img-fluid mw-xl mx-auto rounded-5 ms-36" 
+        <div class="col-lg-5 col-xl-4 order-last order-lg-first mt-0 mr-36 d-flex">
+          <img class="d-block img-fluid mw-xl rounded-5 ms-0 shadow-img"
        src="/home_gif.gif" 
        alt="" 
-       style="height: auto; width: 100%; object-fit: cover;">
+       style="height: auto; width: 65%; object-fit: cover;">
+          <img class="d-block img-fluid mw-xl rounded-5 ms-10 shadow-img"
+       src="/home_gif_2.gif" 
+       alt="" 
+       style="height: auto; width: 65%; object-fit: cover;">
         </div>
+        <style>
+          .shadow-img {
+            box-shadow: 8px 8px 24px rgba(0, 0, 0, 0.2);
+          }
+        </style>
         <div class="col-lg-7 col-xl-8 mb-16 mb-lg-0 position-relative">
           <img class="position-absolute bottom-0 mb-12 end-0 me-n40 pt-16" src="flaro-assets/images/cta/gradient3.svg" alt="">
           <div class="mw-xl mx-auto me-xl-0 position-relative">
-            <h1 class="h2 mb-10" contenteditable="false">Easily create high quality Reddit shorts</h1>
+            <h1 class="h2 mb-10" contenteditable="false">Easily create high quality <span data-controller="typed-text"></span></h1>
             <div class="mw-md mb-10" contenteditable="false">
               <div class="d-flex mb-5">
                 <div class="me-3">
@@ -20,7 +29,7 @@
                     <path d="M6 10.6667L8.66667 13.3333L14 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
                   </svg>
                 </div>
-                <p contenteditable="false">Create up to 3 free videos per day during your free trial</p>
+                <p contenteditable="false">Create up to 3 free videos per day during your free trial, no credit card required</p>
               </div>
               <div class="d-flex" contenteditable="false">
                 <div class="me-3">
@@ -50,9 +59,9 @@
   <div class="container position-relative">
     <div class="mb-24 text-center">
       <span class="fs-9 fw-semibold text-primary text-uppercase">HOW IT WORKS</span>
-      <h3 class="mt-6">Content a few clicks away</h3>
+      <h3 class="mt-6 fade-in-element" data-controller="fade-in">Content a few clicks away</h3>
     </div>
-    <div class="row mx-n0 mw-xs mw-sm-2xl mx-auto mw-lg-none">
+    <div class="row mx-n0 mw-xs mw-sm-2xl mx-auto mw-lg-none fade-in-element" data-controller="fade-in"">
       <div class="col-12 col-sm-6 col-lg-3 mb-12 mb-lg-0 px-0">
         <div class="text-center overflow-hidden position-relative">
           <div class="d-none d-sm-block position-absolute top-0 end-0 col-6 bg-light-dark bg-opacity-50 mt-6" style="height: 1px;"></div>
@@ -113,8 +122,8 @@
     <img class="position-absolute start-50 bottom-0 translate-middle-x" src="flaro-assets/images/newsletter/gradient.svg" alt="">
     <div class="container position-relative">
       <div class="mw-lg mx-auto text-center">
-        <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase">FEEDBACK</span>
-        <h3 class="mb-12">What should we improve on?</h3>
+        <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase fade-in-element" data-controller="fade-in">FEEDBACK</span>
+        <h3 class="mb-12 fade-in-element" data-controller="fade-in">What should we improve on?</h3>
         <%= turbo_frame_tag 'feedback-error-message' do %>
         <% end %>
         <%= form_with url: send_feedback_path, method: :post, class: "row g-3" do %>
