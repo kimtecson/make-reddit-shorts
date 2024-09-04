@@ -1,104 +1,83 @@
-<div class="d-flex align-items-start">
-  <!-- Vertical navigation pills -->
-  <div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-    <!-- Reddit tab button -->
-    <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Reddit</button>
-    <!-- Video tab button -->
-    <button class="nav-link" id="v-pills-profile-tab" data-bs-toggle="pill" data-bs-target="#v-pills-profile" type="button" role="tab" aria-controls="v-pills-profile" aria-selected="false">Video</button>
-    <!-- Subtitles tab button -->
-    <button class="nav-link" id="v-pills-messages-tab" data-bs-toggle="pill" data-bs-target="#v-pills-messages" type="button" role="tab" aria-controls="v-pills-messages" aria-selected="false">Subtitles</button>
-    <!-- Settings tab button -->
-    <button class="nav-link" id="v-pills-settings-tab" data-bs-toggle="pill" data-bs-target="#v-pills-settings" type="button" role="tab" aria-controls="v-pills-settings" aria-selected="false">Settings</button>
-  </div>
-  <!-- Main content container -->
-  <div class="container mt-3 text-white"> <!--data-controller="reddit-form" -->
-    <div class="row">
-      <!-- Left column: Tab contents and buttons -->
-      <div class="col-6">
-        <% flash.each do |type, msg| %>
-          <div>
-            <%= msg %>
-          </div>
-        <% end %>
-        <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
-          <div class="tab-content" id="v-pills-tabContent">
-            <!-- Reddit tab content -->
-            <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab" tabindex="0">
-              <div data-controller="script-edit">
-                <%= f.input :reddit_post_url,
-              label: "Reddit Post URL",
-              placeholder: "Enter Reddit post URL",
-       input_html: {
-      value: params[:query],
-      data: {
-        script_edit_target: "input",
-        action: "input->script-edit#checkUrl"
-      }
-              } %>
-                <%= f.input :script,
-                            label: "Script",
-                            as: :text,
-                            input_html: {
-                              data: {
-                                script_edit_target: "script",
-                                action: "input->script-edit#updateEstimate"
-                              },
-                              class: 'form-control',
-                              rows: 10,
-                              'data-output-upload-target': 'input'
-                            },
-                            error: false %>
-                <p data-script-edit-target="estimate">Estimated speech time: 0 seconds</p>
-              </div>
-              <%#= render 'new_reddit_story' %>
-            </div>
-            <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab" tabindex="0">
-              <!-- Video tab content -->
-              <div data-controller="video-upload">
-                <h4>Select a Source:</h4>
-                <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
-                  <div class="form-check">
-                    <%= b.radio_button(class: "form-check-input") %>
-                    <%= b.label(class: "form-check-label") %>
-                  </div>
-                <% end %>
-              </div>
-            </div>
-            <%#= render "new_subtitles" %>
-            <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab" tabindex="0">
-              <%#= f.color_field :font_color, as: :font_color %>
-              <%#= f.color_field :font_border_color, as: :font_border_color %>
-              <%#= f.number_field :font_border_width, as: :font_border_width, input_html: { min: 0, max: 10, step: 1 } %>
-              <%#= f.number_field :font_size, as: :font_size, input_html: { min: 0, max: 5, step: 1 } %>
-              subtitle presets
-              <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-            </div>
-            <div class="tab-pane fade" id="v-pills-settings" role="tabpanel" aria-labelledby="v-pills-settings-tab" tabindex="0">
-              <!-- Settings tab content -->
-              voice settings
-              <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-              speed settings
-              <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-            </div>
-          </div>
-          <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'button' %>
-        <% end %>
-        <br>
-        <%# <div class="form-inputs"> %>
-        <%#= f.input :reddit_post_url, label: "Reddit Post URL" %>
-        <!-- Add any other fields your Output model needs -->
-        <%# </div> %>
-        <%# <div class="form-actions"> %>
-        <%#= f.button :submit, "Create Output and Generate Video", data: { action: "click->output-upload#submit" } %>
-        <%# </div> %>
-        <%# end %>
+<div class="container mt-3 text-white mt-24 px-24 justify-center">
+  <div class="row">
+    <!-- Full-width column -->
+    <% flash.each do |type, msg| %>
+      <div class="alert alert-<%= type %>">
+        <%= msg %>
       </div>
-      <!-- Right column: Preview -->
-      <div class="col-6">
-        <div class="sticky-top col-6 mx-auto">
-          <%= render 'preview' %>
+    <% end %>
+    <%= simple_form_for @output, data: { controller: "output-upload", output_upload_target: "form" } do |f| %>
+      <!-- Reddit Post URL -->
+      <div class="mb-3">
+        <h4>Reddit Post</h4>
+        <%= f.input :reddit_post_url,
+            label: "Reddit Post URL",
+            placeholder: "Enter Reddit post URL",
+            input_html: {
+              value: params[:query],
+              data: {
+                script_edit_target: "input",
+                action: "input->script-edit#checkUrl"
+              },
+              class: 'form-control'
+            } %>
+      </div>
+      <!-- Script Input -->
+      <div class="mb-3">
+        <h4>Video script</h4>
+        <%= f.input :script,
+              label: "Script",
+              as: :text,
+              input_html: {
+                data: {
+                  script_edit_target: "script",
+                  action: "input->script-edit#updateEstimate"
+                },
+                class: 'form-control',
+                rows: 10,
+                'data-output-upload-target': 'input'
+              },
+              error: false %>
+      </div>
+      <p data-script-edit-target="estimate">Estimated speech time: 0 seconds</p>
+      <!-- Video Source Selection -->
+      <h4>Background video</h4>
+      <div class="mb-3 mt-10">
+        <div class="d-flex justify-content-center">
+          <%= render 'partials/source_preview' %>
+          <%= render 'partials/source_preview' %>
+          <%= render 'partials/source_preview' %>
+          <%= render 'partials/source_preview' %>
         </div>
+        <div class="d-flex justify-content-center">
+          <%= render 'partials/text_preview' %>
+          <%= render 'partials/text_preview' %>
+          <%= render 'partials/text_preview' %>
+          <%= render 'partials/text_preview' %>
+        </div>
+        <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
+          <div class="form-check">
+            <%= b.radio_button(class: "form-check-input") %>
+            <%= b.label(class: "form-check-label") %>
+          </div>
+        <% end %>
       </div>
-    </div>
+      <!-- Subtitle Preset Selection -->
+      <div class="mb-3">
+        <h4>Select Subtitle Preset:</h4>
+        <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
+      </div>
+      <!-- Voice Settings -->
+      <div class="mb-3">
+        <h4>Voice Settings</h4>
+        <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
+      </div>
+      <!-- Speed Settings -->
+      <div class="mb-3">
+        <h4>Speed Settings</h4>
+        <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
+      </div>
+      <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
+    <% end %>
   </div>
 </div>
