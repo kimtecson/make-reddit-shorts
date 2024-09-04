@@ -42,16 +42,21 @@
       <div class="border rounded-3 p-4 pt-3 mb-3 bg-light shadow-sm" data-controller="video-upload">
         <h5>Background Video</h5>
         <p class="text-dark">The video of your choice will be played in the background.</p>
-        <div class="mb-3 mt-3">
+        <div class="mb-3 mt-3 d-flex">
           <h4>Select a Source:</h4>
-          <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
+          <div class="d-flex flex-row">
             <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
               <div class="form-check">
                 <%= b.radio_button(class: "form-check-input") %>
-                <img src="/home_gif.gif" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
+                <img src="/home_gif.gif" alt="" class="rounded-3 p-0 m-0 shadow-sm image-container" style="object-fit: cover; width: 20%; height: auto;">
               </div>
             <% end %>
           </div>
+          <style>
+            .image-container {
+              flex-direction: row; /* Override any conflicting styles */
+            }
+          </style>
         </div>
       </div>
       <!-- Subtitle Presets -->
