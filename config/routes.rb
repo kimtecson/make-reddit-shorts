@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   get '/tos', to: 'pages#tos'
   get '/privacy', to: 'pages#privacy'
   get '/pricing', to: 'pages#pricing'
+  get '/about', to: 'pages#about'
   root to: "pages#home"
   post "send_feedback", to: "pages#send_feedback"
   # Defines the root path route ("/")
