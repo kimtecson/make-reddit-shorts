@@ -42,53 +42,72 @@
       <div class="border rounded-3 p-4 pt-3 mb-3 bg-light shadow-sm" data-controller="video-upload">
         <h5>Background Video</h5>
         <p class="text-dark">The video of your choice will be played in the background.</p>
-        <div class="mb-3 mt-3 d-flex">
+        <div class="mb-3 mt-3">
           <h4>Select a Source:</h4>
           <div class="d-flex flex-row">
             <%= f.collection_radio_buttons :source_id, @sources, :id, :to_s do |b| %>
               <div class="form-check">
                 <%= b.radio_button(class: "form-check-input") %>
-                <img src="/home_gif.gif" alt="" class="rounded-3 p-0 m-0 shadow-sm image-container" style="object-fit: cover; width: 20%; height: auto;">
+                <img src="/home_gif.gif" alt="" class="rounded-3 shadow-sm image-container">
               </div>
             <% end %>
           </div>
           <style>
+            .d-flex {
+              margin: 0; /* Reset margin for the container */
+              padding: 0; /* Reset padding for the container */
+            }
+            .form-check {
+              display: flex;
+              align-items: center;
+              justify-content: center; /* Center aligns content horizontally */
+              margin: 0; /* Reset margin */
+              padding: 0; /* Reset padding */
+            }
+            .form-check-input {
+              margin-right: 10px; /* Space between radio button and image */
+            }
             .image-container {
-              flex-direction: row; /* Override any conflicting styles */
+              object-fit: cover;
+              width: 50%;
+              height: auto;
+              margin: 0; /* Reset margin */
+              padding: 0; /* Reset padding */
             }
           </style>
         </div>
       </div>
-      <!-- Subtitle Presets -->
-      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
-        <h5>Subtitle Presets</h5>
-        <p class="text-dark">Choose a style from one of our presets.</p>
-        <div class="mb-3 mt-3">
-          <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']],
+    </div>
+    <!-- Subtitle Presets -->
+    <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
+      <h5>Subtitle Presets</h5>
+      <p class="text-dark">Choose a style fZrom one of our presets.</p>
+      <div class="mb-3 mt-3">
+        <%= f.input :subtitle_preset, as: :radio_buttons, collection: [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']],
                       label: false, item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-          <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
-            <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-            <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-            <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
-          </div>
+        <div class="d-flex flex-wrap gap-3 align-items-center justify-content-center">
+          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
+          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
+          <img src="/text_sample.png" alt="" class="rounded-3 p-0 m-0 shadow-sm" style="object-fit: cover; width: 20%; height: auto;">
         </div>
       </div>
-      <!-- Voice Settings -->
-      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
-        <h5>Voice Settings</h5>
-        <p class="text-dark">Choose a voice style from our presets.</p>
-        <div class="d-flex flex-column flex-wrap gap-3 align-items-center justify-content-center">
-          <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false,
+    </div>
+    <!-- Voice Settings -->
+    <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
+      <h5>Voice Settings</h5>
+      <p class="text-dark">Choose a voice style from our presets.</p>
+      <div class="d-flex flex-column flex-wrap gap-3 align-items-center justify-content-center">
+        <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], label: false,
                       item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-          <h5>Speed Settings</h5>
-          <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false,
+        <h5>Speed Settings</h5>
+        <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], label: false,
                       item_wrapper_class: 'form-check', input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-        </div>
       </div>
-      <!-- Submit Button -->
-      <div class="p-4 pt-3">
-        <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
-      </div>
-    <% end %>
-  </div>
+    </div>
+    <!-- Submit Button -->
+    <div class="p-4 pt-3">
+      <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
+    </div>
+  <% end %>
+</div>
 </div>

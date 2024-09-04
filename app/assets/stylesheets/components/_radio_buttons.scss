@@ -1,0 +1,28 @@
+
+.image-container {
+  cursor: pointer;
+  border: 2px solid transparent; // Default border
+  transition: border-color 0.3s ease; // Smooth transition for border color
+  position: relative;
+}
+
+.form-check-input {
+  display: none; // Hide the actual radio button
+}
+
+.form-check-input:checked + img {
+  border-color: #007bff; // Border color for the selected image
+  box-shadow: 0 0 0 4px rgba(38, 143, 255, 0.2); // Optional shadow effect for selected image
+}
+
+.form-check-input:checked + img {
+  border-color: #007bff; // Highlight color
+}
+
+.image-container {
+  border-radius: 0.375rem; // Match the border-radius of the images
+}
+
+.image-container:not(:last-child) {
+  margin-right: 1rem; // Space between images
+}
