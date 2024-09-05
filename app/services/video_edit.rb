@@ -52,7 +52,7 @@ class VideoEdit
         -i #{title_audio_path}
         -i app/services/resources/speech.mp3
         -i #{image_path}
-        -filter_complex "[0:v]#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v];
+        -filter_complex "[0:v]scale=1280:720,fps=24,#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v];
                          [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1];
                          [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2];
                          [a1][a2]amix=inputs=2[a]"
@@ -60,6 +60,8 @@ class VideoEdit
         -threads 8
         -tune fastdecode
       ).join(' ')
+      
+      
       
 
       Rails.logger.info "Executing FFmpeg command: #{ffmpeg_command}"
