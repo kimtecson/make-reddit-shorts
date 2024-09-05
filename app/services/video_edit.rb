@@ -1,6 +1,5 @@
 require 'json'
 require 'streamio-ffmpeg'
-require 'open-uri'
 
 class VideoEdit
   def generate(source, settings)
@@ -22,114 +21,93 @@ class VideoEdit
   def edit_video(source, settings)
     subtitles = create_subs
 
-    Rails.logger.info(source.url)
-  
-    # Download the video from the URL
-    tempfile = download_video_from_url(source.url)
-  
+    # Use the local video file path stored in the source
+    Rails.logger.info("Using local video file: #{source.url}")
+    local_video_path = source.url
+
     begin
-      movie = FFMPEG::Movie.new(tempfile.path)
-  
+      movie = FFMPEG::Movie.new(local_video_path)
+
+      # Define subtitle options based on the provided settings
       subtitle_preset = settings[:subtitle_preset]
-  
-      # Define subtitle options based on preset
-      case subtitle_preset
-      when 'Vanilla'
-        font_color = 'ffffff'
-        font_border_color = '000000'
-        font_border_width = 5
-        font_size = 48
-        font = 'neue'
-      when 'Yellow'
-        font_color = 'ffffff'
-        font_border_color = 'f0c424'
-        font_border_width = 3
-        font_size = 48
-        font = 'bangers'
-      when 'Red'
-        font_color = 'ffffff'
-        font_border_color = 'ff0000'
-        font_border_width = 3
-        font_size = 48
-        font = 'bangers'
-      else
-        font_color = 'ffffff'
-        font_border_color = '000000'
-        font_border_width = 5
-        font_size = 48
-        font = 'bangers'
-      end
+      font_color, font_border_color, font_border_width, font_size, font = get_font_settings(subtitle_preset)
       increase_font_size_animation = 6
-  
-      # Calculate the delay based on the first subtitle start time
+
+      # Calculate the delay for audio based on the first subtitle start time
       first_subtitle_start = subtitles.first[:start] + 3
       audio_delay = (first_subtitle_start * 1000).to_i  # Convert to milliseconds
-  
-      # Build subtitle filter
-      drawtext_options = subtitles.map do |subtitle|
-        subtitle_text = subtitle[:text].gsub("'", "''")  # Escape single quotes properly
-  
-        %{
-          drawtext=text='#{subtitle_text}':
-          fontcolor=0x#{font_color}:
-          bordercolor=#{font_border_color}:
-          borderw=#{font_border_width}:
-          fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start] + 3},#{subtitle[:start] + 3}+0.1),(t-#{subtitle[:start] + 3})*10,if(between(t,#{subtitle[:end] + 3}-0.1,#{subtitle[:end] + 3}),(#{subtitle[:end] + 3}-t)*10,1))':
-          fontfile=app/services/resources/#{font}.ttf:
-          box=0:
-          boxcolor=black@1:
-          boxborderw=5:
-          x=(w-text_w)/2:
-          y=(h-text_h)/2:
-          enable='between(t,#{subtitle[:start] + 3},#{subtitle[:end] + 3})'
-        }.gsub(/\s+/, ' ').strip
-      end.join(',')
-  
-      # Image overlay with subtitle filter
+
+      # Build the FFmpeg drawtext options for subtitles
+      drawtext_options = build_drawtext_options(subtitles, font_color, font_border_color, font_border_width, font_size, increase_font_size_animation, font)
+
+      # Paths for resources
       image_path = Rails.root.join('app', 'services', 'outputs', 'title_image.png').to_s
       output_video_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
-  
-      # Add the path to the new audio clip for the beginning
       title_audio_path = Rails.root.join('app', 'services', 'resources', 'speech_title.mp3').to_s
-  
+
       # Construct the FFmpeg command
       ffmpeg_command = %W(
         ffmpeg
-        -i #{tempfile.path}
+        -i #{local_video_path}
         -i #{title_audio_path}
         -i app/services/resources/speech.mp3
         -i #{image_path}
-        -filter_complex "[0:v]#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v]; 
-        [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1]; 
-        [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2]; 
-        [a1][a2]amix=inputs=2[a]"
-        -map "[v]" -map "[a]" -c:v libx264 -c:a aac -strict experimental -t 10 #{output_video_path}
+        -filter_complex "[0:v]#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v];
+                         [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1];
+                         [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2];
+                         [a1][a2]amix=inputs=2[a]"
+        -map "[v]" -map "[a]" -c:v libx264 -c:a aac -strict experimental -shortest #{output_video_path}
+        -preset ultrafast
+        -threads 4
+
       ).join(' ')
-  
-      puts "Executing FFmpeg command: #{ffmpeg_command}"
+
+      Rails.logger.info "Executing FFmpeg command: #{ffmpeg_command}"
       system(ffmpeg_command)
-    ensure
-      tempfile.close
-      tempfile.unlink
+    rescue => e
+      Rails.logger.error "Error during video editing: #{e.message}"
+      raise
     end
   end
 
   private
 
-  def download_video_from_url(url)
-    # Ensure the open-uri is required for remote file access
-    tempfile = Tempfile.new(['video', '.mp4'])
-    tempfile.binmode
-
-    # Use open-uri to open the remote URL and stream it into the tempfile
-    URI.open(url) do |remote_file|
-      IO.copy_stream(remote_file, tempfile)
+  # Font settings based on subtitle preset
+  def get_font_settings(subtitle_preset)
+    case subtitle_preset
+    when 'Vanilla'
+      ['ffffff', '000000', 5, 48, 'neue']
+    when 'Yellow'
+      ['ffffff', 'f0c424', 3, 48, 'bangers']
+    when 'Red'
+      ['ffffff', 'ff0000', 3, 48, 'bangers']
+    else
+      ['ffffff', '000000', 5, 48, 'bangers']
     end
-
-    tempfile.rewind
-    tempfile
   end
 
+  # Build the FFmpeg drawtext options based on subtitle data
+  def build_drawtext_options(subtitles, font_color, font_border_color, font_border_width, font_size, increase_font_size_animation, font)
+    subtitles.map do |subtitle|
+      subtitle_text = subtitle[:text].gsub("'", "''")  # Escape single quotes properly
+      %{
+        drawtext=text='#{subtitle_text}':
+        fontcolor=0x#{font_color}:
+        bordercolor=#{font_border_color}:
+        borderw=#{font_border_width}:
+        fontsize='#{font_size}+#{increase_font_size_animation}*if(between(t,#{subtitle[:start] + 3},#{subtitle[:start] + 3}+0.1),(t-#{subtitle[:start] + 3})*10,if(between(t,#{subtitle[:end] + 3}-0.1,#{subtitle[:end] + 3}),(#{subtitle[:end] + 3}-t)*10,1))':
+        fontfile=app/services/resources/#{font}.ttf:
+        box=0:
+        boxcolor=black@1:
+        boxborderw=5:
+        x=(w-text_w)/2:
+        y=(h-text_h)/2:
+        enable='between(t,#{subtitle[:start] + 3},#{subtitle[:end] + 3})'
+      }.gsub(/\s+/, ' ').strip
+    end.join(',')
+  end
+
+  # Parse and create subtitle data from the transcription JSON file
   def create_subs
     file_path = Rails.root.join('app', 'services', 'resources', 'transcription_with_timestamps.json')
     file = File.read(file_path)
