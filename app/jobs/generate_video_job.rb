@@ -16,20 +16,14 @@ class GenerateVideoJob < ApplicationJob
         Rails.logger.info "Video generated at path: #{video_path}"
 
         if video_path.is_a?(String) && File.exist?(video_path)
-          # Force ActiveStorage to use correct credentials when attaching the video
-          ActiveStorage::Blob.service.client = Aws::S3::Client.new(
-            access_key_id: Rails.application.credentials.aws[:access_key_id],
-            secret_access_key: Rails.application.credentials.aws[:secret_access_key],
-            region: Rails.application.credentials.aws[:region]
-          )
-
-          # Attach the video file to the output
+          # Attach the video file to the output, ActiveStorage service will use the default storage configuration
           output.video.attach(
             io: File.open(video_path),
             filename: "output.mp4",
             content_type: 'video/mp4'
           )
 
+          # Generate the URL for the attached video file
           output.url = Rails.application.routes.url_helpers.url_for(output.video)
           output.status = 'completed'
           output.save!
@@ -38,6 +32,7 @@ class GenerateVideoJob < ApplicationJob
         else
           Rails.logger.error "Invalid video path returned: #{video_path}"
           output.errors.add(:base, "Error generating video")
+          raise ActiveRecord::Rollback
         end
       rescue => e
         Rails.logger.error "Error in video generation: #{e.message}"
