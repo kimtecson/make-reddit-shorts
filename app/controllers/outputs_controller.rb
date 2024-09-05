@@ -46,8 +46,24 @@ class OutputsController < ApplicationController
     @output = Output.find(params[:id])
   end
 
+  
+
   def index
     @outputs = Output.all
+  end
+
+  def progress
+    output = Output.find(params[:id])
+    render json: { progress: output.progress }
+  end
+
+  def video_url
+    output = Output.find(params[:id])
+    if output.progress == 100 && output.url.present?
+      render json: { url: output.url }
+    else
+      render json: { error: "Video not ready yet" }, status: :unprocessable_entity
+    end
   end
 
   private

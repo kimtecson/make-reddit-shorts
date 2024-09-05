@@ -1,16 +1,148 @@
-<h1>Output Details</h1>
-<p>Status: <%= @output.status %></p>
-<% if @output.status == 'completed' %>
-  <%= video_tag @output.url, size: "320x240", controls: true %>
-<% elsif @output.status == 'pending' || @output.status == 'processing' %>
-  <p>Your video is being generated. Please refresh the page in a few moments.</p>
-<% else %>
-  <p>There was an error generating your video. Please try again or contact support.</p>
-<% end %>
-<script>
-  <% if @output.status == 'pending' || @output.status == 'processing' %>
-    setTimeout(function() {
-      location.reload();
-    }, 1000);  // Reload the page every 10 seconds
+<div id="progress-bar-container">
+  <p class="hello-world"></p>
+  <div class="progress-wrapper">
+    <div class="progress">
+      <div id="progress-bar" class="progress-value" style="width: <%= @output.progress || 0 %>%;"></div>
+    </div>
+  </div>
+</div>
+<!-- Placeholder for the video tag, rendered only when the video is ready -->
+<div id="video-container">
+  <% if @output.progress == 100 && @output.url.present? %>
+    <%= video_tag @output.url, size: "320x240", controls: true, id: "video-element" %>
+  <% else %>
+    <p style="color: white;">Video is being generated. Please wait...</p>
   <% end %>
+</div>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const outputId = <%= @output.id %>;
+    let lastProgress = 0;
+
+    // Messages for different progress stages
+    const progressMessages = {
+      20: "Generating voice",
+      40: "Generating video",
+      60: "Entering spaceship",
+      70: "Feedback",
+      80: "Ready!"
+    };
+
+    // Function to get the appropriate message
+    function getProgressMessage(progress) {
+      // Default message when there's no specific message for the progress
+      let message = "Processing";
+      let percentageMessage = `(${progress}%)`;
+
+      // Check if a message exists for the current progress
+      Object.keys(progressMessages).forEach(key => {
+        if (progress >= key) {
+          message = `${progressMessages[key]} ${percentageMessage}`;
+        }
+      });
+
+      return message;
+    }
+
+    function checkProgress() {
+      fetch(`/outputs/${outputId}/progress`)
+        .then(response => response.json())
+        .then(data => {
+          const progress = data.progress;
+          const progressBarElem = document.getElementById("progress-bar");
+          const messageElem = document.querySelector(".hello-world");
+
+          if (progress > lastProgress) {
+            const increment = Math.ceil((progress - lastProgress) / 20);
+
+            function updateProgress(currentProgress) {
+              if (currentProgress <= progress) {
+                progressBarElem.style.width = currentProgress + "%";
+
+                // Update message and percentage above the bar
+                messageElem.innerText = getProgressMessage(currentProgress);
+
+                setTimeout(() => updateProgress(currentProgress + increment), 50); // Adjust timing as needed
+              } else {
+                progressBarElem.style.width = progress + "%";
+                messageElem.innerText = getProgressMessage(progress);
+                lastProgress = progress;
+
+                if (progress >= 100) {
+                  // Stop polling and show the video when progress is 100%
+                  fetch(`/outputs/${outputId}/video_url`)
+                    .then(response => response.json())
+                    .then(data => {
+                      const videoContainer = document.getElementById("video-container");
+                      const videoUrl = data.url;
+
+                      // Dynamically insert the video tag
+                      videoContainer.innerHTML = `<video src="${videoUrl}" size="320x240" controls></video>`;
+                    })
+                    .catch(error => console.error("Error loading video URL:", error));
+                } else {
+                  setTimeout(checkProgress, 1000); // Poll every second
+                }
+              }
+            }
+
+            // Start the incremental update
+            updateProgress(lastProgress + increment);
+          } else {
+            if (lastProgress < 100) {
+              const newProgress = Math.min(lastProgress + 1, 100);
+              progressBarElem.style.width = newProgress + "%";
+              messageElem.innerText = getProgressMessage(newProgress);
+              lastProgress = newProgress;
+            }
+
+            setTimeout(checkProgress, 500); // Poll every half second
+          }
+        })
+        .catch(error => console.error("Error checking progress:", error));
+    }
+
+    // Start polling for progress
+    checkProgress();
+  });
 </script>
+<style>
+  #progress-bar-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .hello-world {
+    color: #433cc3;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px; /* Adjusted margin to be closer to the progress bar */
+  }
+
+  .progress-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .progress {
+    background: #433cc3;
+    border-radius: 100px;
+    display: flex;
+    height: 50px;
+    width: 400px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .progress-value {
+    background: #7770FE;
+    height: 100%;
+    transition: width 0.5s ease;
+    width: 0; /* Initially set to 0, will be updated via JS */
+  }
+</style>

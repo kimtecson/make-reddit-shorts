@@ -2,7 +2,7 @@ require 'net/http'
 require 'uri'
 require 'json'
 
-class TTS
+class Tts
 
   def generate_voice_script(settings)
     script_text = settings[:script]
