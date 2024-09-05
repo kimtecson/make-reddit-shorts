@@ -1,6 +1,6 @@
 class User < ApplicationRecord
 
-  has_one_attached :avatar
+
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable,
@@ -8,6 +8,9 @@ class User < ApplicationRecord
          :omniauthable, omniauth_providers: [:google_oauth2]
         # :omniauth, omniauth_providers: [:google_oauth2]
   has_many :outputs, dependent: :destroy
+
+  validates :password, confirmation: true
+  
 
   def self.from_omniauth(access_token)
     data = access_token.info

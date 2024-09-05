@@ -2,9 +2,22 @@
   <div class="container">
     <div class="mw-md mx-auto">
       <a class="d-inline-block mb-32" href="#"><img src="flaro-assets/logos/flaro-logo-black-xl.svg" alt=""/></a>
+      <!-- Error Messages -->
+      <% if resource.errors.any? %>
+        <div class="alert alert-danger">
+          <ul>
+            <% resource.errors.full_messages.each do |message| %>
+              <li><%= message %></li>
+            <% end %>
+          </ul>
+        </div>
+      <% end %>
       <h3 class="mb-4">Welcome Back</h3>
-      <p class="fs-8 text-secondary mb-12">We're  glad to see you again! Don't forget to give us some <a href="<%= root_path %>#feedback">fedback!</a></p>
-      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { method: :post }) do |f| %>
+      <p class="fs-8 text-secondary mb-12">
+        We're glad to see you again! Don't forget to give us some 
+        <a href="<%= root_path %>#feedback">feedback!</a>
+      </p>
+      <%= form_for(resource, as: resource_name, url: session_path(resource_name), html: { method: :post, data: { turbo: false } }) do |f| %>
         <div class="mb-5">
           <%= f.email_field :email, class: 'form-control', placeholder: 'Email address', autocomplete: 'email' %>
         </div>
