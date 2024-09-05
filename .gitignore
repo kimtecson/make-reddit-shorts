@@ -8,6 +8,9 @@
 # Ignore large files
 app/services/outputs/output.mp4
 app/assets/audio/speech.mp4
+app/services/outputs/title_image.png
+app/services/resources/speech.mp3
+app/services/resources/transcription_with_timestamps.json
 # Ignore bundler config.
 /.bundle
 
