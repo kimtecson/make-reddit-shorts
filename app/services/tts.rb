@@ -11,10 +11,10 @@ class TTS
       region: 'eu-central-1',
       credentials: Aws::Credentials.new(Rails.application.credentials.dig(
                     :aws,
-                    :aws_access_key_id
+                    :access_key_id
                   ), Rails.application.credentials.dig(
                     :aws,
-                    :aws_secret_access_key
+                    :secret_access_key
                   ))
     })
     # SSML text with increased speaking rate
@@ -47,10 +47,10 @@ class TTS
       region: 'eu-central-1',
       credentials: Aws::Credentials.new(Rails.application.credentials.dig(
                     :aws,
-                    :aws_access_key_id
+                    :access_key_id
                   ), Rails.application.credentials.dig(
                     :aws,
-                    :aws_secret_access_key
+                    :secret_access_key
                   ))
     })
     # SSML text with increased speaking rate
