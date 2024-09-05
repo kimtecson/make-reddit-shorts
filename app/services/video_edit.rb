@@ -56,11 +56,11 @@ class VideoEdit
                          [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1];
                          [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2];
                          [a1][a2]amix=inputs=2[a]"
-        -map "[v]" -map "[a]" -c:v libx264 -c:a aac -strict experimental -shortest #{output_video_path}
-        -preset ultrafast
-        -threads 4
-
+        -map "[v]" -map "[a]" -c:v libx264 -crf 28 -preset veryfast -c:a aac -b:a 128k -shortest #{output_video_path}
+        -threads 8
+        -tune fastdecode
       ).join(' ')
+      
 
       Rails.logger.info "Executing FFmpeg command: #{ffmpeg_command}"
       system(ffmpeg_command)
