@@ -4,6 +4,7 @@ ruby "3.1.2"
 
 
 # gems for services (added by stan)
+gem 'valid_email2'
 gem 'aws-sdk-s3'
 gem 'streamio-ffmpeg'
 gem 'dotenv'
