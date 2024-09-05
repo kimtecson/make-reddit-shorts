@@ -45,21 +45,41 @@ class VideoEdit
       output_video_path = Rails.root.join('app', 'services', 'outputs', 'output.mp4').to_s
       title_audio_path = Rails.root.join('app', 'services', 'resources', 'speech_title.mp3').to_s
 
+
       # Construct the FFmpeg command
+      def get_audio_duration(file_path)
+        cmd = "ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 #{file_path}"
+        stdout, _stderr, _status = Open3.capture3(cmd)
+        stdout.strip
+      end
+
+      title_audio_duration = get_audio_duration(title_audio_path)
+      speech_audio_duration = get_audio_duration('app/services/resources/speech.mp3')
+
+      # Find the maximum duration between the two audio files
+      audio_duration = [title_audio_duration.to_f, speech_audio_duration.to_f].max
+
       ffmpeg_command = %W(
         ffmpeg
         -i #{local_video_path}
         -i #{title_audio_path}
         -i app/services/resources/speech.mp3
         -i #{image_path}
-        -filter_complex "[0:v]scale=1280:720,fps=24,#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v];
-                         [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1];
-                         [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2];
-                         [a1][a2]amix=inputs=2[a]"
-        -map "[v]" -map "[a]" -c:v libx264 -crf 28 -preset veryfast -c:a aac -b:a 128k -shortest #{output_video_path}
+        -filter_complex "[0:v]scale=1080:1920,fps=24,#{drawtext_options},overlay=(main_w-overlay_w)/2:(main_h-overlay_h)/2:enable='between(t,0,3)'[v];
+                        [1:a]adelay=0|0,asetpts=PTS-STARTPTS[a1];
+                        [2:a]adelay=#{audio_delay}|#{audio_delay},asetpts=PTS-STARTPTS[a2];
+                        [a1][a2]amix=inputs=2[a]"
+        -map "[v]" -map "[a]" -c:v libx264 -crf 28 -preset veryfast -c:a aac -b:a 128k -shortest
+        -to #{audio_duration} #{output_video_path}
         -threads 8
         -tune fastdecode
       ).join(' ')
+
+      file_path = 'app/services/outputs/output.mp4'
+      File.delete(file_path) if File.exist?(file_path)
+      
+      system(ffmpeg_command)
+      
       
       
       
@@ -78,13 +98,13 @@ class VideoEdit
   def get_font_settings(subtitle_preset)
     case subtitle_preset
     when 'Vanilla'
-      ['ffffff', '000000', 5, 48, 'neue']
+      ['ffffff', '000000', 5, 96, 'bangers']
     when 'Yellow'
-      ['ffffff', 'f0c424', 3, 48, 'bangers']
+      ['ffffff', '000000', 3, 96, 'bangers']
     when 'Red'
-      ['ffffff', 'ff0000', 3, 48, 'bangers']
+      ['ffffff', '000000', 3, 96, 'bangers']
     else
-      ['ffffff', '000000', 5, 48, 'bangers']
+      ['ffffff', '000000', 5, 96, 'bangers']
     end
   end
 
