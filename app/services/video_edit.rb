@@ -26,6 +26,7 @@ class VideoEdit
     local_video_path = source.url
 
     begin
+      
       movie = FFMPEG::Movie.new(local_video_path)
 
       # Define subtitle options based on the provided settings
@@ -61,6 +62,7 @@ class VideoEdit
 
       ffmpeg_command = %W(
         ffmpeg
+        -y
         -i #{local_video_path}
         -i #{title_audio_path}
         -i app/services/resources/speech.mp3
@@ -75,9 +77,6 @@ class VideoEdit
         -tune fastdecode
       ).join(' ')
 
-      file_path = 'app/services/outputs/output.mp4'
-      File.delete(file_path) if File.exist?(file_path)
-      
       system(ffmpeg_command)
       
       
