@@ -11,6 +11,12 @@ app/assets/audio/speech.mp4
 app/services/outputs/title_image.png
 app/services/resources/speech.mp3
 app/services/resources/transcription_with_timestamps.json
+
+# Ignore video sources
+app/services/resources/videos/source-1.mp4
+app/services/resources/videos/source-2.mp4
+app/services/resources/videos/source-3.mp4
+
 # Ignore bundler config.
 /.bundle
 
