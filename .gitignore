@@ -44,3 +44,5 @@ app/services/resources/transcription_with_timestamps.json
 .env*
 .env*
 .env*
+
+/config/credentials/development.key
