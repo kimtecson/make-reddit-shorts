@@ -11,10 +11,10 @@ Aws.config.update({
   region: 'eu-north-1',
   credentials: Aws::Credentials.new(Rails.application.credentials.dig(
                     :aws,
-                    :aws_access_key_id
+                    :access_key_id
                   ), Rails.application.credentials.dig(
                     :aws,
-                    :aws_secret_access_key
+                    :secret_access_key
                   ))
 })
 
@@ -22,7 +22,7 @@ Aws.config.update({
 s3_client = Aws::S3::Client.new
 
 # Set your bucket name
-bucket_name = Rails.application.credentials.dig(:aws, :aws_bucket_name)
+bucket_name = Rails.application.credentials.dig(:aws, :bucket_name)
 
 # Create a presigner
 presigner = Aws::S3::Presigner.new(client: s3_client)
