@@ -22,7 +22,7 @@ Aws.config.update({
 s3_client = Aws::S3::Client.new
 
 # Set your bucket name
-bucket_name = Rails.application.credentials.dig(:aws, :bucket_name)
+bucket_name = Rails.application.credentials.dig(:aws, :bucket)
 
 # Create a presigner
 presigner = Aws::S3::Presigner.new(client: s3_client)
