@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2024_08_19_115601) do
+ActiveRecord::Schema[7.1].define(version: 2024_09_05_224522) do
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
     t.string "record_type", null: false
@@ -58,6 +58,8 @@ ActiveRecord::Schema[7.1].define(version: 2024_08_19_115601) do
     t.string "voice_speed"
     t.text "script"
     t.string "status", default: "pending"
+    t.string "job_id"
+    t.integer "progress"
     t.index ["source_id"], name: "index_outputs_on_source_id"
     t.index ["user_id"], name: "index_outputs_on_user_id"
   end
