@@ -1,0 +1,29 @@
+<% if @output.progress == 100 && @output.url.present? %>
+  <section class="py-12 py-sm-24 position-relative overflow-hidden">
+    <div class="container">
+      <div class="mw-7xl align-items-center">
+        <div class="row mx-auto">
+          <div class="col-lg-6 col-xl-6 order-last order-lg-first">
+            <div class="d-flex justify-content-center">
+              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 p" %>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xl-6 mb-16 mb-lg-0 position-relative">
+            <div class="mw-xl mx-auto me-xl-0 position-relative">
+              <h1 class="h3 mb-10 mw-md"><%= File.read('app/services/resources/title.txt') %></h1>
+              <div class="rounded-3 p-5 shadow-sm">
+                <h5>Video script</h5>
+                <p id="script-preview">
+                  <%= @output.script.split(' ')[0..4].join(' ') %>
+                  <span id="read-more-dots">...</span>
+                  <a href="javascript:void(0)" id="toggle-script">Read more</a>
+                </p>
+                <p id="script-full" style="display: none; white-space: pre-line;"><%= @output.script %></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>

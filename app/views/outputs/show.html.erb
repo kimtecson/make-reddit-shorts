@@ -1,33 +1,96 @@
-<div id="progress-bar-container">
-  <p class="hello-world"></p>
-  <div class="progress-wrapper">
-    <div class="progress">
-      <div id="progress-bar" class="progress-value" style="width: <%= @output.progress || 0 %>%;"></div>
-    </div>
-  </div>
-</div>
+<%= render partial: 'progress_bar' %>
 <!-- Placeholder for the video tag, rendered only when the video is ready -->
-<div id="video-container">
-  <% if @output.progress == 100 && @output.url.present? %>
-    <%= video_tag @output.url, size: "160x120", controls: true, id: "video-element" %>
-  <% else %>
-    <p style="color: white;">Video is being generated. Please wait...</p>
-  <% end %>
+<% if @output.progress == 100 && @output.url.present? %>
+  <section id="video-section" class="py-12 py-sm-24 position-relative overflow-hidden" style="display: none;">
+    <div class="container">
+      <div class="mw-7xl align-items-center">
+        <div class="row mx-auto">
+          <div class="col-lg-6 col-xl-6 order-last order-lg-first">
+            <div class="d-flex justify-content-center">
+              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 shadow" %>
+            </div>
+          </div>
+          <div class="col-lg-6 col-xl-6 mb-16 mb-lg-0 position-relative">
+            <div class="mw-xl mx-auto me-xl-0 position-relative">
+              <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
+              <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
+                <h5>Video script</h5>
+                <p id="script-preview" style="display: inline;">
+                  <%= @output.script.split(' ')[0..40].join(' ') %>
+                  <span id="read-more-dots">...</span>
+                  <a href="javascript:void(0)" id="toggle-script" style="text-decoration: underline; color: #007bff;">Read more</a>
+                </p>
+                <p id="script-full" style="display: none; white-space: pre-line;"><%= @output.script %></p>
+              </div>
+              <div class="rounded-3 p-5 mt-8 shadow-sm" style="width: 100%;">
+                <div class="row">
+                  <div class="col-4 text-center">
+                    <div class="d-flex flex-column align-items-center">
+                      <h5>Subtitles</h5>
+                      <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Preset</button>
+                    </div>
+                  </div>
+                  <div class="col-4 text-center">
+                    <div class="d-flex flex-column align-items-center">
+                      <h5>Voice</h5>
+                      <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Ruth</button>
+                    </div>
+                  </div>
+                  <div class="col-4 text-center">
+                    <div class="d-flex flex-column align-items-center">
+                      <h5>Speed</h5>
+                      <button id="preset-button-3" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Fast</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="d-flex gap-5 mt-10">
+                <button class="btn btn-primary rounded-3 shadow-sm mt-2 w-50">Download</button>
+                <button class="btn btn-primary rounded-3 shadow-sm mt-2 w-50">Regenerate</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
     const outputId = <%= @output.id %>;
     let lastProgress = 0;
 
-    // Check if video is already available on page load
+    // Check if the video is available on page load
     function checkIfVideoExists() {
       const videoElement = document.getElementById("video-element");
-      if (videoElement) {
-        // Hide the progress bar if the video is already present
-        document.getElementById("progress-bar-container").style.display = "none";
-        return true; // Video is already present
+      const videoSection = document.getElementById("video-section");
+      const progressBarContainer = document.getElementById("progress-bar-container");
+
+      if (videoElement && videoElement.getAttribute('src')) {
+        // Ensure video is loaded before showing the section
+        if (progressBarContainer) progressBarContainer.style.display = "none";
+        videoSection.style.display = "block";
+        return true;
       }
-      return false; // No video yet, proceed with progress bar
+      return false;
+    }
+
+    // Function to store the video generated state in sessionStorage
+    function setVideoGeneratedState() {
+      sessionStorage.setItem("videoGenerated", "true");
+    }
+
+    // Function to get the video generated state from sessionStorage
+    function isVideoGenerated() {
+      return sessionStorage.getItem("videoGenerated") === "true";
+    }
+
+    // If video is already generated, show it immediately without any checks
+    if (isVideoGenerated()) {
+      if (checkIfVideoExists()) {
+        return; // Stop further checks if video is ready
+      }
     }
 
     // Messages for different progress stages
@@ -40,16 +103,15 @@
       64: "Well at least trying to",
       67: "Trying is what matters",
       69: "Right?",
-      70: "This might take a while",
-      70: "Kidding! It's almost done",
+      73: "This might take a while",
+      77: "Kidding! It's almost done",
     };
 
-    // Function to get the appropriate message
+    // Function to get the appropriate message for progress
     function getProgressMessage(progress) {
       let message = "Processing";
       let percentageMessage = `(${progress}%)`;
 
-      // Check if a message exists for the current progress
       Object.keys(progressMessages).forEach(key => {
         if (progress >= key) {
           message = `${progressMessages[key]} ${percentageMessage}`;
@@ -60,9 +122,6 @@
     }
 
     function checkProgress() {
-      // If the video is already available, stop checking progress
-      if (checkIfVideoExists()) return;
-
       fetch(`/outputs/${outputId}/progress`)
         .then(response => response.json())
         .then(data => {
@@ -76,40 +135,40 @@
             function updateProgress(currentProgress) {
               if (currentProgress <= progress) {
                 progressBarElem.style.width = currentProgress + "%";
-
-                // Update message and percentage above the bar
                 messageElem.innerText = getProgressMessage(currentProgress);
 
-                setTimeout(() => updateProgress(currentProgress + increment), 50); // Adjust timing as needed
+                setTimeout(() => updateProgress(currentProgress + increment), 50);
               } else {
                 progressBarElem.style.width = progress + "%";
                 messageElem.innerText = getProgressMessage(progress);
                 lastProgress = progress;
 
                 if (progress >= 100) {
-                  // Hide the progress bar container once video is ready
-                  document.getElementById("progress-bar-container").style.display = "none";
+                  // Set the video as generated in sessionStorage
+                  setVideoGeneratedState();
 
-                  // Stop polling and show the video when progress is 100%
-                  fetch(`/outputs/${outputId}/video_url`)
-                    .then(response => response.json())
-                    .then(data => {
-                      const videoContainer = document.getElementById("video-container");
-                      const videoUrl = data.url;
+                  // Check if the video element is ready and show the video section
+                  if (checkIfVideoExists()) {
+                    document.getElementById("progress-bar-container").style.display = "none";
+                    document.getElementById("video-section").style.display = "block";
 
-                      // Dynamically insert the video tag with small size
-                      videoContainer.innerHTML = `<video src="${videoUrl}" width="160" height="120" controls></video>`;
-                    })
-                    .catch(error => console.error("Error loading video URL:", error));
+                    // Optional: Add a small delay before refreshing the page
+                    setTimeout(() => {
+                      window.location.reload();
+                    }, 1000);
+                  } else {
+                    // Retry after 1 second if video isn't ready yet
+                    setTimeout(checkProgress, 1000);
+                  }
                 } else {
-                  setTimeout(checkProgress, 1000); // Poll every second
+                  setTimeout(checkProgress, 1000);
                 }
               }
             }
 
-            // Start the incremental update
             updateProgress(lastProgress + increment);
           } else {
+            // If the last progress isn't 100, update the progress slowly and continue checking
             if (lastProgress < 100) {
               const newProgress = Math.min(lastProgress + 1, 100);
               progressBarElem.style.width = newProgress + "%";
@@ -117,59 +176,12 @@
               lastProgress = newProgress;
             }
 
-            setTimeout(checkProgress, 500); // Poll every half second
+            setTimeout(checkProgress, 500);
           }
         })
         .catch(error => console.error("Error checking progress:", error));
     }
 
-    // Start polling for progress if the video doesn't already exist
     checkProgress();
   });
 </script>
-<style>
-  #progress-bar-container {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-  }
-
-  .hello-world {
-    color: #433cc3;
-    font-size: 24px;
-    font-weight: bold;
-    text-align: center;
-    margin-bottom: 10px;
-  }
-
-  .progress-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-
-  .progress {
-    background: #433cc3;
-    border-radius: 100px;
-    display: flex;
-    height: 50px;
-    width: 400px;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 0px 0px 40px #433cc3;
-  }
-
-  .progress-value {
-    background: #7770FE;
-    height: 100%;
-    transition: width 0.5s ease;
-    width: 0;
-  }
-
-  #video-container video {
-    width: 160px; /* Small width */
-    height: 120px; /* Small height */
-  }
-</style>
