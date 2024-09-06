@@ -12,38 +12,91 @@
     <div class="container">
       <div class="mw-7xl align-items-center">
         <div class="row mx-auto">
-          <div class="col-lg-5 col-xl-4 order-last order-lg-first">
+          <div class="col-lg-6 col-xl-6 order-last order-lg-first">
             <%# Substitute image with video here %>
             <div class="d-flex justify-content-center">
-              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-75 mw-xl mx-auto rounded-5 p" %>
+              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 p" %>
             </div>
           </div>
-          <div class="col-lg-7 col-xl-8 mb-16 mb-lg-0 position-relative">
-            <img class="position-absolute bottom-0 mb-12 end-0 me-n40" src="flaro-assets/images/cta/gradient3.svg" alt=""/>
+          <div class="col-lg-6 col-xl-6 mb-16 mb-lg-0 position-relative" >
             <div class="mw-xl mx-auto me-xl-0 position-relative">
-              <h1 class="h2 mb-10">Join &amp; build your startup successful</h1>
-              <div class="mw-md mb-10">
-                <div class="d-flex mb-5">
-                  <div class="me-3">
+              <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
+              <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
+                <h5>Video script</h5>
+                <p id="script-preview" style="display: inline;">
+                  <%= @output.script.split(' ')[0..4].join(' ') %>
+                  <span id="read-more-dots">...</span>
+                  <a href="javascript:void(0)" id="toggle-script" style="text-decoration: underline; color: #007bff;">Read more</a>
+                </p>
+                <p id="script-full" style="display: none; white-space: pre-line;"><%= @output.script %></p>
+                <!-- Full script hidden -->
+              </div>
+              <script>
+                document.addEventListener("DOMContentLoaded", function() {
+                  const previewElem = document.getElementById("script-preview");
+                  const fullScriptElem = document.getElementById("script-full");
+                  const toggleButton = document.getElementById("toggle-script");
+                  const readMoreDots = document.getElementById("read-more-dots");
+
+                  toggleButton.addEventListener("click", function() {
+                    if (fullScriptElem.style.display === "none") {
+                      // Show the full script and hide the "Read more" link
+                      fullScriptElem.style.display = "inline";
+                      previewElem.style.display = "none";
+                    }
+                  });
+                });
+              </script>
+              <div class="d-flex">
+                <div class="col-4">
+                  <h5>Subtitles</h5>
+                  <div class="d-flex align-items-center">
+                    <img id="preset-image-1" src="/text_sample.png" alt="test" class="rounded-3 shadow-sm w-75" style="height: auto;">
                   </div>
-                  <p><%= @output.voice_speed%></p>
                 </div>
-                <div class="d-flex">
-                  <div class="me-3">
+                <div class="col-4">
+                  <h5>Voice</h5>
+                  <div class="d-flex align-items-center">
+                    <button id="preset-button-1" class="btn rounded-3 shadow-sm" style="width: auto; height: auto; background-color: #EEEEEE;">Ruth</button>
                   </div>
-                  <p>Mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat enim est sit arina.</p>
+                </div>
+                <div class="col-4">
+                  <h5>Speed</h5>
+                  <div class="d-flex align-items-center">
+                    <button id="preset-button-2" class="btn rounded-3 shadow-sm" style="width: auto; height: auto; background-color: #EEEEEE;">Fast</button>
+                  </div>
                 </div>
               </div>
-              <div class="input-group mw-xl mb-4 p-2 bg-white border border-dark rounded-4">
-                <input class="form-control border-0 bg-transparent" type="text" placeholder="Enter email to get started"/>
-                <button class="btn btn-primary rounded-3 fs-9 fw-bold text-uppercase" type="button">Join for free</button>
-              </div>
+              <script>
+                window.onload = function() {
+                  // Get all image-button pairs
+                  const imageButtonPairs = [
+                    { imageId: 'preset-image-1', buttonId: 'preset-button-1' },
+                    { imageId: 'preset-image-1', buttonId: 'preset-button-2' }
+                  ];
+
+                  imageButtonPairs.forEach(pair => {
+                    var image = document.getElementById(pair.imageId);
+                    var button = document.getElementById(pair.buttonId);
+
+                    // Set the button's dimensions to match the image
+                    button.style.width = image.offsetWidth + 'px';
+                    button.style.height = image.offsetHeight + 'px';
+                  });
+                };
+              </script>
+            </div>
+            <div class="d-flex gap-3 pt-5 px-2">
+              <btn class="btn w-100 btn-primary">Regenerate</btn>
+              <btn class="btn w-100 btn-primary">Download</btn>
+              <btn class="btn w-100 btn-primary">Upgrade</btn>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 <% end %>
 </div>
 <script>
