@@ -3,7 +3,6 @@ class GenerateVideoJob < ApplicationJob
 
   def perform(output_id)
     output = Output.find(output_id)
-    output.update(progress: 1) # Set initial progress to 0%
 
     settings = {
       subtitle_preset: output.subtitle_preset,
