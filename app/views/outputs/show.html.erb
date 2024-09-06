@@ -7,12 +7,44 @@
   </div>
 </div>
 <!-- Placeholder for the video tag, rendered only when the video is ready -->
-<div id="video-container">
-  <% if @output.progress == 100 && @output.url.present? %>
-    <%= video_tag @output.url, size: "160x120", controls: true, id: "video-element" %>
-  <% else %>
-    <p style="color: white;">Video is being generated. Please wait...</p>
-  <% end %>
+<% if @output.progress == 100 && @output.url.present? %>
+  <section class="py-12 py-sm-24 position-relative overflow-hidden">
+    <div class="container">
+      <div class="mw-7xl align-items-center">
+        <div class="row mx-auto">
+          <div class="col-lg-5 col-xl-4 order-last order-lg-first">
+            <%# Substitute image with video here %>
+            <div class="d-flex justify-content-center">
+              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-75 mw-xl mx-auto rounded-5 p" %>
+            </div>
+          </div>
+          <div class="col-lg-7 col-xl-8 mb-16 mb-lg-0 position-relative">
+            <img class="position-absolute bottom-0 mb-12 end-0 me-n40" src="flaro-assets/images/cta/gradient3.svg" alt=""/>
+            <div class="mw-xl mx-auto me-xl-0 position-relative">
+              <h1 class="h2 mb-10">Join &amp; build your startup successful</h1>
+              <div class="mw-md mb-10">
+                <div class="d-flex mb-5">
+                  <div class="me-3">
+                  </div>
+                  <p><%= @output.voice_speed%></p>
+                </div>
+                <div class="d-flex">
+                  <div class="me-3">
+                  </div>
+                  <p>Mollit non deserunt ullamco est sit aliqua dolor do amet sint. Velit officia consequat enim est sit arina.</p>
+                </div>
+              </div>
+              <div class="input-group mw-xl mb-4 p-2 bg-white border border-dark rounded-4">
+                <input class="form-control border-0 bg-transparent" type="text" placeholder="Enter email to get started"/>
+                <button class="btn btn-primary rounded-3 fs-9 fw-bold text-uppercase" type="button">Join for free</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+<% end %>
 </div>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
@@ -40,8 +72,8 @@
       64: "Well at least trying to",
       67: "Trying is what matters",
       69: "Right?",
-      70: "This might take a while",
-      70: "Kidding! It's almost done",
+      73: "This might take a while",
+      77: "Kidding! It's almost done",
     };
 
     // Function to get the appropriate message
@@ -128,6 +160,11 @@
   });
 </script>
 <style>
+  body {
+    background: url(<%= asset_path('/home/stan/projects/make-reddit-shorts/app/assets/flaro-assets/images/how-it-works/gradient.svg') %>) no-repeat center center fixed;
+    background-size: cover;
+  }
+
   #progress-bar-container {
     position: absolute;
     top: 50%;
@@ -152,7 +189,7 @@
 
   .progress {
     background: #433cc3;
-    border-radius: 100px;
+    border-radius: 16px;
     display: flex;
     height: 50px;
     width: 400px;
