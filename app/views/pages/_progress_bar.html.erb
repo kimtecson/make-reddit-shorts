@@ -9,7 +9,7 @@
 <!-- Placeholder for the video tag, rendered only when the video is ready -->
 <div id="video-container">
   <% if @output.progress == 100 && @output.url.present? %>
-    <%= video_tag @output.url, size: "160x120", controls: true, id: "video-element" %>
+    <%= video_tag @output.url, size: "320x240", controls: true, id: "video-element" %>
   <% else %>
     <p style="color: white;">Video is being generated. Please wait...</p>
   <% end %>
@@ -18,17 +18,6 @@
   document.addEventListener("DOMContentLoaded", function() {
     const outputId = <%= @output.id %>;
     let lastProgress = 0;
-
-    // Check if video is already available on page load
-    function checkIfVideoExists() {
-      const videoElement = document.getElementById("video-element");
-      if (videoElement) {
-        // Hide the progress bar if the video is already present
-        document.getElementById("progress-bar-container").style.display = "none";
-        return true; // Video is already present
-      }
-      return false; // No video yet, proceed with progress bar
-    }
 
     // Messages for different progress stages
     const progressMessages = {
@@ -45,6 +34,7 @@
 
     // Function to get the appropriate message
     function getProgressMessage(progress) {
+      // Default message when there's no specific message for the progress
       let message = "Processing";
       let percentageMessage = `(${progress}%)`;
 
@@ -59,9 +49,6 @@
     }
 
     function checkProgress() {
-      // If the video is already available, stop checking progress
-      if (checkIfVideoExists()) return;
-
       fetch(`/outputs/${outputId}/progress`)
         .then(response => response.json())
         .then(data => {
@@ -86,9 +73,6 @@
                 lastProgress = progress;
 
                 if (progress >= 100) {
-                  // Hide the progress bar container once video is ready
-                  document.getElementById("progress-bar-container").style.display = "none";
-
                   // Stop polling and show the video when progress is 100%
                   fetch(`/outputs/${outputId}/video_url`)
                     .then(response => response.json())
@@ -96,8 +80,8 @@
                       const videoContainer = document.getElementById("video-container");
                       const videoUrl = data.url;
 
-                      // Dynamically insert the video tag with small size
-                      videoContainer.innerHTML = `<video src="${videoUrl}" width="160" height="120" controls></video>`;
+                      // Dynamically insert the video tag
+                      videoContainer.innerHTML = `<video src="${videoUrl}" size="320x240" controls></video>`;
                     })
                     .catch(error => console.error("Error loading video URL:", error));
                 } else {
@@ -122,7 +106,7 @@
         .catch(error => console.error("Error checking progress:", error));
     }
 
-    // Start polling for progress if the video doesn't already exist
+    // Start polling for progress
     checkProgress();
   });
 </script>
@@ -140,7 +124,7 @@
     font-size: 24px;
     font-weight: bold;
     text-align: center;
-    margin-bottom: 10px;
+    margin-bottom: 10px; /* Adjusted margin to be closer to the progress bar */
   }
 
   .progress-wrapper {
@@ -158,17 +142,13 @@
     position: relative;
     overflow: hidden;
     box-shadow: 0px 0px 40px #433cc3;
+
   }
 
   .progress-value {
     background: #7770FE;
     height: 100%;
     transition: width 0.5s ease;
-    width: 0;
-  }
-
-  #video-container video {
-    width: 160px; /* Small width */
-    height: 120px; /* Small height */
+    width: 0; /* Initially set to 0, will be updated via JS */
   }
 </style>
