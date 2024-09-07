@@ -14,7 +14,7 @@
         </div>
         <div class="col-lg-6 col-xl-6 mb-16 mb-lg-0 position-relative">
           <div class="mw-xl mx-auto me-xl-0 position-relative">
-            <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
+            <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt').truncate(36)%></h1>
             <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
               <h5><i class="fa-solid fa-clipboard"></i> Video script</h5>
               <div id="script-container">

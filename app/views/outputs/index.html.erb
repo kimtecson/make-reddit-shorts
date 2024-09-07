@@ -5,23 +5,22 @@
     display: flex;
   }
 
-
   .search-container {
-  position: relative;
-  display: flex;
-  align-items: center;
+    position: relative;
+    display: flex;
+    align-items: center;
   }
 
   .search-container input {
-  width: 100%;
-  padding-right: 30px; /* Add space for the icon */
+    width: 100%;
+    padding-right: 30px; /* Add space for the icon */
   }
 
   .search-container .fa-magnifying-glass {
-  position: absolute;
-  right: 10px;
-  font-size: 18px;
-  color: #433cc3;
+    position: absolute;
+    right: 10px;
+    font-size: 18px;
+    color: #433cc3;
   }
 
   .sidebar {
@@ -31,7 +30,7 @@
     width: 200px;
     height: 100%;
     background-color: white;
-    border-right: 0px solid #433cc3; /* Border color matches main color */
+    border-right: 0px solid #433cc3;
     display: flex;
     flex-direction: column;
     padding: 10px;
@@ -48,7 +47,7 @@
   }
 
   .main-content {
-    margin-left: 200px; /* Adjust based on sidebar width */
+    margin-left: 200px;
     padding: 20px;
     flex: 1;
   }
@@ -57,6 +56,7 @@
     max-width: 250px;
     flex: 1 0 250px;
     margin: 8px;
+    position: relative;
   }
 
   .video-container video {
@@ -64,28 +64,63 @@
     height: auto;
   }
 
+  .title-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    margin-bottom: 8px;
+  }
+
+  .title-container p {
+    margin: 0;
+    font-weight: bolder;
+    text-align: center;
+  }
+
   .videos-wrapper {
     display: flex;
-    flex-wrap: nowrap;
+    flex-wrap: wrap; /* Wrap videos for better layout */
+  }
+
+  /* Define the highlight animation */
+  @keyframes highlight {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.05);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+
+  /* Apply the animation to the video container when found */
+  .video-container.highlighted {
+    animation: highlight 0.5s ease-in-out;  /* Duration of 0.5 seconds */
   }
 </style>
 <div class="sidebar">
   <div class="search-container pt-20">
-    <input type="text" class="form-control rounded-3" placeholder="Your video">
-    <i class="fa-solid fa-magnifying-glass"></i>
+    <!-- Input for searching videos -->
+    <input type="text" class="form-control rounded-3" placeholder="Your video" id="search-video">
   </div>
-  <button class="btn btn-primary">Support</button>
-  <!-- Add more sidebar buttons or content here if needed -->
+  <button class="btn btn-primary" onclick="searchVideo()">Search</button>
 </div>
 <div class="main-content ps-20">
-  <h3 class="text-center">Take a look at your shorts</h3>
-  <div class="videos-wrapper d-flex flex-wrap justify-content-start ps-36 text-center pt-5">
+  <div class="videos-wrapper d-flex justify-content-start ps-36 text-center pt-5">
     <% @outputs.each do |output| %>
       <% if output.url.present? %>
-        <div class="video-container rounded-2">
-          <p class="text-center fw-bolder  pb-5 rounded-2 bg-white shadow-sm px-2 pt-2 mb-5 "><%= output.title_text %></p>
-          <div class=" pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
-            <%= video_tag output.url, controls: true, id: "video-element", class: "d-block rounded-2 shadow object-fit-cover" %>
+        <!-- Set the ID to the video title with spaces replaced by underscores -->
+        <div class="video-container rounded-2" id="<%= output.title_text.parameterize.underscore %>">
+          <div class="title-container shadow-sm">
+            <p class="video-title"><%= output.title_text.truncate(48) %></p>
+          </div>
+          <div class="pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
+            <%= video_tag output.url, id: "video-element-#{output.id}", class: "d-block rounded-2 shadow object-fit-cover video-player", autoplay: false, muted: true %>
             <div class="buttons w-100 gap-3 d-flex pt-5">
               <button class="btn btn-primary w-50">View</button>
               <button class="btn btn-primary w-50">Download</button>
@@ -98,3 +133,67 @@
     <% end %>
   </div>
 </div>
+<script>
+  // Function to remove punctuation, normalize text, and handle smart quotes
+  function normalizeText(text) {
+    return text
+      .toLowerCase()                             // Convert to lowercase
+      .replace(/[’‘`]/g, "'")                    // Replace smart quotes with normal single quotes
+      .replace(/[^\w\s']/g, '')                  // Remove punctuation except for single quotes
+      .replace(/\s+/g, ' ')                      // Replace multiple spaces with a single space
+      .trim();                                   // Trim any leading/trailing spaces
+  }
+
+  // Function to handle the search functionality
+  function searchVideo() {
+    // Get the input value, normalize it (remove punctuation, lowercase, etc.)
+    const query = normalizeText(document.querySelector('.search-container input').value);
+
+    if (query === '') {
+      alert("Please enter a search query!");
+      return;
+    }
+
+    // Get all video title elements
+    const videoTitles = document.querySelectorAll('.video-title');
+
+    // Flag to check if any match is found
+    let found = false;
+
+    // Loop through all video titles to find a match
+    videoTitles.forEach(title => {
+      const videoTitleText = normalizeText(title.textContent);  // Get and normalize video title text
+
+      // Check if the normalized query is a substring of the normalized title
+      if (videoTitleText.includes(query)) {
+        const videoContainer = title.closest('.video-container');  // Get the closest container of the video
+        if (videoContainer) {
+          // Scroll to the matched video
+          videoContainer.scrollIntoView({ behavior: 'smooth' });
+
+          // Add the 'highlighted' class to trigger the animation
+          videoContainer.classList.add('highlighted');
+
+          // Remove the 'highlighted' class after the animation is done (0.5s)
+          setTimeout(() => {
+            videoContainer.classList.remove('highlighted');
+          }, 500);  // Duration matches the CSS animation length
+
+          found = true;
+        }
+      }
+    });
+
+    // If no match found, alert the user
+    if (!found) {
+      alert("Video not found!");
+    }
+  }
+
+  // Attach the search logic to the button click and Enter key
+  document.querySelector('.search-container input').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+      searchVideo();  // Search when Enter key is pressed
+    }
+  });
+</script>
