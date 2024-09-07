@@ -17,12 +17,14 @@
             <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
             <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
               <h5>Video script</h5>
-              <p id="script-preview" style="display: inline;">
-                <%= @output.script.split(' ')[0..40].join(' ') %>
-                <span id="read-more-dots">...</span>
-                <a href="javascript:void(0)" id="toggle-script" style="text-decoration: underline; color: #007bff;">Read more</a>
-              </p>
-              <p id="script-full" style="display: none; white-space: pre-line;"><%= @output.script %></p>
+              <div id="script-container">
+                <p id="script-preview">
+                  <%= @output.script.split(' ')[0..40].join(' ') %>
+                  <span id="read-more-dots">...</span>
+                </p>
+                <p id="script-full" style="display: none;"><%= @output.script %></p>
+              </div>
+              <a href="#" id="toggle-script" style="text-decoration: underline; color: #007bff;">Read more</a>
             </div>
             <div class="rounded-3 p-5 mt-8 shadow-sm" style="width: 100%;">
               <div class="row">
@@ -67,23 +69,15 @@
       const progressBarContainer = document.getElementById("progress-bar-container");
 
       if (videoUrl && videoUrl.length > 0) {
-        // Hide progress bar and show the video section if the video URL exists
         if (progressBarContainer) progressBarContainer.style.display = "none";
         videoSection.style.display = "block";
         return true;
       } else {
-        // Show progress bar if the video URL doesn't exist
         videoSection.style.display = "none";
         return false;
       }
     }
 
-    // Skip progress check if video already exists
-    if (checkIfVideoExists()) {
-      return;
-    }
-
-    // Messages for different progress stages
     const progressMessages = {
       0: "Getting Reddit post URL",
       20: "Generating voice over",
@@ -148,27 +142,37 @@
         .catch(error => console.error("Error checking progress:", error));
     }
 
-    // Start checking progress
-    checkProgress();
+    if (!checkIfVideoExists()) {
+      checkProgress();
+    }
 
-    // Toggle script visibility
-    document.getElementById('toggle-script').addEventListener('click', function() {
-      const preview = document.getElementById('script-preview');
-      const full = document.getElementById('script-full');
-      const dots = document.getElementById('read-more-dots');
-      const link = this;
+    // Read More functionality
+    const toggleButton = document.getElementById('toggle-script');
+    const scriptContainer = document.getElementById('script-container');
+    const scriptPreview = document.getElementById('script-preview');
+    const scriptFull = document.getElementById('script-full');
+    const readMoreDots = document.getElementById('read-more-dots');
 
-      if (full.style.display === 'none') {
-        preview.style.display = 'none';
-        full.style.display = 'inline';
-        dots.style.display = 'none';
-        link.textContent = 'Read less';
-      } else {
-        preview.style.display = 'inline';
-        full.style.display = 'none';
-        dots.style.display = 'inline';
-        link.textContent = 'Read more';
-      }
-    });
+    if (toggleButton && scriptContainer && scriptPreview && scriptFull && readMoreDots) {
+      toggleButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        console.log('Toggle button clicked'); // Debug log
+        if (scriptFull.style.display === 'none' || scriptFull.style.display === '') {
+          scriptPreview.style.display = 'none';
+          scriptFull.style.display = 'block';
+          readMoreDots.style.display = 'none';
+          this.textContent = 'Read less';
+          console.log('Showing full script'); // Debug log
+        } else {
+          scriptPreview.style.display = 'block';
+          scriptFull.style.display = 'none';
+          readMoreDots.style.display = 'inline';
+          this.textContent = 'Read more';
+          console.log('Showing script preview'); // Debug log
+        }
+      });
+    } else {
+      console.error('One or more elements required for toggle functionality are missing.');
+    }
   });
 </script>
