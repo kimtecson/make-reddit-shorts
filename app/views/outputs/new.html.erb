@@ -55,23 +55,53 @@
         </div>
       </div>
       <!-- Voice Settings -->
-      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm">
+      <div class="border rounded-3 p-4 mt-3 mb-3 bg-light shadow-sm" data-controller="voice-speed">
         <h5>Voice Settings</h5>
         <p class="text-dark">Choose a voice style from our presets.</p>
-        <div class="d-flex flex-column align-items-start">
-          <!-- Voice Preset Radio Buttons -->
-          <%= f.input :voice_preset, as: :radio_buttons, collection: [['male', 'Matthew'], ['female', 'Ruth']], 
-          label: false, item_wrapper_class: 'form-check', 
-          input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-          <!-- Speed Settings Radio Buttons -->
+        <div class="d-flex gap-3 mb-3">
+          <% options = [['male', 'Amy'], ['female', 'Matthew'], ['male', 'Ruth']] %>
+          <% options.each_with_index do |(value, label), index| %>
+            <div class="form-check">
+              <!-- Hidden radio input field -->
+              <%= f.input :voice_preset, as: :radio_buttons, collection: options, 
+                  item_wrapper_class: 'form-check', 
+                  input_html: { class: 'd-none', id: "voice_preset_#{index}", value: value },
+                  item_label_class: 'd-none', 
+                  label: false %>
+              <!-- Custom label styled as Bootstrap button -->
+              <label class="btn btn-outline-primary voice-button <%= 'active' if f.object.voice_preset == value %>" for="voice_preset_<%= index %>">
+                <%= label %>
+              </label>
+            </div>
+          <% end %>
+        </div>
+        <script>
+          document.querySelectorAll('.voice-button').forEach(button => {
+            button.addEventListener('click', function() {
+              // Remove 'active' class from all buttons
+              document.querySelectorAll('.voice-button').forEach(btn => btn.classList.remove('active'));
+              // Add 'active' class to the clicked button
+              this.classList.add('active');
+              // Update the hidden input's checked property
+              const inputId = this.getAttribute('for');
+              document.getElementById(inputId).checked = true;
+              // Update the hidden field with the selected value
+              document.querySelector('input[name="voice_preset"]').value = document.querySelector(`label[for="${inputId}"]`).textContent.trim();
+            });
+          });
+        </script>
+        <!-- Voice Speed Slider -->
+        <div class="mt-4">
           <h5 class="mt-4">Voice Speed</h5>
-          <%= f.input :voice_speed, as: :radio_buttons, collection: [['slow', 'slow'], ['medium', 'medium'], ['fast', 'fast']], 
-          label: false, item_wrapper_class: 'form-check', 
-          input_html: { class: 'form-check-input' }, item_label_class: 'form-check-label' %>
-          <!-- Submit Button -->
-          <div class="p-4">
-            <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
-          </div>
+          <p class="text-dark">Set the voice speed (50 to 150): <span id="speed-value">100</span></p>
+          <input type="range" min="50" max="150" value="100" id="voice-speed-slider" 
+           class="form-range" data-action="input->voice-speed#updateSpeed">
+          <!-- Hidden input to store the selected value and submit it with the form -->
+          <%= f.hidden_field :voice_speed, value: 100, id: "voice-speed-hidden" %>
+        </div>
+        <!-- Submit Button -->
+        <div class="p-4">
+          <%= f.button :submit, "Generate", data: { action: "click->output-upload#submit" }, class: 'btn btn-primary' %>
         </div>
       </div>
     <% end %>
@@ -103,4 +133,39 @@
   .form-check input:checked + img {
     outline: 3px solid #007bff;
   }
+  .voice-button {
+    flex: 1;
+    display: inline-block;
+    text-align: center;
+  }
+  .btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
 </style>
+<script>
+  // JavaScript to dynamically update speed value on slider change and handle voice button selection
+  document.addEventListener("DOMContentLoaded", function() {
+    const speedSlider = document.getElementById("voice-speed-slider");
+    const speedValueDisplay = document.getElementById("speed-value");
+    const hiddenSpeedInput = document.getElementById("voice-speed-hidden");
+    const voiceButtons = document.querySelectorAll(".voice-button");
+    const hiddenVoiceInput = document.getElementById("voice-preset-hidden");
+
+    // Update the displayed value and hidden field when the slider changes
+    speedSlider.addEventListener("input", function() {
+      const currentSpeed = speedSlider.value;
+      speedValueDisplay.textContent = currentSpeed; // Display the selected speed
+      hiddenSpeedInput.value = currentSpeed; // Set hidden input value to the slider value
+    });
+
+    // Handle voice button selection
+    voiceButtons.forEach(button => {
+      button.addEventListener("click", function() {
+        voiceButtons.forEach(btn => btn.classList.remove("btn-secondary"));
+        button.classList.add("btn-secondary");
+        hiddenVoiceInput.value = button.getAttribute("data-value");
+      });
+    });
+  });
+</script>
