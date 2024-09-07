@@ -54,6 +54,6 @@ export default class extends Controller {
       estimateText = `${minutes} minute${minutes !== 1 ? 's' : ''} and ${seconds} second${seconds !== 1 ? 's' : ''}`;
     }
 
-    this.estimateTarget.textContent = `Estimated speech time: ${estimateText}`;
+    this.estimateTarget.textContent = `Estimated video time: ${estimateText}`;
   }
 }
