@@ -63,6 +63,9 @@
     const outputId = <%= @output.id %>;
     const videoUrl = "<%= @output.url %>";
     let lastProgress = 0;
+    let artificialProgress = 0;
+    let isUpdating = false;
+    let completionHandled = false;
 
     function checkIfVideoExists() {
       const videoSection = document.getElementById("video-section");
@@ -79,16 +82,18 @@
     }
 
     const progressMessages = {
-      0: "Getting Reddit post URL",
+      0: "Getting Reddit post",
+      15: "Fetching data",
       20: "Generating voice over",
+      25: "Generating voice over",
       35: "Transcribing voice over",
       50: "Creating title image",
-      60: "Putting everything together",
-      64: "Well at least trying to",
-      67: "Trying is what matters",
-      69: "Right?",
+      60: "Editing the video",
+      67: "Adding voice",
+      69: "Overlaying subtitles",
       73: "This might take a while",
-      77: "Kidding! It's almost done",
+      77: "Almost done",
+      95: "Processing"
     };
 
     function getProgressMessage(progress) {
@@ -96,7 +101,7 @@
       let percentageMessage = `(${progress}%)`;
 
       Object.keys(progressMessages).forEach(key => {
-        if (progress >= key) {
+        if (progress >= parseInt(key)) {
           message = `${progressMessages[key]} ${percentageMessage}`;
         }
       });
@@ -105,25 +110,44 @@
     }
 
     function updateProgressBar(currentProgress, targetProgress) {
+      if (isUpdating) return;
+      isUpdating = true;
+
       const progressBarElem = document.getElementById("progress-bar");
       const messageElem = document.querySelector(".hello-world");
+      const updateInterval = 100; // Slowed down update interval (milliseconds)
 
-      if (currentProgress < targetProgress) {
-        currentProgress += 1;
-        progressBarElem.style.width = currentProgress + "%";
-        messageElem.innerText = getProgressMessage(currentProgress);
-        setTimeout(() => updateProgressBar(currentProgress, targetProgress), 50);
-      } else if (currentProgress === targetProgress) {
-        if (targetProgress >= 100) {
-          if (checkIfVideoExists()) {
-            document.getElementById("progress-bar-container").style.display = "none";
-            document.getElementById("video-section").style.display = "block";
-          } else {
-            window.location.reload();
-          }
+      function update() {
+        if (currentProgress < targetProgress) {
+          currentProgress += 1;
+          progressBarElem.style.width = currentProgress + "%";
+          messageElem.innerText = getProgressMessage(currentProgress);
+          setTimeout(update, updateInterval);
         } else {
-          setTimeout(checkProgress, 500);
+          isUpdating = false;
+          if (targetProgress >= 100) {
+            handleCompletion();
+          } else {
+            setTimeout(checkProgress, 500);
+          }
         }
+      }
+
+      update();
+    }
+
+    function handleCompletion() {
+      if (completionHandled) return;
+      completionHandled = true;
+
+      if (checkIfVideoExists()) {
+        document.getElementById("progress-bar-container").style.display = "none";
+        document.getElementById("video-section").style.display = "block";
+      } else {
+        // Wait for 1 second before reloading the page
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
       }
     }
 
@@ -131,15 +155,21 @@
       fetch(`/outputs/${outputId}/progress`)
         .then(response => response.json())
         .then(data => {
-          const progress = data.progress;
+          let progress = data.progress;
           if (progress > lastProgress) {
             updateProgressBar(lastProgress, progress);
             lastProgress = progress;
+            artificialProgress = progress;
           } else {
-            setTimeout(checkProgress, 500);
+            artificialProgress = Math.min(artificialProgress + 1, 99);
+            updateProgressBar(lastProgress, artificialProgress);
           }
+          lastProgress = artificialProgress;
         })
-        .catch(error => console.error("Error checking progress:", error));
+        .catch(error => {
+          console.error("Error checking progress:", error);
+          setTimeout(checkProgress, 500);
+        });
     }
 
     if (!checkIfVideoExists()) {
