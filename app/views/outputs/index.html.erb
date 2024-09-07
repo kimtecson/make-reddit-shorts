@@ -1,3 +1,176 @@
-<% @outputs.each do |output| %>
-  <%= video_tag output.url, :size => "320x240", :controls => true %>
-<% end %>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+  .search-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .search-container input {
+    width: 100%;
+    padding-right: 30px;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar .btn {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .main-content {
+    margin-left: 200px;
+    padding: 20px;
+    flex: 1;
+  }
+
+  .video-container {
+    max-width: 250px;
+    flex: 1 0 250px;
+    margin: 8px;
+    position: relative;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .video-container video {
+    width: 100%;
+    height: auto;
+  }
+
+  .video-container:hover {
+    transform: scale(1.01); /* Grow the video container on hover */
+  }
+
+  .title-container {
+    width: 100%;
+    height: 80px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    margin-bottom: 8px;
+  }
+
+  .videos-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  @keyframes highlight {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+  }
+
+  .video-container.highlighted {
+    animation: highlight 0.5s ease-in-out;
+  }
+</style>
+<div class="sidebar">
+  <div class="search-container pt-20">
+    <input type="text" class="form-control rounded-3" placeholder="Your video" id="search-video">
+  </div>
+  <button class="btn btn-primary" onclick="searchVideo()">Search</button>
+</div>
+<div class="main-content ps-20">
+  <div class="videos-wrapper d-flex justify-content-start ps-36 text-center pt-5">
+    <% @outputs.each do |output| %>
+      <% if output.url.present? %>
+        <div class="video-container rounded-2" id="<%= output.title_text.parameterize.underscore %>">
+          <div class="title-container rounded-2 bg-white shadow-sm">
+            <p class="video-title"><%= output.title_text.truncate(48) %></p>
+          </div>
+          <div class="pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
+            <%= video_tag output.url, id: "video-element-#{output.id}", class: "d-block rounded-2 shadow object-fit-cover video-player" %>
+            <div class="buttons w-100 gap-3 d-flex pt-5">
+              <%= link_to "View", output_path(output), class: "btn btn-primary w-50" %>
+              <button class="btn btn-primary w-50">Download</button>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <p>Video URL is not available yet.</p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+<script>
+  // Function to remove punctuation, normalize text, and handle smart quotes
+  function normalizeText(text) {
+    return text
+      .toLowerCase()                             // Convert to lowercase
+      .replace(/[’‘`]/g, "'")                    // Replace smart quotes with normal single quotes
+      .replace(/[^\w\s']/g, '')                  // Remove punctuation except for single quotes
+      .replace(/\s+/g, ' ')                      // Replace multiple spaces with a single space
+      .trim();                                   // Trim any leading/trailing spaces
+  }
+
+  // Function to handle the search functionality
+  function searchVideo() {
+    const query = normalizeText(document.querySelector('.search-container input').value);
+
+    if (query === '') {
+      alert("Please enter a search query!");
+      return;
+    }
+
+    const videoTitles = document.querySelectorAll('.video-title');
+    let found = false;
+
+    videoTitles.forEach(title => {
+      const videoTitleText = normalizeText(title.textContent);
+
+      if (videoTitleText.includes(query)) {
+        const videoContainer = title.closest('.video-container');
+        if (videoContainer) {
+          videoContainer.scrollIntoView({ behavior: 'smooth' });
+          videoContainer.classList.add('highlighted');
+
+          setTimeout(() => {
+            videoContainer.classList.remove('highlighted');
+          }, 500);
+
+          found = true;
+        }
+      }
+    });
+
+    if (!found) {
+      alert("Video not found!");
+    }
+  }
+
+  // Attach the search logic to the button click and Enter key
+  document.querySelector('.search-container input').addEventListener('keyup', function(event) {
+    if (event.key === 'Enter') {
+      searchVideo();
+    }
+  });
+
+  // Play video on hover and pause on mouse leave
+  document.querySelectorAll('.video-container video').forEach(video => {
+    video.addEventListener('mouseenter', () => {
+      video.play();
+    });
+
+    video.addEventListener('mouseleave', () => {
+      video.pause();
+    });
+  });
+</script>
