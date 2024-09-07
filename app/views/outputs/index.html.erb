@@ -13,14 +13,7 @@
 
   .search-container input {
     width: 100%;
-    padding-right: 30px; /* Add space for the icon */
-  }
-
-  .search-container .fa-magnifying-glass {
-    position: absolute;
-    right: 10px;
-    font-size: 18px;
-    color: #433cc3;
+    padding-right: 30px;
   }
 
   .sidebar {
@@ -30,15 +23,10 @@
     width: 200px;
     height: 100%;
     background-color: white;
-    border-right: 0px solid #433cc3;
     display: flex;
     flex-direction: column;
     padding: 10px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
-  }
-
-  .sidebar .search-container {
-    margin-bottom: 10px;
   }
 
   .sidebar .btn {
@@ -57,11 +45,16 @@
     flex: 1 0 250px;
     margin: 8px;
     position: relative;
+    transition: transform 0.3s ease-in-out;
   }
 
   .video-container video {
     width: 100%;
     height: auto;
+  }
+
+  .video-container:hover {
+    transform: scale(1.01); /* Grow the video container on hover */
   }
 
   .title-container {
@@ -74,38 +67,23 @@
     margin-bottom: 8px;
   }
 
-  .title-container p {
-    margin: 0;
-    font-weight: bolder;
-    text-align: center;
-  }
-
   .videos-wrapper {
     display: flex;
-    flex-wrap: wrap; /* Wrap videos for better layout */
+    flex-wrap: wrap;
   }
 
-  /* Define the highlight animation */
   @keyframes highlight {
-    0% {
-      transform: scale(1);
-    }
-    50% {
-      transform: scale(1.05);
-    }
-    100% {
-      transform: scale(1);
-    }
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
   }
 
-  /* Apply the animation to the video container when found */
   .video-container.highlighted {
-    animation: highlight 0.5s ease-in-out;  /* Duration of 0.5 seconds */
+    animation: highlight 0.5s ease-in-out;
   }
 </style>
 <div class="sidebar">
   <div class="search-container pt-20">
-    <!-- Input for searching videos -->
     <input type="text" class="form-control rounded-3" placeholder="Your video" id="search-video">
   </div>
   <button class="btn btn-primary" onclick="searchVideo()">Search</button>
@@ -114,15 +92,14 @@
   <div class="videos-wrapper d-flex justify-content-start ps-36 text-center pt-5">
     <% @outputs.each do |output| %>
       <% if output.url.present? %>
-        <!-- Set the ID to the video title with spaces replaced by underscores -->
         <div class="video-container rounded-2" id="<%= output.title_text.parameterize.underscore %>">
-          <div class="title-container shadow-sm">
+          <div class="title-container rounded-2 bg-white shadow-sm">
             <p class="video-title"><%= output.title_text.truncate(48) %></p>
           </div>
           <div class="pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
-            <%= video_tag output.url, id: "video-element-#{output.id}", class: "d-block rounded-2 shadow object-fit-cover video-player", autoplay: false, muted: true %>
+            <%= video_tag output.url, id: "video-element-#{output.id}", class: "d-block rounded-2 shadow object-fit-cover video-player" %>
             <div class="buttons w-100 gap-3 d-flex pt-5">
-              <button class="btn btn-primary w-50">View</button>
+              <%= link_to "View", output_path(output), class: "btn btn-primary w-50" %>
               <button class="btn btn-primary w-50">Download</button>
             </div>
           </div>
@@ -146,7 +123,6 @@
 
   // Function to handle the search functionality
   function searchVideo() {
-    // Get the input value, normalize it (remove punctuation, lowercase, etc.)
     const query = normalizeText(document.querySelector('.search-container input').value);
 
     if (query === '') {
@@ -154,37 +130,27 @@
       return;
     }
 
-    // Get all video title elements
     const videoTitles = document.querySelectorAll('.video-title');
-
-    // Flag to check if any match is found
     let found = false;
 
-    // Loop through all video titles to find a match
     videoTitles.forEach(title => {
-      const videoTitleText = normalizeText(title.textContent);  // Get and normalize video title text
+      const videoTitleText = normalizeText(title.textContent);
 
-      // Check if the normalized query is a substring of the normalized title
       if (videoTitleText.includes(query)) {
-        const videoContainer = title.closest('.video-container');  // Get the closest container of the video
+        const videoContainer = title.closest('.video-container');
         if (videoContainer) {
-          // Scroll to the matched video
           videoContainer.scrollIntoView({ behavior: 'smooth' });
-
-          // Add the 'highlighted' class to trigger the animation
           videoContainer.classList.add('highlighted');
 
-          // Remove the 'highlighted' class after the animation is done (0.5s)
           setTimeout(() => {
             videoContainer.classList.remove('highlighted');
-          }, 500);  // Duration matches the CSS animation length
+          }, 500);
 
           found = true;
         }
       }
     });
 
-    // If no match found, alert the user
     if (!found) {
       alert("Video not found!");
     }
@@ -193,7 +159,18 @@
   // Attach the search logic to the button click and Enter key
   document.querySelector('.search-container input').addEventListener('keyup', function(event) {
     if (event.key === 'Enter') {
-      searchVideo();  // Search when Enter key is pressed
+      searchVideo();
     }
+  });
+
+  // Play video on hover and pause on mouse leave
+  document.querySelectorAll('.video-container video').forEach(video => {
+    video.addEventListener('mouseenter', () => {
+      video.play();
+    });
+
+    video.addEventListener('mouseleave', () => {
+      video.pause();
+    });
   });
 </script>
