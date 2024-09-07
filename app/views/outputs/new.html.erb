@@ -59,38 +59,18 @@
         <h5>Voice Settings</h5>
         <p class="text-dark">Choose a voice style from our presets.</p>
         <div class="d-flex flex-wrap justify-content-between">
-          <% options = [['male', 'Amy'], ['female', 'Matthew'], ['male', 'Ruth']] %>
+          <% options = [['Amy', 'Amy'], ['Matthew', 'Matthew'], ['Ruth', 'Ruth']] %>
           <% options.each_with_index do |(value, label), index| %>
             <div class="form-check flex-fill mb-2">
               <!-- Hidden radio input field -->
-              <%= f.input :voice_preset, as: :radio_buttons, collection: options, 
-            item_wrapper_class: 'form-check visually-hidden', 
-            input_html: { class: 'd-none', id: "voice_preset_#{index}", value: value },
-            item_label_class: 'd-none', 
-            label: false %>
-              <!-- Custom label styled as Bootstrap button -->
-              <label class="btn btn-outline-primary voice-button w-100 text-center <%= 'active' if f.object.voice_preset == value %>" for="voice_preset_<%= index %>">
-                <%= label %>
-              </label>
+              <%= f.radio_button :voice_preset, value, class: 'd-none', id: "voice_preset_#{index}" %>
+              <%= f.label :voice_preset, label, class: "btn btn-outline-primary voice-button w-100 text-center #{'active' if f.object.voice_preset == value}", for: "voice_preset_#{index}" %>
             </div>
           <% end %>
         </div>
+        <!-- Hidden input to store selected voice preset -->
+        <%= f.hidden_field :voice_preset, id: "voice-preset-hidden" %>
       </div>
-      <script>
-        document.querySelectorAll('.voice-button').forEach(button => {
-          button.addEventListener('click', function() {
-            // Remove 'active' class from all buttons
-            document.querySelectorAll('.voice-button').forEach(btn => btn.classList.remove('active'));
-            // Add 'active' class to the clicked button
-            this.classList.add('active');
-            // Update the hidden input's checked property
-            const inputId = this.getAttribute('for');
-            document.getElementById(inputId).checked = true;
-            // Update the hidden field with the selected value
-            document.querySelector('input[name="voice_preset"]').value = document.querySelector(`label[for="${inputId}"]`).textContent.trim();
-          });
-        });
-      </script>
       <!-- Voice Speed Slider -->
       <div class="mt-4">
         <h5 class="mt-4">Voice Speed</h5>
@@ -107,12 +87,10 @@
     </div>
   <% end %>
 </div>
-</div>
 <!-- Simplified CSS -->
 <style>
   .form-check {
     display: flex;
-
   }
   .form-check-input {
     margin-right: 0.5rem;
@@ -140,8 +118,8 @@
     border-color: #6c757d;
   }
 </style>
+<!-- JavaScript -->
 <script>
-  // JavaScript to dynamically update speed value on slider change and handle voice button selection
   document.addEventListener("DOMContentLoaded", function() {
     const speedSlider = document.getElementById("voice-speed-slider");
     const speedValueDisplay = document.getElementById("speed-value");
@@ -159,9 +137,9 @@
     // Handle voice button selection
     voiceButtons.forEach(button => {
       button.addEventListener("click", function() {
-        voiceButtons.forEach(btn => btn.classList.remove("btn-secondary"));
-        button.classList.add("btn-secondary");
-        hiddenVoiceInput.value = button.getAttribute("data-value");
+        voiceButtons.forEach(btn => btn.classList.remove("active"));
+        button.classList.add("active");
+        hiddenVoiceInput.value = button.textContent.trim();
       });
     });
   });
