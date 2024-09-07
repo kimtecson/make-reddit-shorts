@@ -93,7 +93,8 @@
     69: "Overlaying subtitles",
     73: "This might take a while",
     77: "Almost done",
-    95: "Processing"
+    95: "Processing",
+    100: "Finishing up"
   };
 
   function getProgressMessage(progress) {
@@ -138,17 +139,15 @@
 
   function handleCompletion() {
     if (completionHandled) return;
-    completionHandled = true;
-
-    if (checkIfVideoExists()) {
+    setTimeout(() => {
+      completionHandled = true;
       document.getElementById("progress-bar-container").style.display = "none";
       document.getElementById("video-section").style.display = "block";
-    } else {
-      // Wait for 1 second before reloading the page
-      setTimeout(() => {
-        window.location.reload();
-      }, 1000);
-    }
+      window.location.reload();
+    }, 2500);
+
+
+
   }
 
   function checkProgress() {

@@ -44,7 +44,7 @@
                         data: { script_edit_target: "script", action: "input->script-edit#updateEstimate" },
                         class: 'form-control shadow-sm bg-light', rows: 10
                       }, error: false %>
-        <p class="text-dark" data-script-edit-target="estimate">Estimated video time: 0 seconds</p>
+        <p class="text-dark pt-5" data-script-edit-target="estimate">Estimated video time: 0 seconds</p>
       </div>
       <!-- Video Source Selection -->
       <div class="rounded-3 p-10 mb-3 bg-light shadow-sm bg-transparent" data-controller="video-upload">
@@ -65,10 +65,10 @@
         <p class="text-dark">Choose a style from one of our presets.</p>
         <%= f.input :subtitle_preset, as: :hidden %> <!-- Hidden input -->
         <div class="d-flex gap-3 justify-content-center">
-          <% [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red']].each do |value, label| %>
+          <% [['Vanilla', 'Vanilla'], ['Yellow', 'Yellow'], ['Red', 'Red'], ['Red', 'Red'], ['Red', 'Red'], ['Red', 'Red']].each do |value, label| %>
             <label class="form-check" style="cursor: pointer;">
               <%= f.radio_button :subtitle_preset, value, class: 'form-check-input visually-hidden' %>
-              <img src="/text_sample.png" alt="<%= label %>" class="rounded-3 shadow-sm image-sample">
+              <img src="/text_sample.png" alt="<%= label %>" class="rounded-3 shadow-sm image-sample" >
             </label>
           <% end %>
         </div>
