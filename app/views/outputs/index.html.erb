@@ -77,13 +77,14 @@
   <button class="btn btn-primary">Support</button>
   <!-- Add more sidebar buttons or content here if needed -->
 </div>
-<div class="main-content ps-10">
-  <h2 class="text-center">Take a look at your shorts</h2>
-  <div class="videos-wrapper d-flex justify-content-center text-center pt-5">
+<div class="main-content ps-20">
+  <h3 class="text-center">Take a look at your shorts</h3>
+  <div class="videos-wrapper d-flex flex-wrap justify-content-start ps-36 text-center pt-5">
     <% @outputs.each do |output| %>
       <% if output.url.present? %>
         <div class="video-container rounded-2">
-          <div class="bg-dark pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
+          <p class="text-center fw-bolder  pb-5 rounded-2 bg-white shadow-sm px-2 pt-2 mb-5 "><%= output.title_text %></p>
+          <div class=" pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
             <%= video_tag output.url, controls: true, id: "video-element", class: "d-block rounded-2 shadow object-fit-cover" %>
             <div class="buttons w-100 gap-3 d-flex pt-5">
               <button class="btn btn-primary w-50">View</button>
