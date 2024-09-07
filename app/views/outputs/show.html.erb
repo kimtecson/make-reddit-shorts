@@ -16,7 +16,7 @@
           <div class="mw-xl mx-auto me-xl-0 position-relative">
             <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
             <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
-              <h5>Video script</h5>
+              <h5><i class="fa-solid fa-clipboard"></i> Video script</h5>
               <div id="script-container">
                 <p id="script-preview">
                   <%= @output.script.split(' ')[0..40].join(' ') %>
@@ -30,20 +30,20 @@
               <div class="row">
                 <div class="col-4 text-center">
                   <div class="d-flex flex-column align-items-center">
-                    <h5>Subtitles</h5>
-                    <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Preset</button>
+                    <h5><i class="fa-solid fa-wand-magic-sparkles"></i> Subtitles </h5>
+                    <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;"><%= @output.subtitle_preset %></button>
                   </div>
                 </div>
                 <div class="col-4 text-center">
                   <div class="d-flex flex-column align-items-center">
-                    <h5>Voice</h5>
-                    <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Ruth</button>
+                    <h5><i class="fa-solid fa-microphone"></i>  Voice </h5>
+                    <button id="preset-button-2" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;"><%= @output.voice_preset %> </button>
                   </div>
                 </div>
                 <div class="col-4 text-center">
                   <div class="d-flex flex-column align-items-center">
-                    <h5>Speed</h5>
-                    <button id="preset-button-3" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;">Fast</button>
+                    <h5><i class="fa-solid fa-clock"></i>  Speed</h5>
+                    <button id="preset-button-3" class="btn rounded-3 shadow-sm mt-2" style="background-color: #EEEEEE; width: 100%; max-width: 150px; height: auto;"><%= @output.voice_speed %>%</button>
                   </div>
                 </div>
               </div>
