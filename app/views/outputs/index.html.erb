@@ -1,3 +1,99 @@
-<% @outputs.each do |output| %>
-  <%= video_tag output.url, :size => "320x240", :controls => true %>
-<% end %>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    display: flex;
+  }
+
+
+  .search-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  }
+
+  .search-container input {
+  width: 100%;
+  padding-right: 30px; /* Add space for the icon */
+  }
+
+  .search-container .fa-magnifying-glass {
+  position: absolute;
+  right: 10px;
+  font-size: 18px;
+  color: #433cc3;
+  }
+
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    background-color: white;
+    border-right: 0px solid #433cc3; /* Border color matches main color */
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+  }
+
+  .sidebar .search-container {
+    margin-bottom: 10px;
+  }
+
+  .sidebar .btn {
+    margin-top: 10px;
+    width: 100%;
+  }
+
+  .main-content {
+    margin-left: 200px; /* Adjust based on sidebar width */
+    padding: 20px;
+    flex: 1;
+  }
+
+  .video-container {
+    max-width: 250px;
+    flex: 1 0 250px;
+    margin: 8px;
+  }
+
+  .video-container video {
+    width: 100%;
+    height: auto;
+  }
+
+  .videos-wrapper {
+    display: flex;
+    flex-wrap: nowrap;
+  }
+</style>
+<div class="sidebar">
+  <div class="search-container pt-20">
+    <input type="text" class="form-control rounded-3" placeholder="Your video">
+    <i class="fa-solid fa-magnifying-glass"></i>
+  </div>
+  <button class="btn btn-primary">Support</button>
+  <!-- Add more sidebar buttons or content here if needed -->
+</div>
+<div class="main-content ps-10">
+  <h2 class="text-center">Take a look at your shorts</h2>
+  <div class="videos-wrapper d-flex justify-content-center text-center pt-5">
+    <% @outputs.each do |output| %>
+      <% if output.url.present? %>
+        <div class="video-container rounded-2">
+          <div class="bg-dark pb-5 rounded-2 bg-white shadow-sm px-2 pt-2">
+            <%= video_tag output.url, controls: true, id: "video-element", class: "d-block rounded-2 shadow object-fit-cover" %>
+            <div class="buttons w-100 gap-3 d-flex pt-5">
+              <button class="btn btn-primary w-50">View</button>
+              <button class="btn btn-primary w-50">Download</button>
+            </div>
+          </div>
+        </div>
+      <% else %>
+        <p>Video URL is not available yet.</p>
+      <% end %>
+    <% end %>
+  </div>
+</div>
