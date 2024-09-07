@@ -9,7 +9,7 @@ class OutputsController < ApplicationController
   def create
     Rails.logger.info "Entering create action in OutputsController"
     Rails.logger.info "Params received: #{params.inspect}"
-
+    
     @output = Output.new(output_params)
     @output.user_id = current_user.id
     @user = current_user
@@ -65,6 +65,8 @@ class OutputsController < ApplicationController
       render json: { error: "Video not ready yet" }, status: :unprocessable_entity
     end
   end
+
+  
 
   private
 
