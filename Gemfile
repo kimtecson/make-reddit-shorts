@@ -3,6 +3,8 @@ source "https://rubygems.org"
 ruby "3.1.2"
 
 gem 'meta-tags'
+gem 'sitemap_generator'
+
 
 # gems for services (added by stan)
 gem 'open3'
