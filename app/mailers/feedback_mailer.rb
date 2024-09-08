@@ -8,7 +8,7 @@ class FeedbackMailer < ApplicationMailer
     @message = message
     @sender = sender
     mail(
-      to: 'tecsonkim@gmail.com', # Change to the actual recipient's email
+      to: 'makeredditshorts@gmail.com', # Change to the actual recipient's email
       subject: subject,
       from: sender
     )
