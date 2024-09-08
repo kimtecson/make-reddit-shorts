@@ -54,7 +54,8 @@ class Tts
                   ))
     })
     # SSML text with increased speaking rate
-    ssml_text = "<speak><prosody rate='#{settings[:voice_speed]}'>#{title_text}</prosody></speak>"
+    ssml_text = "<speak><prosody rate='#{settings[:voice_speed]}%'>#{title_text}</prosody></speak>"
+
     # Create a Polly client
     polly = Aws::Polly::Client.new
 

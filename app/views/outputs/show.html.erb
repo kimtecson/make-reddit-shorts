@@ -1,12 +1,15 @@
 <%= render partial: 'progress_bar' %>
+<script></script>
 <section id="video-section" class="py-12 py-sm-24 position-relative overflow-hidden" style="display: none;">
   <div class="container">
     <div class="mw-7xl align-items-center">
       <div class="row mx-auto">
-        <div class="col-lg-6 col-xl-6 order-last order-lg-first">
+        <div class="col-lg-6 col-xl-6 order-last order-lg-first position-relative">
           <div class="d-flex justify-content-center">
             <% if @output.url.present? %>
-              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 shadow" %>
+              <div class="video-wrapper" style="position: fixed; top: 55%; left: 25%; transform: translate(-50%, -50%); z-index: 10;">
+                <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 shadow" %>
+              </div>
             <% else %>
               <p>Video URL is not available yet.</p>
             <% end %>
@@ -14,7 +17,7 @@
         </div>
         <div class="col-lg-6 col-xl-6 mb-16 mb-lg-0 position-relative">
           <div class="mw-xl mx-auto me-xl-0 position-relative">
-            <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt')%></h1>
+            <h1 class="h3 mb-10 mw-md" style="width: 100%;"><%= main_text = File.read('app/services/resources/title.txt').truncate(36)%></h1>
             <div class="rounded-3 p-5 shadow-sm" style="width: 100%;">
               <h5><i class="fa-solid fa-clipboard"></i> Video script</h5>
               <div id="script-container">
@@ -50,7 +53,7 @@
             </div>
             <div class="d-flex gap-5 mt-10">
               <button class="btn btn-primary rounded-3 shadow-sm mt-2 w-50">Download</button>
-              <button class="btn btn-primary rounded-3 shadow-sm mt-2 w-50">Regenerate</button>
+              <%= link_to "Regenerate", new_output_path(query: @output.reddit_post_url), class: "btn btn-primary rounded-3 shadow-sm mt-2 w-50" %>
             </div>
           </div>
         </div>
@@ -60,119 +63,165 @@
 </section>
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    const outputId = <%= @output.id %>;
-    const videoUrl = "<%= @output.url %>";
-    let lastProgress = 0;
+  const outputId = <%= @output.id %>;
+  const videoUrl = "<%= @output.url %>";
+  let lastProgress = 0;
+  let artificialProgress = 0;
+  let isUpdating = false;
+  let completionHandled = false;
 
-    function checkIfVideoExists() {
-      const videoSection = document.getElementById("video-section");
-      const progressBarContainer = document.getElementById("progress-bar-container");
+  function checkIfVideoExists() {
+    const videoSection = document.getElementById("video-section");
+    const progressBarContainer = document.getElementById("progress-bar-container");
 
-      if (videoUrl && videoUrl.length > 0) {
-        if (progressBarContainer) progressBarContainer.style.display = "none";
-        videoSection.style.display = "block";
-        return true;
-      } else {
-        videoSection.style.display = "none";
-        return false;
+    if (videoUrl && videoUrl.length > 0) {
+      if (progressBarContainer) progressBarContainer.style.display = "none";
+      videoSection.style.display = "block";
+      return true;
+    } else {
+      videoSection.style.display = "none";
+      return false;
+    }
+  }
+
+  const progressMessages = {
+    0: "Getting Reddit post",
+    15: "Fetching data",
+    20: "Generating voice over",
+    25: "Generating voice over",
+    35: "Transcribing voice over",
+    50: "Creating title image",
+    60: "Editing the video",
+    67: "Adding voice",
+    69: "Overlaying subtitles",
+    73: "This might take a while",
+    77: "Almost done",
+    95: "Processing"
+  };
+
+  function getProgressMessage(progress) {
+    let message = "Processing";
+    let percentageMessage = `(${progress}%)`;
+
+    Object.keys(progressMessages).forEach(key => {
+      if (progress >= parseInt(key)) {
+        message = `${progressMessages[key]} ${percentageMessage}`;
       }
-    }
+    });
 
-    const progressMessages = {
-      0: "Getting Reddit post URL",
-      20: "Generating voice over",
-      35: "Transcribing voice over",
-      50: "Creating title image",
-      60: "Putting everything together",
-      64: "Well at least trying to",
-      67: "Trying is what matters",
-      69: "Right?",
-      73: "This might take a while",
-      77: "Kidding! It's almost done",
-    };
+    return message;
+  }
 
-    function getProgressMessage(progress) {
-      let message = "Processing";
-      let percentageMessage = `(${progress}%)`;
+  function updateProgressBar(currentProgress, targetProgress) {
+    if (isUpdating) return;
+    isUpdating = true;
 
-      Object.keys(progressMessages).forEach(key => {
-        if (progress >= key) {
-          message = `${progressMessages[key]} ${percentageMessage}`;
-        }
-      });
+    const progressBarElem = document.getElementById("progress-bar");
+    const messageElem = document.querySelector(".hello-world");
+    const updateInterval = 130; // Slowed down update interval (milliseconds)
 
-      return message;
-    }
-
-    function updateProgressBar(currentProgress, targetProgress) {
-      const progressBarElem = document.getElementById("progress-bar");
-      const messageElem = document.querySelector(".hello-world");
-
+    function update() {
       if (currentProgress < targetProgress) {
         currentProgress += 1;
         progressBarElem.style.width = currentProgress + "%";
         messageElem.innerText = getProgressMessage(currentProgress);
-        setTimeout(() => updateProgressBar(currentProgress, targetProgress), 50);
-      } else if (currentProgress === targetProgress) {
+        setTimeout(update, updateInterval);
+      } else {
+        isUpdating = false;
         if (targetProgress >= 100) {
-          if (checkIfVideoExists()) {
-            document.getElementById("progress-bar-container").style.display = "none";
-            document.getElementById("video-section").style.display = "block";
-          } else {
-            window.location.reload();
-          }
+          handleCompletion();
         } else {
           setTimeout(checkProgress, 500);
         }
       }
     }
 
-    function checkProgress() {
-      fetch(`/outputs/${outputId}/progress`)
-        .then(response => response.json())
-        .then(data => {
-          const progress = data.progress;
-          if (progress > lastProgress) {
-            updateProgressBar(lastProgress, progress);
-            lastProgress = progress;
-          } else {
-            setTimeout(checkProgress, 500);
-          }
-        })
-        .catch(error => console.error("Error checking progress:", error));
-    }
+    update();
+  }
 
-    if (!checkIfVideoExists()) {
-      checkProgress();
-    }
+  function handleCompletion() {
+    if (completionHandled) return;
+    completionHandled = true;
 
-    // Read More functionality
-    const toggleButton = document.getElementById('toggle-script');
-    const scriptContainer = document.getElementById('script-container');
-    const scriptPreview = document.getElementById('script-preview');
-    const scriptFull = document.getElementById('script-full');
-    const readMoreDots = document.getElementById('read-more-dots');
-
-    if (toggleButton && scriptContainer && scriptPreview && scriptFull && readMoreDots) {
-      toggleButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        console.log('Toggle button clicked'); // Debug log
-        if (scriptFull.style.display === 'none' || scriptFull.style.display === '') {
-          scriptPreview.style.display = 'none';
-          scriptFull.style.display = 'block';
-          readMoreDots.style.display = 'none';
-          this.textContent = 'Read less';
-          console.log('Showing full script'); // Debug log
-        } else {
-          scriptPreview.style.display = 'block';
-          scriptFull.style.display = 'none';
-          readMoreDots.style.display = 'inline';
-          this.textContent = 'Read more';
-          console.log('Showing script preview'); // Debug log
-        }
-      });
+    if (checkIfVideoExists()) {
+      document.getElementById("progress-bar-container").style.display = "none";
+      document.getElementById("video-section").style.display = "block";
     } else {
-      console.error('One or more elements required for toggle functionality are missing.');
+      // Wait for 1 second before reloading the page
+      setTimeout(() => {
+        window.location.reload();
+      }, 2500);
     }
+  }
+
+  function checkProgress() {
+    fetch(`/outputs/${outputId}/progress`)
+      .then(response => response.json())
+      .then(data => {
+        let progress = data.progress;
+        if (progress > lastProgress) {
+          updateProgressBar(lastProgress, progress);
+          lastProgress = progress;
+          artificialProgress = progress;
+        } else {
+          artificialProgress = Math.min(artificialProgress + 1, 99);
+          updateProgressBar(lastProgress, artificialProgress);
+        }
+        lastProgress = artificialProgress;
+      })
+      .catch(error => {
+        console.error("Error checking progress:", error);
+        setTimeout(checkProgress, 500);
+      });
+  }
+
+  if (!checkIfVideoExists()) {
+    checkProgress();
+  }
+
+  // Read More functionality
+  const toggleButton = document.getElementById('toggle-script');
+  const scriptContainer = document.getElementById('script-container');
+  const scriptPreview = document.getElementById('script-preview');
+  const scriptFull = document.getElementById('script-full');
+  const readMoreDots = document.getElementById('read-more-dots');
+
+  if (toggleButton && scriptContainer && scriptPreview && scriptFull && readMoreDots) {
+    toggleButton.addEventListener('click', function(e) {
+      e.preventDefault();
+      console.log('Toggle button clicked'); // Debug log
+      if (scriptFull.style.display === 'none' || scriptFull.style.display === '') {
+        scriptPreview.style.display = 'none';
+        scriptFull.style.display = 'block';
+        readMoreDots.style.display = 'none';
+        this.textContent = 'Read less';
+        console.log('Showing full script'); // Debug log
+      } else {
+        scriptPreview.style.display = 'block';
+        scriptFull.style.display = 'none';
+        readMoreDots.style.display = 'inline';
+        this.textContent = 'Read more';
+        console.log('Showing script preview'); // Debug log
+      }
+    });
+  } else {
+    console.error('One or more elements required for toggle functionality are missing.');
+  }
+
+  // Download button functionality
+  const downloadButton = document.querySelector(".btn.btn-primary.rounded-3.shadow-sm.w-50"); // Adjust selector if needed
+  if (downloadButton) {
+    downloadButton.addEventListener("click", function(e) {
+      e.preventDefault();
+      if (videoUrl) {
+        const link = document.createElement("a");
+        link.href = videoUrl;
+        link.download = "video.mp4"; // Set default file name for download
+        link.click();
+      } else {
+        alert("Video URL is not available for download.");
+      }
+    });
+  }
   });
 </script>
