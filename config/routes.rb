@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   get '/about', to: 'pages#about'
   root to: "pages#home"
   post "send_feedback", to: "pages#send_feedback"
+  resources :newsletter_subscribers, only: [:new, :create, :destroy]
+  get 'unsubscribe/:id', to: "newsletter_subscribers#unsubscribe", as: "unsubscribe"
 
   # Define routes for outputs
   resources :outputs, only: [:index, :show, :new, :create, :destroy] do
