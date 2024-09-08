@@ -8,7 +8,7 @@ class NewsletterSubscribersController < ApplicationController
 
     if @newsletter_subscriber.save
         # @unsubscribe = Rails.application.message_verifier(:unsubscribe).generate(@user.id)
-        #NewsletterMailer.new_subscriber_email(@newsletter_subscriber).deliver_later
+        NewsletterMailer.new_subscriber_email(@newsletter_subscriber).deliver_later
     else
       render :new
     end
