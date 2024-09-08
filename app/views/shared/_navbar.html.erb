@@ -10,7 +10,7 @@
               <img src="/flaro-logo-black.svg" class="img-fluid" alt="Logo" style="max-height: 30px;">
             </a>
             <a class="navbar-close" href="<%= root_path %>">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg width="24" height="24" viewBox="0 0 24 0" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M6 18L18 6M6 6L18 18" stroke="#111827" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
               </svg>
             </a>
@@ -25,9 +25,10 @@
           </div>
           <div>
             <% if user_signed_in? %>
-              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn w-100 fw-medium', data: { turbo: false } %>
-
-              <!-- <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a> -->
+              <%= form_with url: destroy_user_session_path, method: :delete, data: { turbo: false }, class: "d-inline" do %>
+                <button type="submit" class="btn w-100 fw-medium text-primary" style="background: none; border: none; text-align: left; padding: 0;">Sign Out</button>
+              <% end %>
+              <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a>
             <% else %>
               <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
               <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
@@ -51,7 +52,9 @@
           </div>
           <div class="d-none d-lg-block">
             <% if user_signed_in? %>
-              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'fw-medium me-4' %>
+              <%= form_with url: destroy_user_session_path, method: :delete, data: { turbo: false }, class: "d-inline" do %>
+                <button type="submit" class="fw-medium me-4 text-primary" style="background: none; border: none; padding: 0;">Sign Out</button>
+              <% end %>
               <a class="btn btn-primary fs-9" href="<%= outputs_path %>">My Videos</a>
             <% else %>
               <a class="fw-medium me-4" href="/users/sign_in">Sign In</a>
@@ -73,9 +76,9 @@
 </header>
 <!-- Offcanvas for mobile menu -->
 <div class="offcanvas offcanvas-start" tabindex="-1" id="mobileMenu" aria-labelledby="mobileMenuLabel">
- <div class="offcanvas-header">
+  <div class="offcanvas-header">
     <h5 class="offcanvas-title" id="mobileMenuLabel">
- <img src="/flaro-logo-black.svg" class="img-fluid" alt="Logo" style="max-height: 30px;">
+      <img src="/flaro-logo-black.svg" class="img-fluid" alt="Logo" style="max-height: 30px;">
     </h5>
     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
   </div>
@@ -88,7 +91,9 @@
     </ul>
     <div class="pt-3">
       <% if user_signed_in? %>
-        <a class="btn w-100 fw-medium" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
+        <%= form_with url: destroy_user_session_path, method: :delete, data: { turbo: false }, class: "d-inline" do %>
+          <button type="submit" class="btn w-100 fw-medium text-primary" style="background: none; border: none; text-align: left; padding: 0;">Sign Out</button>
+        <% end %>
         <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a>
       <% else %>
         <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
