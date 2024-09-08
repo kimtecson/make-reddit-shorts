@@ -1,0 +1,28 @@
+<section class="py-12 py-sm-24 py-md-32 position-relative overflow-hidden">
+  <img class="position-absolute start-50 bottom-0 translate-middle-x" src="flaro-assets/images/newsletter/gradient.svg" alt="">
+  <div class="container position-relative">
+    <div class="mw-lg mx-auto text-center">
+      <span class="d-block mb-5 fs-9 fw-semibold text-primary text-uppercase">Newsletter</span>
+      <h3 class="mb-12">Join to get exclusive contents for free.</h3>
+<%= form_with model: @newsletter_subscriber, url: newsletter_subscribers_path, method: :post, local: true do |form| %>
+<% if @newsletter_subscriber.errors.any? %>
+            <div class="bg-danger-subtle border-l-4 border-red-500 text-danger p-4 mb-4 d-flex align-items-center" role="alert">
+              <ul class="list-unstyled mb-0">
+                <% @newsletter_subscriber.errors.full_messages.each do |message| %>
+                  <% if message == 'Email has already been taken'%>
+                    <li> You are already subscribed to our newsletter.</li>
+                  <% else %>
+                    <li><%= message %></li>
+                  <% end %>
+                </ul>
+              </div>
+            <% end %>
+            <% end %>
+
+  <%= form.email_field :email, class: "form-control py-4 text-center mb-5", placeholder: "Email address", required: true %>
+  <%= form.submit "Subscribe", class: "btn mb-8 w-100 btn-primary" %>
+<% end %>
+
+    </div>
+  </div>
+</section>

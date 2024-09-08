@@ -4,12 +4,12 @@
       <div class="row mx-auto">
         <div class="col-lg-5 col-xl-4 order-last order-lg-first mt-0 mr-36 d-flex">
           <img class="d-block img-fluid mw-xl rounded-5 ms-0 shadow-img"
-       src="/home_gif.gif" 
-       alt="" 
+       src="/home_gif.gif"
+       alt=""
        style="height: auto; width: 65%; object-fit: cover;">
           <img class="d-block img-fluid mw-xl rounded-5 ms-10 shadow-img"
-       src="/home_gif_2.gif" 
-       alt="" 
+       src="/home_gif_2.gif"
+       alt=""
        style="height: auto; width: 65%; object-fit: cover;">
         </div>
         <style>
@@ -142,5 +142,7 @@
     </div>
   </section>
 <% end %>
+<%= turbo_frame_tag :newsletter, src: new_newsletter_subscriber_path %>
+
 <script src="js/bootstrap/bootstrap.bundle.min.js"></script>
 <script src="js/main.js"></script>

@@ -25,8 +25,9 @@
           </div>
           <div>
             <% if user_signed_in? %>
-              <a class="btn w-100 fw-medium" href="<%= destroy_user_session_path %>" data-method="delete">Sign Out</a>
-              <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a>
+              <%= link_to 'Sign Out', destroy_user_session_path, method: :delete, class: 'btn w-100 fw-medium', data: { turbo: false } %>
+
+              <!-- <a class="btn w-100 btn-primary" href="<%= new_output_path %>">My Videos</a> -->
             <% else %>
               <a class="btn w-100 fw-medium" href="/users/sign_in">Login</a>
               <a class="btn w-100 btn-primary" href="/users/sign_in">Sign in</a>
