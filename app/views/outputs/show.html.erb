@@ -4,10 +4,12 @@
   <div class="container">
     <div class="mw-7xl align-items-center">
       <div class="row mx-auto">
-        <div class="col-lg-6 col-xl-6 order-last order-lg-first">
+        <div class="col-lg-6 col-xl-6 order-last order-lg-first position-relative">
           <div class="d-flex justify-content-center">
             <% if @output.url.present? %>
-              <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 shadow" %>
+              <div class="video-wrapper" style="position: fixed; top: 55%; left: 25%; transform: translate(-50%, -50%); z-index: 10;">
+                <%= video_tag @output.url, size: "100%", controls: true, id: "video-element", class: "d-block w-50 mw-xl mx-auto rounded-5 shadow" %>
+              </div>
             <% else %>
               <p>Video URL is not available yet.</p>
             <% end %>
