@@ -7,6 +7,7 @@ gem 'sitemap_generator'
 
 
 # gems for services (added by stan)
+gem 'assemblyai'
 gem 'open3'
 gem 'valid_email2'
 gem 'aws-sdk-s3'
